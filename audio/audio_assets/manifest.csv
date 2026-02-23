@@ -1,7 +1,11 @@
-File Name,Audio Content,Use Case,Loop?
-0001.mp3,"Birds, soft wind, rustling leaves",Daytime Ambiance,Yes
-0002.mp3,"Crickets, distant owl, wind chimes",Nighttime Ambiance,Yes
-0003.mp3,"Roaring fire, hearth crackle",Bag End / Interior,Yes
-0004.mp3,Gentle running water / river,Zone 4: Water Feature,Yes
-0005.mp3,Deep thunder / Dragon rumble,Special Event (Trigger),No
-0006.mp3,Concerning Hobbits,Music Overlay,No
+File Name,GitHub Name,Audio Content,Use Case,Loop?
+0001.mp3,DAYTIME_GENERAL.mp3,"Birds, soft wind, rustling leaves",Daytime Ambiance,Yes
+0002.mp3,NIGHTIME_GENERAL.mp3,"Crickets, distant owl, wind chimes",Nighttime Ambiance,Yes
+0003.mp3,INTERIOR_LIVING.mp3,"Roaring fire, hearth crackle",Bag End / Interior,Yes
+0004.mp3,WATER_FLOWING.mp3,"Gentle running water / river",Water Feature,Yes
+0005.mp3,DRAGON_RUMBLE.mp3,"Dragon rumble",Special Event,No
+0006.mp3,SOCIAL_CELEBRATION.mp3,"Concerning Hobbits",Music Overlay,No
+0007.mp3,SUNSET_TRANSITION.mp3,"Birds going quiet, evening bell tolling, wind picking up.",Transition,No
+0008.mp3,DRAGON_FIREWORK.mp3,"A Whiz-Bang-Boom for a Party Tree special effect.",Special Event,No
+0009.mp3,RAIN_STORM_LIGHT.mp3,"Gentle rain hitting leaves",Special Event,No
+0010.mp3,SHIRE_CHURCH_BELLS.mp3,"A noon-day marker to tell the time.",Special Event,No
