@@ -13,6 +13,14 @@
 HardwareSerial mySoftwareSerial(2);
 DFRobotDFPlayerMini myDFPlayer;
 
+// Track IDs expected by the main controller logic.
+const int TRACK_DAYTIME = 1;
+const int TRACK_SUNSET = 2;
+const int TRACK_NIGHTTIME = 3;
+const int TRACK_DRAGON_EVENT = 4;
+const int TRACK_PARTY = 5;
+const int TRACK_RAIN_STORM = 9;
+
 void setupAudio() {
   mySoftwareSerial.begin(9600, SERIAL_8N1, 16, 17);
   Serial.begin(115200);
@@ -35,4 +43,24 @@ void setupAudio() {
 
 void runAudioCycle() {
   // Logic for switching tracks based on WLED or Time of Day goes here
+}
+
+void playDaytime() {
+  myDFPlayer.loop(TRACK_DAYTIME);
+}
+
+void playSunsetSfx() {
+  myDFPlayer.play(TRACK_SUNSET);
+}
+
+void playNighttime() {
+  myDFPlayer.loop(TRACK_NIGHTTIME);
+}
+
+void playDragonEvent() {
+  myDFPlayer.play(TRACK_DRAGON_EVENT);
+}
+
+void playPartyMusic() {
+  myDFPlayer.loop(TRACK_PARTY);
 }

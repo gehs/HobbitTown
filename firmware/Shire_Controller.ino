@@ -6,6 +6,7 @@
 #include "Lighting.h"     
 #include "WebLogic.h"    
 #include "NotificationLogic.h" // The WLED Listener
+#include "TimeSync.h"
 
 // 1. DEFINITIONS (Move these to the top so the whole file sees them)
 enum ShireState { MORNING, DAY, EVENING, NIGHT };

@@ -1,5 +1,7 @@
 #include <WiFiUdp.h>
 
+void handleStateChange(int presetID);
+
 WiFiUDP udp;
 const unsigned int wledPort = 21324; // Standard WLED notification port
 byte packetBuffer[64]; 
