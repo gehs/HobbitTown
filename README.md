@@ -46,3 +46,14 @@ monitor_port = COM3
 ```
 
 Replace `COM3` with your actual ESP32 port.
+
+### WiFi and Hostname Setup
+
+The firmware now starts WiFi and mDNS in the web module.
+
+1. Copy `firmware/NetworkSecrets.h.example` to `firmware/NetworkSecrets.h`.
+2. Set your local network credentials and preferred hostname.
+3. Build and upload to the ESP32.
+4. Open `http://hobbitt2.local` from a device on the same LAN.
+
+If mDNS is not resolved by your client device, use the IP printed in serial logs.

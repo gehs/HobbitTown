@@ -23,7 +23,6 @@ const int TRACK_RAIN_STORM = 9;
 
 void setupAudio() {
   mySoftwareSerial.begin(9600, SERIAL_8N1, 16, 17);
-  Serial.begin(115200);
 
   Serial.println(F("Initializing DFPlayer..."));
 

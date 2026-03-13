@@ -5,6 +5,7 @@ on:
 
 jobs:
   build:
+    name: Build esp32dev firmware
     runs-on: ubuntu-latest
 
     steps:
@@ -19,13 +20,21 @@ jobs:
       - name: Install PlatformIO
         run: pip install platformio
 
-      - name: Run PlatformIO Build
-        # This command tells PIO to look in the current directory (.) 
-        # for your platformio.ini file.
-        run: pio run -d . 
+      - name: Show build environment
+        run: |
+          python --version
+          pio --version
+          pio system info
 
-      - name: Upload Firmware Binary
+      - name: Run PlatformIO Build
+        run: pio run -d . -e esp32dev
+
+      - name: Upload esp32dev build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: manual-esp32-binary
-          path: .pio/build/*/firmware.bin
+          name: manual-esp32dev-build
+          if-no-files-found: error
+          path: |
+            .pio/build/esp32dev/firmware.bin
+            .pio/build/esp32dev/firmware.elf
+            .pio/build/esp32dev/firmware.map
