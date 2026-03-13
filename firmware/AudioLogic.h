@@ -4,14 +4,7 @@
  * Library: DFRobotDFPlayerMini
  */
 
-#include "Arduino.h"
-#include "DFRobotDFPlayerMini.h"
-
-// ESP32 Hardware Serial pins for DFPlayer
-// Connect DFPlayer TX to ESP32 RX2 (GPIO 16)
-// Connect DFPlayer RX to ESP32 TX2 (GPIO 17) - Use a 1k Ohm resistor!
-HardwareSerial mySoftwareSerial(2);
-DFRobotDFPlayerMini myDFPlayer;
+#include "HobbitTownHardware.h"
 
 // Track IDs expected by the main controller logic.
 const int TRACK_DAYTIME = 1;
@@ -22,22 +15,7 @@ const int TRACK_PARTY = 5;
 const int TRACK_RAIN_STORM = 9;
 
 void setupAudio() {
-  mySoftwareSerial.begin(9600, SERIAL_8N1, 16, 17);
-
-  Serial.println(F("Initializing DFPlayer..."));
-
-  if (!myDFPlayer.begin(mySoftwareSerial)) { 
-    Serial.println(F("Unable to begin: Check connection/SD card."));
-    while(true);
-  }
-  
-  Serial.println(F("DFPlayer Mini online."));
-  
-  // Set initial volume (0-30)
-  myDFPlayer.volume(15); 
-  
-  // Start the Day Ambiance on Boot
-  myDFPlayer.loop(1); 
+  Serial.println(F("Audio logic: ready."));
 }
 
 void runAudioCycle() {
@@ -45,21 +23,21 @@ void runAudioCycle() {
 }
 
 void playDaytime() {
-  myDFPlayer.loop(TRACK_DAYTIME);
+  dfPlayerBase.loop(TRACK_DAYTIME);
 }
 
 void playSunsetSfx() {
-  myDFPlayer.play(TRACK_SUNSET);
+  dfPlayerBase.play(TRACK_SUNSET);
 }
 
 void playNighttime() {
-  myDFPlayer.loop(TRACK_NIGHTTIME);
+  dfPlayerBase.loop(TRACK_NIGHTTIME);
 }
 
 void playDragonEvent() {
-  myDFPlayer.play(TRACK_DRAGON_EVENT);
+  dfPlayerBase.play(TRACK_DRAGON_EVENT);
 }
 
 void playPartyMusic() {
-  myDFPlayer.loop(TRACK_PARTY);
+  dfPlayerBase.loop(TRACK_PARTY);
 }

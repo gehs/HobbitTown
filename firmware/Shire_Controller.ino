@@ -18,9 +18,10 @@ void setup() {
   Serial.begin(115200);
   
   // Initialize all your "Header" modules
-  setupAudio();       
-  setupAtmosphere();  
-  setupLighting();    
+  setupAudio();      
+  setupHobbitTownHardware();
+  setupAtmosphere(); 
+  setupLighting();   
   setupWeb();
   setupWLEDListener();
   
@@ -81,7 +82,7 @@ void handleStateChange(int presetID) {
   switch (presetID) {
     case 1: playDaytime(); break;
     case 9: // Stormy
-      myDFPlayer.loop(TRACK_RAIN_STORM);
+      dfPlayerBase.loop(TRACK_RAIN_STORM);
       digitalWrite(RELAY_PIN, LOW); 
       break;
     case 5: playDragonEvent(); break;

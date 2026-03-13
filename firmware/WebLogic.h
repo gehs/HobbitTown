@@ -2,6 +2,8 @@
 #include <WebServer.h>
 #include <ESPmDNS.h>
 
+#include "HobbitTownHardware.h"
+
 // Optional local override file for secrets. Keep this untracked.
 #if __has_include("NetworkSecrets.h")
 #include "NetworkSecrets.h"
@@ -82,6 +84,13 @@ void setupWeb() {
 
   server.on("/", handleRoot);
   server.on("/party", handleParty);
+
+  // Hobbit Town hardware test UI
+  server.on("/hobbit", []() {
+    String msg = processHobbitRequest(server);
+    server.send(200, "text/html", buildHobbitPage(msg));
+  });
+
   server.begin();
   webServerStarted = true;
   Serial.println("Web server started. Waiting for LAN commands...");

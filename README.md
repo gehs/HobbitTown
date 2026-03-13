@@ -71,6 +71,13 @@ If mDNS is not resolved by your client device, use the IP printed in serial logs
 - Connect your LED strip data input to the GPIO pin configured in WLED (usually **GPIO 2** by default).
 - Set `wledIP` in `firmware/Lighting.h` to the IP address assigned to the WLED board.
 
+### 2.5) HobbitTown I2C + PCA9685 (Servos/Misters/Speakers)
+- Connect the PCA9685 modules to the ESP32 I2C pins:
+  - **SDA** → GPIO 21
+  - **SCL** → GPIO 22
+- Each PCA9685 is preconfigured at addresses **0x40** (pwm1) and **0x41** (pwm2).
+- Servo channels (doors) are on PCA9685 #1 (0-2). Misters are on PCA9685 #2 (0-3).
+
 ### 3) Audio (DFPlayer Mini)
 - Connect **DFPlayer TX → ESP32 RX2 (GPIO 16)**
 - Connect **DFPlayer RX → ESP32 TX2 (GPIO 17)** (use a 1 kΩ resistor in series on this line)
@@ -101,5 +108,13 @@ If mDNS is not resolved by your client device, use the IP printed in serial logs
 
 1. After uploading, open the serial monitor (`pio device monitor`) to see the IP address.
 2. Visit `http://<DEVICE_IP>/` or `http://<HOSTNAME>.local` to access the controller UI.
+
+### Hobbit Town Test UI
+
+To manually exercise the servos, misters, speaker matrix, blowers, and audio players, open:
+
+- `http://<DEVICE_IP>/hobbit`
+
+This page provides quick controls so you can verify wiring and behavior without having to recompile.
 
 If you want to change the hostname, edit it in `firmware/NetworkSecrets.h` and re-upload.

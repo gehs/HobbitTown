@@ -4,8 +4,18 @@
 
 You can use a browser extension like **Talend API Tester** or a command-line tool like **cURL**.
 
-* **Target URL for Lighting:** `http://[WLED_IP]/json/state`
-* **Target URL for Audio/Fogger:** `http://[BRAIN_IP]/json/event` (if we add a JSON handler to your WebLogic).
+#### HobbitTown Hardware Test UI
+
+To quickly exercise servos, misters, speakers, blowers, and audio without writing JSON, open:
+
+* `http://<DEVICE_IP>/hobbit`
+
+This page provides a small UI to set servo angles, speaker/mister/blower levels, and play audio tracks.
+
+#### REST API (advanced)
+
+* **Target URL for Lighting (WLED):** `http://[WLED_IP]/json/state`
+* **Target URL for Audio/Fogger (HobbitTown):** `http://[BRAIN_IP]/json/event` (if we add a JSON handler to your WebLogic).
 
 ---
 
@@ -32,7 +42,7 @@ These would be handled by your `WebLogic.h`. You can expand your `handleClient` 
 | **Party Trigger** | `{"event":"party"}` | `playPartyMusic()` |
 | **Dragon Roar** | `{"event":"dragon"}` | `playDragonEvent()` |
 | **Fog Pulse** | `{"event":"fog", "duration":2000}` | Triggers Relay for 2 seconds. |
-| **Volume Set** | `{"volume":25}` | `myDFPlayer.volume(25)` |
+| **Volume Set** | `{"volume":25}` | `dfPlayerBase.volume(25)` |
 
 ---
 
