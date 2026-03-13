@@ -57,3 +57,49 @@ The firmware now starts WiFi and mDNS in the web module.
 4. Open `http://hobbitt2.local` from a device on the same LAN.
 
 If mDNS is not resolved by your client device, use the IP printed in serial logs.
+
+---
+
+## Hardware Connections (ESP32 + WLED + Audio)
+
+### 1) Power
+- Provide **5V** to the ESP32 (via USB or 5V/VIN pin) and to your WLED LED strip power supply.
+- Connect all grounds together (ESP32, WLED power supply, and any relay/DFPlayer modules).
+
+### 2) WLED (LED Strip)
+- Install WLED on a second ESP32 board (see the WLED docs in `WLED-0.15.X/`).
+- Connect your LED strip data input to the GPIO pin configured in WLED (usually **GPIO 2** by default).
+- Set `wledIP` in `firmware/Lighting.h` to the IP address assigned to the WLED board.
+
+### 3) Audio (DFPlayer Mini)
+- Connect **DFPlayer TX → ESP32 RX2 (GPIO 16)**
+- Connect **DFPlayer RX → ESP32 TX2 (GPIO 17)** (use a 1 kΩ resistor in series on this line)
+- Power the DFPlayer from a stable **5V** supply and share ground with the ESP32.
+
+### 4) Fog/Atmosphere Relay
+- Connect the relay module input to **GPIO 18** (wired as active LOW in `firmware/Atmosphere.h`).
+- Power the relay module from **5V**, and share ground with the ESP32.
+
+---
+
+## Configuring the Firmware
+
+### WLED IP / Hostname
+- Set `wledIP` in `firmware/Lighting.h` to match the WLED board’s IP (or use mDNS if your network supports it).
+
+### Network Credentials
+- Update `firmware/NetworkSecrets.h` with your SSID and password.
+
+### Customizing Behavior
+- The main controller logic lives in `firmware/Shire_Controller.ino`.
+- `firmware/Atmosphere.h` controls fog timing and relay pin.
+- `firmware/AudioLogic.h` defines which DFPlayer track IDs correspond to each event.
+
+---
+
+## Connecting to the Web Interface
+
+1. After uploading, open the serial monitor (`pio device monitor`) to see the IP address.
+2. Visit `http://<DEVICE_IP>/` or `http://<HOSTNAME>.local` to access the controller UI.
+
+If you want to change the hostname, edit it in `firmware/NetworkSecrets.h` and re-upload.
