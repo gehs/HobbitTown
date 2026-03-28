@@ -1,5 +1,5 @@
-import adafruit_pca9685
-import busio
+import adafruit_pca9685  # type: ignore
+import busio  # type: ignore
 import config
 
 i2c = None

@@ -1,5 +1,5 @@
-import busio
-import digitalio
+import busio  # type: ignore
+import digitalio  # type: ignore
 import time
 import config
 

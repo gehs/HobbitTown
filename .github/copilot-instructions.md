@@ -51,6 +51,11 @@ This project controls a physical diorama. The software is modular, with separate
 - Write clear, descriptive variable names (e.g., `ambient_light_pin` instead of `pin1`).
 - Include brief comments explaining *why* a hardware interaction is happening, not just *what* it is.
 
+# Documentation Style
+- When generating documentation, use structured markdown with clear headings, bullet points, and concise explanations.
+- For each Commit, create a .md for the Version update with a clear summary of changes and any new instructions for users.
+
+
 ## Clarifications assumed
 - These rules are global unless explicitly overridden by other instructions in nested directories.
 - This is a strong preference for style, not a hard compilation constraint.

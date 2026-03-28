@@ -1,4 +1,4 @@
-import neopixel
+import neopixel  # type: ignore
 import config
 import random
 

@@ -1,4 +1,4 @@
-import board
+import board  # type: ignore
 
 # --- LIGHTING ---
 NEOPIXEL_PIN = board.IO2   # GPIO 2 for WS2812B LEDs

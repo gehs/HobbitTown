@@ -1,4 +1,4 @@
-import digitalio
+import digitalio  # type: ignore
 import time
 import config
 

@@ -1,6 +1,6 @@
-import wifi
-import socketpool
-import mdns
+import wifi  # type: ignore
+import socketpool  # type: ignore
+import mdns  # type: ignore
 import config
 
 # Assuming NetworkSecrets.py or hardcoded
