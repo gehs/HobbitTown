@@ -19,7 +19,7 @@ void setupAudio() {
 }
 
 void runAudioCycle() {
-  // Logic for switching tracks based on WLED or Time of Day goes here
+  // Logic for switching tracks based on lighting presets or Time of Day goes here
 }
 
 void playDaytime() {

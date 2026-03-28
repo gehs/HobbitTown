@@ -5,7 +5,6 @@
 #include "Atmosphere.h"   
 #include "Lighting.h"     
 #include "WebLogic.h"    
-#include "NotificationLogic.h" // The WLED Listener
 #include "TimeSync.h"
 
 // 1. DEFINITIONS (Move these to the top so the whole file sees them)
@@ -23,7 +22,6 @@ void setup() {
   setupAtmosphere(); 
   setupLighting();   
   setupWeb();
-  setupWLEDListener();
   
   Serial.println("The Shire is waking up...");
 }
@@ -31,7 +29,7 @@ void setup() {
 void loop() {
   // --- A. NETWORKING & EXTERNAL COMMANDS ---
   runWebSync();       // Check for /party web commands
-  runWLEDListener();  // Check for WLED UDP notifications
+  runLightingCycle(); // Animate lighting when needed
 
   // --- B. TIME MANAGEMENT ---
   int currentHour = getHour();
@@ -42,7 +40,7 @@ void loop() {
 
   // --- C. OVERRIDES (Like Party Mode) ---
   if (partyModeActive) {
-    applyWLEDPreset(5); 
+    applyLightingPreset(5); 
     playPartyMusic();
     partyModeActive = false; // Reset flag
   }
@@ -67,25 +65,13 @@ void updateStateByTime(int hour) {
 void applyShireAtmosphere(ShireState state) {
   switch (state) {
     case MORNING:
-      applyWLEDPreset(1); playDaytime(); break;
+      applyLightingPreset(1); playDaytime(); break;
     case DAY:
-      applyWLEDPreset(2); break; // Birds continue from morning
+      applyLightingPreset(2); break; // Birds continue from morning
     case EVENING:
-      applyWLEDPreset(3); playSunsetSfx(); break;
+      applyLightingPreset(3); playSunsetSfx(); break;
     case NIGHT:
-      applyWLEDPreset(4); playNighttime(); break;
+      applyLightingPreset(4); playNighttime(); break;
   }
 }
 
-// This handles incoming "Mood" changes from WLED App
-void handleStateChange(int presetID) {
-  switch (presetID) {
-    case 1: playDaytime(); break;
-    case 9: // Stormy
-      dfPlayerBase.loop(TRACK_RAIN_STORM);
-      digitalWrite(RELAY_PIN, LOW); 
-      break;
-    case 5: playDragonEvent(); break;
-    case 6: playPartyMusic(); break;
-  }
-}

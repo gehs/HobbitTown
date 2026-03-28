@@ -4,6 +4,8 @@
 
 #include "HobbitTownHardware.h"
 
+extern void applyLightingPreset(int presetID);
+
 // Optional local override file for secrets. Keep this untracked.
 #if __has_include("NetworkSecrets.h")
 #include "NetworkSecrets.h"
@@ -74,6 +76,18 @@ void handleParty() {
   Serial.println("WiFi command: Party mode triggered");
 }
 
+void handleLightingPreset() {
+  if (!server.hasArg("preset")) {
+    server.send(400, "text/plain", "Missing 'preset' query parameter (e.g. /lighting?preset=3)");
+    return;
+  }
+
+  int preset = server.arg("preset").toInt();
+  applyLightingPreset(preset);
+  server.send(200, "text/plain", "Lighting preset set to " + String(preset));
+  Serial.printf("WiFi command: lighting preset %d\n", preset);
+}
+
 void handleRoot() {
   server.send(200, "text/plain", "HobbitTown controller is online.");
 }
@@ -84,6 +98,7 @@ void setupWeb() {
 
   server.on("/", handleRoot);
   server.on("/party", handleParty);
+  server.on("/lighting", handleLightingPreset);
 
   // Hobbit Town hardware test UI
   server.on("/hobbit", []() {

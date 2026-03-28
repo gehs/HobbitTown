@@ -14,22 +14,23 @@ This page provides a small UI to set servo angles, speaker/mister/blower levels,
 
 #### REST API (advanced)
 
-* **Target URL for Lighting (WLED):** `http://[WLED_IP]/json/state`
+* **Target URL for Lighting (controller):** `http://[DEVICE_IP]/lighting?preset=<N>`
 * **Target URL for Audio/Fogger (HobbitTown):** `http://[BRAIN_IP]/json/event` (if we add a JSON handler to your WebLogic).
 
 ---
 
-### 🎨 1. Lighting Commands (WLED)
+### 🎨 1. Lighting Presets (controller)
 
-Send these to your WLED ESP32 to change the mood instantly.
+Send a request to the controller to switch between the built-in lighting presets.
 
-| Action | JSON Payload | What it does |
+| Action | Example URL | What it does |
 | --- | --- | --- |
-| **All Off** | `{"on":false}` | Blackout the Shire. |
-| **All On** | `{"on":true, "bri":128}` | Turn on at 50% brightness. |
-| **Trigger Sunset** | `{"ps":3}` | Activates Preset 3 (Sunset). |
-| **Fire Effect** | `{"seg":[{"fx":6, "sx":128, "ix":200}]}` | Makes Segment 0 look like a flicker. |
-| **Night Mode** | `{"ps":4, "bri":50}` | Dim blue stars with low brightness. |
+| **All Off** | `/lighting?preset=0` | Blackout the Shire. |
+| **Morning** | `/lighting?preset=1` | Warm morning glow. |
+| **Day** | `/lighting?preset=2` | Bright daytime white. |
+| **Sunset** | `/lighting?preset=3` | Orange sunset gradient. |
+| **Night** | `/lighting?preset=4` | Dim blue night lighting. |
+| **Party** | `/lighting?preset=5` | Animated rainbow effect. |
 
 ---
 
@@ -48,7 +49,7 @@ These would be handled by your `WebLogic.h`. You can expand your `handleClient` 
 
 ### 🧩 3. The "Master Scene" Command
 
-This is the most powerful one. You can send a single JSON object that tells WLED and the Brain exactly what to do for a complex scene, like a **Rain Storm**.
+This is the most powerful one. You can send a single JSON object that tells the Brain exactly what to do for a complex scene, like a **Rain Storm**.
 
 ```json
 {

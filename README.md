@@ -1,6 +1,6 @@
 # HobbitTown
 
-Hobby ESP32 project for synchronized audio, lighting (WLED), atmosphere, and web-triggered events.
+Hobby ESP32 project for synchronized audio, direct LED strip lighting, atmosphere, and web-triggered events.
 
 ## PlatformIO Support
 
@@ -60,16 +60,16 @@ If mDNS is not resolved by your client device, use the IP printed in serial logs
 
 ---
 
-## Hardware Connections (ESP32 + WLED + Audio)
+## Hardware Connections (ESP32 + LED strip + Audio)
 
 ### 1) Power
-- Provide **5V** to the ESP32 (via USB or 5V/VIN pin) and to your WLED LED strip power supply.
-- Connect all grounds together (ESP32, WLED power supply, and any relay/DFPlayer modules).
+- Provide **5V** to the ESP32 (via USB or 5V/VIN pin) and to your LED strip power supply.
+- Connect all grounds together (ESP32, LED strip power supply, and any relay/DFPlayer modules).
 
-### 2) WLED (LED Strip)
-- Install WLED on a second ESP32 board (see the WLED docs in `WLED-0.15.X/`).
-- Connect your LED strip data input to the GPIO pin configured in WLED (usually **GPIO 2** by default).
-- Set `wledIP` in `firmware/Lighting.h` to the IP address assigned to the WLED board.
+### 2) LED Strip (direct control)
+- Connect your LED strip data input to the GPIO pin defined by `LED_PIN` in `firmware/Lighting.h` (defaults to **GPIO 2**).
+- Power the LED strip from a 5V supply capable of your strip’s current draw.
+- Adjust `NUM_LEDS` in `firmware/Lighting.h` to match your strip length.
 
 ### 2.5) HobbitTown I2C + PCA9685 (Servos/Misters/Speakers)
 - Connect the PCA9685 modules to the ESP32 I2C pins:
@@ -91,8 +91,8 @@ If mDNS is not resolved by your client device, use the IP printed in serial logs
 
 ## Configuring the Firmware
 
-### WLED IP / Hostname
-- Set `wledIP` in `firmware/Lighting.h` to match the WLED board’s IP (or use mDNS if your network supports it).
+### LED Strip Configuration
+- Update `firmware/Lighting.h` to set `LED_PIN` and `NUM_LEDS` to match your LED strip wiring and length.
 
 ### Network Credentials
 - Update `firmware/NetworkSecrets.h` with your SSID and password.
