@@ -72,9 +72,9 @@ Here is a list of skills that contain domain specific knowledge on a variety of 
 Each skill comes with a description of the topic and a file path that contains the detailed instructions.
 When a user asks you to perform a task that falls within the domain of a skill, use the 'read_file' tool to acquire the full instructions from the file URI.
 
-- **music-scape**: generates music ideas and soundscapes for the diorama. [c:\hTown\HobbitTown\.github\skills\music-scape\skill.md](c:\hTown\HobbitTown\.github\skills\music-scape\skill.md)
-- **new-hardware**: Scaffolds a new CircuitPython hardware module for the diorama project. [c:\hTown\HobbitTown\.github\skills\new-hardware\skill.md](c:\hTown\HobbitTown\.github\skills\new-hardware\skill.md)
-- **new-scene**: Scaffolds a new Scene orchestration module for the diorama (e.g., Thunderstorm, Party), coordinating multiple hardware components using non-blocking timers. [c:\hTown\HobbitTown\.github\skills\new-scene\skill.md](c:\hTown\HobbitTown\.github\skills\new-scene\skill.md)
-- **tech-manual**: Generates a clear, beginner-friendly hardware documentation and wiring guide for a new component. [c:\hTown\HobbitTown\.github\skills\tech-manual\skill.md](c:\hTown\HobbitTown\.github\skills\tech-manual\skill.md)
-- **ui**: Generates a local UI for the diorama. [c:\hTown\HobbitTown\.github\skills\ui\skill.md](c:\hTown\HobbitTown\.github\skills\ui\skill.md)
-- **lighting-management**: Manages lighting effects and dynamic updates for HobbitTown diorama. [c:\hTown\HobbitTown\.github\skills\lighting-management\skill.md](c:\hTown\HobbitTown\.github\skills\lighting-management\skill.md)
+- **music-scape**: generates music ideas and soundscapes for the diorama. File: .github/skills/music-scape/skill.md
+- **new-hardware**: Scaffolds a new CircuitPython hardware module for the diorama project. File: .github/skills/new-hardware/skill.md
+- **new-scene**: Scaffolds a new Scene orchestration module for the diorama (e.g., Thunderstorm, Party), coordinating multiple hardware components using non-blocking timers. File: .github/skills/new-scene/skill.md
+- **tech-manual**: Generates a clear, beginner-friendly hardware documentation and wiring guide for a new component. File: .github/skills/tech-manual/skill.md
+- **ui**: Generates a local UI for the diorama. File: .github/skills/ui/skill.md
+- **lighting-management**: Manages lighting effects and dynamic updates for HobbitTown diorama. File: .github/skills/lighting-management/skill.md
