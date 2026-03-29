@@ -61,7 +61,6 @@ This project controls a physical diorama. The software is modular, with separate
 - This is a strong preference for style, not a hard compilation constraint.
 
 ## Example prompts to test this behavior
-- "Refactor `firmware/WebLogic.h` to reduce duplicate code and keep my short markdown response style." 
 - "Add a new LED segment defintion in `docs/LED_SEGMENTS.md` with concise structured instructions." 
 
 ## Next customization suggestions

@@ -1,0 +1,286 @@
+{
+  "servos": [
+    {
+      "type": "MG90S",
+      "quantity": 4,
+      "specs": "Micro Servo Motor, Metal Geared",
+      "connections": "Standard 3-pin PWM",
+      "notes": "Miuzei brand kit"
+    }
+  ],
+  "leds": [
+    {
+      "type": "SK6812",
+      "quantity": 10,
+      "specs": "RGBW (Natural White), Individually Addressable, 144 LEDs/m",
+      "connections": "3-pin (5V, Data, GND)",
+      "notes": "Similar to WS2812B but with dedicated white channel"
+    },
+    {
+      "type": "0603 SMD",
+      "quantity": 25,
+      "specs": "Pre-soldered Micro Litz Wired, Warm White",
+      "connections": "2-wire leads",
+      "notes": "Includes multi-resistor"
+    },
+    {
+      "type": "WS2812B",
+      "quantity": 1,
+      "specs": "5050 SMD RGB, 16.4FT, 300 LEDs total",
+      "connections": "3-pin (5V, Data, GND)",
+      "notes": "LOAMLIN brand, IP30"
+    }
+  ],
+  "switches": [
+    {
+      "type": "IEC 320 C14 Inlet",
+      "quantity": 2,
+      "specs": "AC 250V 10A, includes Fuse and Red Light Rocker Switch",
+      "connections": "Terminal Crimps",
+      "notes": "Power supply terminal connector"
+    }
+  ],
+  "audio": [
+    {
+      "type": "MAX98357",
+      "quantity": 5,
+      "specs": "I2S Audio Amplifier Module, Class D",
+      "connections": "I2S Interface (LRC, BCLK, DIN)",
+      "notes": "AITRIP Filterless amplifier"
+    },
+    {
+      "type": "PAM8406",
+      "quantity": 2,
+      "specs": "5W+5W Mini Digital Stereo Power Amp",
+      "connections": "Dual Channel Class D/AB",
+      "notes": "DEVMO brand"
+    },
+    {
+      "type": "PAM8403",
+      "quantity": 5,
+      "specs": "3W+3W Mini Digital Power Amplifier",
+      "connections": "2 Channel USB 5V",
+      "notes": "Includes volume control potentiometer"
+    },
+    {
+      "type": "Speaker",
+      "quantity": 8,
+      "specs": "8 Ohm 2W, 28mm Round",
+      "connections": "2 wire",
+      "notes": "Shutao brand"
+    },
+    {
+      "type": "Audio Exciter",
+      "quantity": 2,
+      "specs": "8 Ohms Impedance, 5 Watts RMS pair",
+      "connections": "2 wire",
+      "notes": " Dayton Audio DAEX25 Sound Transducer"
+    },
+    {
+      "type": "Music Maker FeatherWing",
+      "quantity": 1,
+      "specs": "VS1053 Codec + 3W Amp, Adafruit Feather compatible",
+      "connections": "GPIO + I2C",
+      "notes": "Product ID 3436"
+    },
+    {
+      "type": "Micro SD Card",
+      "quantity": 2,
+      "specs": "8GB Class 10, 80MB/s",
+      "connections": "Standard Micro SD",
+      "notes": "Gigastone brand, for audio storage"
+    }
+  ],
+  "sensors": [
+    {
+      "type": "Optical Level Sensor",
+      "quantity": 2,
+      "specs": "High Sensibility Liquid Level Sensor",
+      "connections": "2 wire",
+      "notes": "Gikfun EK2172"
+    },
+    {
+      "type": "Relay Module",
+      "quantity": 2,
+      "specs": "4 Channel 5V Relay with Optocoupler",
+      "connections": "High/Low level trigger",
+      "notes": "ANMBEST brand"
+    }
+  ],
+  "microcontrollers": [
+    {
+      "type": "ESP32-WROOM-32",
+      "quantity": 3,
+      "specs": "WiFi + Bluetooth Dual Core, USB-C",
+      "connections": "GPIO + I2C",
+      "notes": "Hosyond development board"
+    },
+    {
+      "type": "ESP32-S3-DevKitC-1",
+      "quantity": 1,
+      "specs": "N16R8 (16MB Flash, 8MB PSRAM)",
+      "connections": "42-pin, CH340C Type-C",
+      "notes": "UICPAL brand, DEV 1.2 version"
+    }
+  ],
+  "electronic_components": [
+    {
+      "type": "Diodes Kit",
+      "quantity": 300,
+      "specs": "10 Values (Rectifier & Schottky)",
+      "connections": "2 wire",
+      "notes": "1N4001 to 1N5819"
+    },
+    {
+      "type": "IRLZ44N MOSFET",
+      "quantity": 10,
+      "specs": "Logic Level MOSFET, 47A 55V",
+      "connections": "3-pin (Gate, Drain, Source)",
+      "notes": "Logic level for MCU control"
+    },
+    {
+      "type": "AOD4184 MOSFET Module",
+      "quantity": 5,
+      "specs": "Isolation MOSFET Switch with Optocoupler",
+      "connections": "3-pin (Gate, Drain, Source)",
+      "notes": "40V 50A"
+    },
+    {
+      "type": "Capacitor Kit",
+      "quantity": 300,
+      "specs": "10 Values Multilayer Monolithic Ceramic",
+      "connections": "2 wire",
+      "notes": "0.1uF to 10uF"
+    },
+    {
+      "type": "Electrolytic Capacitor",
+      "quantity": 15,
+      "specs": "1000uF 16V Low ESR",
+      "connections": "2 wire",
+      "notes": "Rubycon brand"
+    },
+    {
+      "type": "Resistor Kit",
+      "quantity": 300,
+      "specs": "50 Values 1/4W Metal Film",
+      "connections": "2 wire",
+      "notes": "0 Ohm to 10M Ohm"
+    },
+    {
+      "type": "IC Socket",
+      "quantity": 10,
+      "specs": "14-pin DIP Adaptor",
+      "connections": "2.54mm Pitch",
+      "notes": "Solder type"
+    },
+    {
+      "type": "SN74AHCT125N",
+      "quantity": 10,
+      "specs": "Quadruple Bus Buffer Gates, 3-State",
+      "connections": "DIP-14",
+      "notes": "Level shifting for 5V logic"
+    },
+    {
+      "type": "Fuses/Holders Kit",
+      "quantity": 150,
+      "specs": "5x20mm Glass Fuses + Inline Holders",
+      "connections": "16 AWG wire",
+      "notes": "Fast Blow, various amperages"
+    },
+    {
+      "type": "Blade Fuse Holder",
+      "quantity": 12,
+      "specs": "14 Gauge Inline ATC/ATO",
+      "connections": "1 wire",
+      "notes": "Elefama kit with fuses"
+    }
+  ],
+  "power": [
+    {
+      "type": "MT3608 Boost Converter",
+      "quantity": 5,
+      "specs": "Input 2-24V to Output 5V-28V,DC-DC Step Up Voltage Regulator",
+      "connections": "",
+      "notes": "2A Adjustable"
+    },
+    {
+      "type": "LRS-100-5 Power Supply",
+      "quantity": 1,
+      "specs": "90W 5V 18A SMPS",
+      "connections": "4",
+      "notes": "Mean Well enclosed switching supply"
+    }
+  ],
+  "other": [
+    {
+      "type": "PCA9685",
+      "quantity": 2,
+      "specs": "16-channel 12-bit PWM Driver",
+      "connections": "I2C Interface",
+      "notes": "HUAREW brand"
+    },
+    {
+      "type": "Micro Peristaltic Pump",
+      "quantity": 2,
+      "specs": "DC 5V Small Flow Metering,Self-priming",
+      "connections": "2 wire",
+      "notes": "CONQUERALL brand"
+    },
+    {
+      "type": "Protoboard",
+      "quantity": 1,
+      "specs": "2.54mm Double Sided Perf Board",
+      "connections": "N/A",
+      "notes": "WWZMDiB brand"
+    },
+    {
+      "type": "Stainless Steel Wire",
+      "quantity": 1,
+      "specs": "10M Spring Wire",
+      "connections": "N/A",
+      "notes": "0.3-3MM AXH16101078"
+    },
+    {
+      "type": "Blower Fan",
+      "quantity": 4,
+      "specs": "5015 5V Brushless Cooling Fan",
+      "connections": "2-pin",
+      "notes": "WINSINN 50mmx15mm"
+    },
+    {
+      "type": "Humidifier Module",
+      "quantity": 4,
+      "specs": "5V Ultrasonic Atomizer / Mist Maker",
+      "connections": "2 wire",
+      "notes": "hiBCTR smoke machine experiments"
+    },
+    {
+      "type": "Silicone Wire Kit",
+      "quantity": 1,
+      "specs": "22 AWG Tinned Copper",
+      "connections": "1 wire",
+      "notes": "Tuofeng brand, 26ft each"
+    },
+    {
+      "type": "Dupont Jumper Cables",
+      "quantity": 120,
+      "specs": "M-F, M-M, F-F Ribbon Cables,40-pin sets",
+      "connections": "1 wire",
+      "notes": "Elegoo kit"
+    },
+    {
+      "type": "Smoke Generator 117",
+      "quantity": 2,
+      "specs": "HO Scale Chimney-Ready",
+      "connections": "2 wire",
+      "notes": "Seuthe brand"
+    },
+    {
+      "type": "Smoke Generator 117E",
+      "quantity": 2,
+      "specs": "HO Scale Chimney-Ready",
+      "connections": "2 wire",
+      "notes": "Seuthe brand"
+    }
+  ]
+}
