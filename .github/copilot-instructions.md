@@ -33,7 +33,7 @@ The architecture is modular: hardware interactions live in the `hardware/` folde
 4. When reviewing or editing, include a brief `✅ What changed` summary and maintain high-level intent.
 
 # Project Context
-This project controls a physical diorama. The software is modular, with separate files handling different hardware components (e.g., lighting, servos, sensors, audio).
+This project controls a physical diorama. The user is new to the hardware and software, so explanations should be clear and educational. The diorama has multiple hardware components (LEDs, motors, sensors) that need to be orchestrated together. The codebase is modular, with separate files for hardware control and high-level logic.
 
 # Architectural Rules
 1. **Modular Design:** Never suggest monolithic code. Always separate hardware control logic from the main application loop.
@@ -66,3 +66,15 @@ This project controls a physical diorama. The software is modular, with separate
 ## Next customization suggestions
 - Add a `docs/CONTRIBUTING.md` section with coding standards.
 - Add a `firmware/CODING_GUIDELINES.md` for embedded-focused patterns.
+
+## Skills
+Here is a list of skills that contain domain specific knowledge on a variety of topics.
+Each skill comes with a description of the topic and a file path that contains the detailed instructions.
+When a user asks you to perform a task that falls within the domain of a skill, use the 'read_file' tool to acquire the full instructions from the file URI.
+
+- **music-scape**: generates music ideas and soundscapes for the diorama. [c:\hTown\HobbitTown\.github\skills\music-scape\skill.md](c:\hTown\HobbitTown\.github\skills\music-scape\skill.md)
+- **new-hardware**: Scaffolds a new CircuitPython hardware module for the diorama project. [c:\hTown\HobbitTown\.github\skills\new-hardware\skill.md](c:\hTown\HobbitTown\.github\skills\new-hardware\skill.md)
+- **new-scene**: Scaffolds a new Scene orchestration module for the diorama (e.g., Thunderstorm, Party), coordinating multiple hardware components using non-blocking timers. [c:\hTown\HobbitTown\.github\skills\new-scene\skill.md](c:\hTown\HobbitTown\.github\skills\new-scene\skill.md)
+- **tech-manual**: Generates a clear, beginner-friendly hardware documentation and wiring guide for a new component. [c:\hTown\HobbitTown\.github\skills\tech-manual\skill.md](c:\hTown\HobbitTown\.github\skills\tech-manual\skill.md)
+- **ui**: Generates a local UI for the diorama. [c:\hTown\HobbitTown\.github\skills\ui\skill.md](c:\hTown\HobbitTown\.github\skills\ui\skill.md)
+- **lighting-management**: Manages lighting effects and dynamic updates for HobbitTown diorama. [c:\hTown\HobbitTown\.github\skills\lighting-management\skill.md](c:\hTown\HobbitTown\.github\skills\lighting-management\skill.md)

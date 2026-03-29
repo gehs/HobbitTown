@@ -1,0 +1,77 @@
+{
+  "led_controllers": {
+    "pin_primary": "GPIO 2",
+    "pin_high_density": "GPIO 4"
+  },
+  "strip_standard_ws2812b": {
+    "total_pixels": 300,
+    "segments": [
+      {
+        "id": "stream",
+        "name": "The River",
+        "range": [0, 24],
+        "purpose": "24-inch run for water shimmer effects."
+      },
+      {
+        "id": "fireflies",
+        "name": "Fireflies & Stars",
+        "range": [25, 34],
+        "purpose": "10 pixels coupled to Fiber Optic bundles for pinpoint light."
+      },
+      {
+        "id": "party_tree",
+        "name": "The Party Tree",
+        "range": [35, 65],
+        "purpose": "30 pixels for hanging lanterns and fireworks bursts."
+      },
+      {
+        "id": "sky_periphery",
+        "name": "Dawn & Dusk Sky",
+        "range": [66, 120],
+        "purpose": "Lower density sky colors (Pinks, Purples, Deep Blues)."
+      },
+      {
+        "id": "lightning_fx",
+        "name": "Storm Effects",
+        "range": [121, 130],
+        "purpose": "High-speed white flashes hidden in 'clouds'."
+      },
+      {
+        "id": "server_room",
+        "name": "Server Room Edge",
+        "range": [131, 150],
+        "purpose": "20 pixels for internal diagnostic/ambient lighting."
+      }
+    ]
+  },
+  "strip_high_density_sk6812": {
+    "total_pixels": 144,
+    "notes": "144 LEDs/m RGBW strip for high-quality white light.",
+    "segments": [
+      {
+        "id": "sun_high_noon",
+        "name": "The Sun",
+        "range": [0, 88],
+        "purpose": "2-foot section of 144/m density for intense sunlight."
+      },
+      {
+        "id": "smial_1",
+        "name": "Bag End (Smial 1)",
+        "range": [89, 91],
+        "purpose": "3 RGBW pixels for interior warmth."
+      },
+      {
+        "id": "smial_2",
+        "name": "Smial 2",
+        "range": [92, 94],
+        "purpose": "3 RGBW pixels for interior warmth."
+      },
+      {
+        "id": "smial_3",
+        "name": "The Great Smial (Smial 3)",
+        "range": [95, 99],
+        "purpose": "5 RGBW pixels for the largest hobbit hole."
+      }
+    ]
+  }
+}
