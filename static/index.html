@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HobbitTown Control</title>
+<style>
+  /* -- Base reset & layout -- */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: #1a1a2e; color: #e0e0e0;
+    min-height: 100vh; padding: 12px;
+  }
+  h1 { text-align: center; color: #f5c842; margin: 8px 0 16px; font-size: 1.6em; }
+  h2 { color: #c9a227; font-size: 1.1em; margin: 12px 0 8px; border-bottom: 1px solid #333; padding-bottom: 4px; }
+
+  /* -- Status toast -- */
+  #toast {
+    position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+    background: #2d6a4f; color: #fff; padding: 8px 20px; border-radius: 20px;
+    font-size: 0.9em; opacity: 0; transition: opacity 0.3s;
+    pointer-events: none; z-index: 100;
+  }
+  #toast.show { opacity: 1; }
+
+  /* -- Card sections -- */
+  .card {
+    background: #16213e; border-radius: 10px; padding: 14px;
+    margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  }
+
+  /* -- Button grid -- */
+  .btn-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
+  .btn {
+    background: #0f3460; border: 1px solid #1a508b; color: #e0e0e0;
+    padding: 12px 8px; border-radius: 8px; font-size: 0.95em;
+    cursor: pointer; transition: background 0.2s, transform 0.1s;
+    text-align: center;
+  }
+  .btn:active { transform: scale(0.96); }
+  .btn:hover  { background: #1a508b; }
+
+  /* -- Preset-specific accent colors -- */
+  .btn-morning { border-color: #ffd700; color: #ffd700; }
+  .btn-day     { border-color: #fff;    color: #fff; }
+  .btn-sunset  { border-color: #ff6b35; color: #ff6b35; }
+  .btn-night   { border-color: #7b68ee; color: #7b68ee; }
+  .btn-party   { border-color: #ff1493; color: #ff1493; }
+  .btn-storm   { border-color: #00bfff; color: #00bfff; }
+  .btn-off     { border-color: #666;    color: #999; }
+
+  /* -- Event buttons -- */
+  .btn-event  { background: #1b4332; border-color: #2d6a4f; }
+  .btn-event:hover { background: #2d6a4f; }
+  .btn-danger { background: #4a1520; border-color: #8b2035; color: #ff6b6b; }
+  .btn-danger:hover { background: #6b1d30; }
+
+  /* -- Navigation -- */
+  .nav { text-align: center; margin-top: 16px; }
+  .nav a {
+    color: #f5c842; text-decoration: none; font-size: 1em;
+    border: 1px solid #f5c842; padding: 10px 24px; border-radius: 8px;
+    display: inline-block;
+  }
+  .nav a:hover { background: #f5c84222; }
+
+  /* -- Footer -- */
+  .footer { text-align: center; color: #555; font-size: 0.75em; margin-top: 20px; }
+</style>
+</head>
+<body>
+
+<h1>&#127795; HobbitTown</h1>
+
+<!-- Lighting Presets -->
+<div class="card">
+  <h2>&#127912; Lighting</h2>
+  <div class="btn-grid">
+    <button class="btn btn-off"     onclick="api('/api/preset?id=0')">All Off</button>
+    <button class="btn btn-morning" onclick="api('/api/preset?id=1')">Morning</button>
+    <button class="btn btn-day"     onclick="api('/api/preset?id=2')">Day</button>
+    <button class="btn btn-sunset"  onclick="api('/api/preset?id=3')">Sunset</button>
+    <button class="btn btn-night"   onclick="api('/api/preset?id=4')">Night</button>
+    <button class="btn btn-party"   onclick="api('/api/preset?id=5')">Party</button>
+    <button class="btn btn-storm"   onclick="api('/api/preset?id=9')">Storm</button>
+  </div>
+</div>
+
+<!-- Events -->
+<div class="card">
+  <h2>&#127918; Events</h2>
+  <div class="btn-grid">
+    <button class="btn btn-event" onclick="api('/api/event?name=party')">&#127881; Party Mode</button>
+    <button class="btn btn-event" onclick="api('/api/event?name=dragon')">&#128009; Dragon Roar</button>
+    <button class="btn btn-event" onclick="api('/api/event?name=fog')">&#127787; Fog Pulse</button>
+    <button class="btn btn-event" onclick="api('/api/event?name=daytime')">&#9728; Daytime Ambience</button>
+    <button class="btn btn-event" onclick="api('/api/event?name=nighttime')">&#127769; Nighttime Ambience</button>
+  </div>
+</div>
+
+<!-- Scenes -->
+<div class="card">
+  <h2>&#127916; Scenes</h2>
+  <div class="btn-grid">
+    <button class="btn btn-event" onclick="api('/api/scene?name=smial_test')">&#128270; Smial Inspection</button>
+    <button class="btn btn-danger" onclick="api('/api/scene?name=stop')">&#9632; Stop Scene</button>
+  </div>
+</div>
+
+<!-- Navigation to Test Console -->
+<div class="nav">
+  <a href="/test">&#128295; Open Test Console</a>
+</div>
+
+<div class="footer">HobbitTown Diorama &bull; ESP32-S3</div>
+
+<!-- Status feedback toast -->
+<div id="toast"></div>
+
+<script>
+/* Send a command to the ESP32 and show a brief status toast */
+function api(url) {
+  var t = document.getElementById('toast');
+  fetch(url)
+    .then(function(r) { return r.text(); })
+    .then(function(msg) {
+      t.textContent = msg || 'OK';
+      t.className = 'show';
+      setTimeout(function() { t.className = ''; }, 1500);
+    })
+    .catch(function() {
+      t.textContent = 'Connection error';
+      t.className = 'show';
+      setTimeout(function() { t.className = ''; }, 2000);
+    });
+}
+</script>
+</body>
+</html>

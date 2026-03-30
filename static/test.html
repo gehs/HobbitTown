@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HobbitTown Test Console</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: #1a1a2e; color: #e0e0e0;
+    min-height: 100vh; padding: 12px;
+  }
+  h1 { text-align: center; color: #ff6b6b; margin: 8px 0 4px; font-size: 1.4em; }
+  .subtitle { text-align: center; color: #888; font-size: 0.8em; margin-bottom: 14px; }
+  h2 { color: #c9a227; font-size: 1.05em; margin: 10px 0 8px; border-bottom: 1px solid #333; padding-bottom: 4px; }
+  h3 { color: #aaa; font-size: 0.9em; margin: 8px 0 4px; }
+
+  /* Toast */
+  #toast {
+    position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+    background: #2d6a4f; color: #fff; padding: 8px 20px; border-radius: 20px;
+    font-size: 0.9em; opacity: 0; transition: opacity 0.3s;
+    pointer-events: none; z-index: 100;
+  }
+  #toast.show { opacity: 1; }
+
+  /* Card sections */
+  .card {
+    background: #16213e; border-radius: 10px; padding: 14px;
+    margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  }
+  .card-warn { border: 1px solid #8b2035; }
+
+  /* Slider rows */
+  .slider-row {
+    display: flex; align-items: center; gap: 8px;
+    margin: 6px 0; flex-wrap: wrap;
+  }
+  .slider-row label { min-width: 100px; font-size: 0.9em; }
+  .slider-row input[type=range] { flex: 1; min-width: 100px; accent-color: #f5c842; }
+  .slider-row .val { min-width: 32px; text-align: right; font-size: 0.85em; color: #f5c842; }
+  .slider-row button {
+    background: #0f3460; border: 1px solid #1a508b; color: #e0e0e0;
+    padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 0.85em;
+  }
+  .slider-row button:hover { background: #1a508b; }
+
+  /* Button grid */
+  .btn-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
+  .btn {
+    background: #0f3460; border: 1px solid #1a508b; color: #e0e0e0;
+    padding: 10px 8px; border-radius: 8px; font-size: 0.9em;
+    cursor: pointer; text-align: center; transition: background 0.2s;
+  }
+  .btn:hover { background: #1a508b; }
+  .btn-danger { background: #4a1520; border-color: #8b2035; color: #ff6b6b; }
+  .btn-danger:hover { background: #6b1d30; }
+  .btn-success { background: #1b4332; border-color: #2d6a4f; color: #52b788; }
+  .btn-success:hover { background: #2d6a4f; }
+
+  /* Segment color picker */
+  .seg-row {
+    display: flex; align-items: center; gap: 8px;
+    margin: 8px 0; flex-wrap: wrap;
+  }
+  .seg-row select, .seg-row input[type=color] {
+    padding: 6px; border-radius: 6px; border: 1px solid #1a508b;
+    background: #0f3460; color: #e0e0e0; font-size: 0.9em;
+  }
+  .seg-row input[type=color] { width: 50px; height: 34px; padding: 2px; cursor: pointer; }
+
+  /* Audio test */
+  .audio-row {
+    display: flex; align-items: center; gap: 8px;
+    margin: 8px 0; flex-wrap: wrap;
+  }
+  .audio-row select, .audio-row input {
+    padding: 6px; border-radius: 6px; border: 1px solid #1a508b;
+    background: #0f3460; color: #e0e0e0; font-size: 0.9em;
+  }
+  .audio-row input[type=number] { width: 70px; }
+
+  /* Navigation */
+  .nav { text-align: center; margin-top: 16px; }
+  .nav a {
+    color: #f5c842; text-decoration: none; font-size: 1em;
+    border: 1px solid #f5c842; padding: 10px 24px; border-radius: 8px;
+    display: inline-block;
+  }
+  .nav a:hover { background: #f5c84222; }
+
+  .footer { text-align: center; color: #555; font-size: 0.75em; margin-top: 20px; }
+</style>
+</head>
+<body>
+
+<h1>&#128295; Test Console</h1>
+<p class="subtitle">Activate individual components in isolation</p>
+
+<!-- ======= DOORS / SERVOS ======= -->
+<div class="card">
+  <h2>&#128682; Doors (Servos)</h2>
+  <!-- Door 1 - Bag End -->
+  <div class="slider-row">
+    <label>Door 1 &ndash; Bag End</label>
+    <input type="range" id="door1" min="0" max="180" value="90"
+           oninput="document.getElementById('door1v').textContent=this.value">
+    <span class="val" id="door1v">90</span>&deg;
+    <button onclick="sendSlider('/api/test/door?id=1&angle=',document.getElementById('door1').value)">Set</button>
+  </div>
+  <!-- Door 2 -->
+  <div class="slider-row">
+    <label>Door 2 &ndash; Smial 2</label>
+    <input type="range" id="door2" min="0" max="180" value="90"
+           oninput="document.getElementById('door2v').textContent=this.value">
+    <span class="val" id="door2v">90</span>&deg;
+    <button onclick="sendSlider('/api/test/door?id=2&angle=',document.getElementById('door2').value)">Set</button>
+  </div>
+  <!-- Door 3 -->
+  <div class="slider-row">
+    <label>Door 3 &ndash; Great Smial</label>
+    <input type="range" id="door3" min="0" max="180" value="90"
+           oninput="document.getElementById('door3v').textContent=this.value">
+    <span class="val" id="door3v">90</span>&deg;
+    <button onclick="sendSlider('/api/test/door?id=3&angle=',document.getElementById('door3').value)">Set</button>
+  </div>
+</div>
+
+<!-- ======= MISTERS ======= -->
+<div class="card">
+  <h2>&#128167; Misters</h2>
+  <div class="slider-row">
+    <label>Mister 1</label>
+    <input type="range" id="mist1" min="0" max="255" value="0"
+           oninput="document.getElementById('mist1v').textContent=this.value">
+    <span class="val" id="mist1v">0</span>
+    <button onclick="sendSlider('/api/test/mister?id=1&value=',document.getElementById('mist1').value)">Set</button>
+  </div>
+  <div class="slider-row">
+    <label>Mister 2</label>
+    <input type="range" id="mist2" min="0" max="255" value="0"
+           oninput="document.getElementById('mist2v').textContent=this.value">
+    <span class="val" id="mist2v">0</span>
+    <button onclick="sendSlider('/api/test/mister?id=2&value=',document.getElementById('mist2').value)">Set</button>
+  </div>
+  <div class="slider-row">
+    <label>Mister 3</label>
+    <input type="range" id="mist3" min="0" max="255" value="0"
+           oninput="document.getElementById('mist3v').textContent=this.value">
+    <span class="val" id="mist3v">0</span>
+    <button onclick="sendSlider('/api/test/mister?id=3&value=',document.getElementById('mist3').value)">Set</button>
+  </div>
+  <div class="slider-row">
+    <label>Mister 4</label>
+    <input type="range" id="mist4" min="0" max="255" value="0"
+           oninput="document.getElementById('mist4v').textContent=this.value">
+    <span class="val" id="mist4v">0</span>
+    <button onclick="sendSlider('/api/test/mister?id=4&value=',document.getElementById('mist4').value)">Set</button>
+  </div>
+</div>
+
+<!-- ======= BLOWERS ======= -->
+<div class="card">
+  <h2>&#127744; Blowers</h2>
+  <div class="slider-row">
+    <label>Blower 1</label>
+    <input type="range" id="blow1" min="0" max="255" value="0"
+           oninput="document.getElementById('blow1v').textContent=this.value">
+    <span class="val" id="blow1v">0</span>
+    <button onclick="sendSlider('/api/test/blower?id=1&value=',document.getElementById('blow1').value)">Set</button>
+  </div>
+  <div class="slider-row">
+    <label>Blower 2</label>
+    <input type="range" id="blow2" min="0" max="255" value="0"
+           oninput="document.getElementById('blow2v').textContent=this.value">
+    <span class="val" id="blow2v">0</span>
+    <button onclick="sendSlider('/api/test/blower?id=2&value=',document.getElementById('blow2').value)">Set</button>
+  </div>
+  <div class="slider-row">
+    <label>Blower 3</label>
+    <input type="range" id="blow3" min="0" max="255" value="0"
+           oninput="document.getElementById('blow3v').textContent=this.value">
+    <span class="val" id="blow3v">0</span>
+    <button onclick="sendSlider('/api/test/blower?id=3&value=',document.getElementById('blow3').value)">Set</button>
+  </div>
+</div>
+
+<!-- ======= SPEAKERS ======= -->
+<div class="card">
+  <h2>&#128266; Speakers</h2>
+  <p style="color:#888; font-size:0.8em; margin-bottom:8px;">
+    Channels 8-11 are on/off amplifier enables. Channels 12-13 are variable level.
+  </p>
+  <!-- On/Off speaker channels (8-11) -->
+  <div class="slider-row">
+    <label>Ch 8 (on/off)</label>
+    <button class="btn-success" style="padding:6px 18px"
+      onclick="api('/api/test/speaker?channel=8&value=255')">ON</button>
+    <button class="btn-danger" style="padding:6px 18px"
+      onclick="api('/api/test/speaker?channel=8&value=0')">OFF</button>
+  </div>
+  <div class="slider-row">
+    <label>Ch 9 (on/off)</label>
+    <button class="btn-success" style="padding:6px 18px"
+      onclick="api('/api/test/speaker?channel=9&value=255')">ON</button>
+    <button class="btn-danger" style="padding:6px 18px"
+      onclick="api('/api/test/speaker?channel=9&value=0')">OFF</button>
+  </div>
+  <div class="slider-row">
+    <label>Ch 10 (on/off)</label>
+    <button class="btn-success" style="padding:6px 18px"
+      onclick="api('/api/test/speaker?channel=10&value=255')">ON</button>
+    <button class="btn-danger" style="padding:6px 18px"
+      onclick="api('/api/test/speaker?channel=10&value=0')">OFF</button>
+  </div>
+  <div class="slider-row">
+    <label>Ch 11 (on/off)</label>
+    <button class="btn-success" style="padding:6px 18px"
+      onclick="api('/api/test/speaker?channel=11&value=255')">ON</button>
+    <button class="btn-danger" style="padding:6px 18px"
+      onclick="api('/api/test/speaker?channel=11&value=0')">OFF</button>
+  </div>
+  <!-- Variable level channels (12-13) -->
+  <div class="slider-row">
+    <label>Ch 12 (variable)</label>
+    <input type="range" id="spk12" min="0" max="255" value="0"
+           oninput="document.getElementById('spk12v').textContent=this.value">
+    <span class="val" id="spk12v">0</span>
+    <button onclick="sendSlider('/api/test/speaker?channel=12&value=',document.getElementById('spk12').value)">Set</button>
+  </div>
+  <div class="slider-row">
+    <label>Ch 13 (variable)</label>
+    <input type="range" id="spk13" min="0" max="255" value="0"
+           oninput="document.getElementById('spk13v').textContent=this.value">
+    <span class="val" id="spk13v">0</span>
+    <button onclick="sendSlider('/api/test/speaker?channel=13&value=',document.getElementById('spk13').value)">Set</button>
+  </div>
+</div>
+
+<!-- ======= AUDIO TEST ======= -->
+<div class="card">
+  <h2>&#127925; Audio Playback Test</h2>
+  <p style="color:#888; font-size:0.8em; margin-bottom:8px;">
+    Assign a track number and player to test sound output.
+  </p>
+  <div class="audio-row">
+    <label style="min-width:60px">Player:</label>
+    <select id="audioPlayer">
+      <option value="1">Player 1</option>
+      <option value="2">Player 2</option>
+    </select>
+    <label style="min-width:50px">Track:</label>
+    <input type="number" id="audioTrack" min="1" max="99" value="1">
+    <label style="min-width:40px">Loop:</label>
+    <select id="audioLoop">
+      <option value="0">No</option>
+      <option value="1">Yes</option>
+    </select>
+  </div>
+  <div style="margin-top:8px">
+    <button class="btn btn-success" onclick="playTestAudio()">&#9654; Play Track</button>
+  </div>
+</div>
+
+<!-- ======= LED SEGMENTS ======= -->
+<div class="card">
+  <h2>&#128161; LED Segments</h2>
+  <p style="color:#888; font-size:0.8em; margin-bottom:8px;">
+    Pick a segment and color, then press Set to light it individually.
+  </p>
+  <div class="seg-row">
+    <select id="segId">
+      <option value="stream">The River</option>
+      <option value="fireflies">Fireflies &amp; Stars</option>
+      <option value="party_tree">The Party Tree</option>
+      <option value="sky_periphery">Dawn &amp; Dusk Sky</option>
+      <option value="lightning_fx">Storm Effects</option>
+      <option value="server_room">Server Room Edge</option>
+      <option value="sun_high_noon">The Sun (HD)</option>
+      <option value="smial_1">Bag End (HD)</option>
+      <option value="smial_2">Smial 2 (HD)</option>
+      <option value="smial_3">Great Smial (HD)</option>
+    </select>
+    <input type="color" id="segColor" value="#ff9900">
+    <button class="btn" onclick="setSegment()">Set</button>
+    <button class="btn btn-danger" onclick="clearSegment()">Off</button>
+  </div>
+</div>
+
+<!-- ======= FOGGER ======= -->
+<div class="card">
+  <h2>&#127787; Fogger</h2>
+  <div class="btn-grid">
+    <button class="btn btn-success" onclick="api('/api/test/fog?state=on')">Fog ON</button>
+    <button class="btn btn-danger"  onclick="api('/api/test/fog?state=off')">Fog OFF</button>
+  </div>
+</div>
+
+<!-- ======= TEST SCENE ======= -->
+<div class="card card-warn">
+  <h2>&#9888; Smial Inspection Test</h2>
+  <p style="color:#888; font-size:0.8em; margin-bottom:8px;">
+    Runs the full hardware certification sequence (~2 min). Tests doors, lights, fogger, and audio for each smial.
+  </p>
+  <div class="btn-grid">
+    <button class="btn btn-success" onclick="api('/api/test/scene/start')">&#9654; Start Test Scene</button>
+    <button class="btn btn-danger"  onclick="api('/api/test/scene/stop')">&#9632; Stop Test Scene</button>
+  </div>
+</div>
+
+<!-- ======= MASTER RESET ======= -->
+<div class="card card-warn">
+  <h2>&#128260; Reset</h2>
+  <div class="btn-grid">
+    <button class="btn btn-danger" onclick="api('/api/test/reset')">Reset All Hardware</button>
+  </div>
+</div>
+
+<!-- Navigation back to main page -->
+<div class="nav">
+  <a href="/">&#127795; Back to HobbitTown</a>
+</div>
+
+<div class="footer">HobbitTown Test Console &bull; ESP32-S3</div>
+
+<!-- Status toast -->
+<div id="toast"></div>
+
+<script>
+/* -- Send GET request and show response as a toast -- */
+function api(url) {
+  var t = document.getElementById('toast');
+  fetch(url)
+    .then(function(r) { return r.text(); })
+    .then(function(msg) {
+      t.textContent = msg || 'OK';
+      t.className = 'show';
+      setTimeout(function() { t.className = ''; }, 1500);
+    })
+    .catch(function() {
+      t.textContent = 'Connection error';
+      t.className = 'show';
+      setTimeout(function() { t.className = ''; }, 2000);
+    });
+}
+
+/* -- Send slider value: builds the full URL from base + value -- */
+function sendSlider(baseUrl, val) {
+  api(baseUrl + val);
+}
+
+/* -- Play a test audio track using the selected player/track/loop -- */
+function playTestAudio() {
+  var player = document.getElementById('audioPlayer').value;
+  var track  = document.getElementById('audioTrack').value;
+  var loop   = document.getElementById('audioLoop').value;
+  /* Bounds-check on client side before sending */
+  var trackNum = parseInt(track, 10);
+  if (isNaN(trackNum) || trackNum < 1 || trackNum > 99) {
+    document.getElementById('toast').textContent = 'Track must be 1-99';
+    document.getElementById('toast').className = 'show';
+    setTimeout(function() { document.getElementById('toast').className = ''; }, 2000);
+    return;
+  }
+  api('/api/test/audio?player=' + player + '&track=' + trackNum + '&loop=' + loop);
+}
+
+/* -- Set a single LED segment to the chosen color -- */
+function setSegment() {
+  var seg = document.getElementById('segId').value;
+  var hex = document.getElementById('segColor').value;
+  /* Convert hex #RRGGBB to decimal r, g, b */
+  var r = parseInt(hex.substring(1, 3), 16);
+  var g = parseInt(hex.substring(3, 5), 16);
+  var b = parseInt(hex.substring(5, 7), 16);
+  api('/api/test/segment?id=' + seg + '&r=' + r + '&g=' + g + '&b=' + b);
+}
+
+/* -- Turn off the currently selected segment -- */
+function clearSegment() {
+  var seg = document.getElementById('segId').value;
+  api('/api/test/segment?id=' + seg + '&r=0&g=0&b=0');
+}
+</script>
+</body>
+</html>

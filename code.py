@@ -33,12 +33,14 @@ def setup():
 
 def loop():
     """Main execution cycle."""
+    # Always handle web requests so the UI stays responsive
+    web_logic.run_web_sync()
+
     # Check if hardware test is running
     if smial_test.is_running:
         smial_test.update()
         return
-    
-    web_logic.run_web_sync()
+
     lighting.run_lighting_cycle()
     
     current_hour = time_sync.get_hour()
