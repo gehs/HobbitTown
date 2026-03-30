@@ -4,8 +4,10 @@ import hardware.lighting as lighting
 import hardware.motion as motion
 import hardware.audio as audio
 import hardware.atmosphere as atmosphere
+import hardware.soundscape as soundscape
 import time_sync
 import web_logic
+from logic.test_scene import smial_test
 
 # States
 MORNING = 0
@@ -31,6 +33,11 @@ def setup():
 
 def loop():
     """Main execution cycle."""
+    # Check if hardware test is running
+    if smial_test.is_running:
+        smial_test.update()
+        return
+    
     web_logic.run_web_sync()
     lighting.run_lighting_cycle()
     
@@ -72,6 +79,10 @@ def apply_shire_atmosphere(state):
     elif state == NIGHT:
         lighting.apply_lighting_preset(4)
         audio.play_nighttime()
+
+def trigger_hardware_test():
+    """Start the hardware certification test sequence."""
+    smial_test.start()
 
 # --- Main Execution ---
 setup()

@@ -11,16 +11,8 @@ I2C_SCL = board.IO22
 PCA9685_ADDR1 = 0x40
 PCA9685_ADDR2 = 0x41
 
-# --- AUDIO ---
-AUDIO_TX_PIN = board.IO17
-AUDIO_RX_PIN = board.IO16
-GATE_VOICES_PIN = board.IO18  # For DFPlayer Spots
-GATE_DEEP_PIN = board.IO19    # For DFPlayer Base
-BASE_VOL = 15
-SPOT_VOL = 15
-
 # --- ATMOSPHERE (Fogger) ---
-FOGGER_RELAY_PIN = board.IO18  # Note: Same as GATE_VOICES_PIN - potential conflict
+FOGGER_RELAY_PIN = board.IO18  # GPIO 18 relay control
 
 # --- MOTION (Servos, Misters, Blowers, Speakers) ---
 # Servo angles

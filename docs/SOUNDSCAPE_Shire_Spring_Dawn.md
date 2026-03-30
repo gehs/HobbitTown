@@ -150,7 +150,7 @@ class SoundscapeManager:
         self.last_micro_sound_time = 0
     
     def setup_soundscape(self):
-        """Initialize audio hardware and DFPlayer modules for soundscape."""
+        """Initialize audio system (stub) for soundscape integration."""
         print("Soundscape: Initializing Spring Dawn soundscape...")
         self.start_time = time.monotonic()
         self.is_playing = True

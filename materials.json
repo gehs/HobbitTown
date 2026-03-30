@@ -13,6 +13,13 @@
       "quantity": 3,
       "specs": "Dual Core, USB-C",
       "notes": "Secondary nodes for distributed control"
+    },
+    {
+      "id": "audio_controller_main",
+      "type": "Adafruit Music Maker FeatherWing (3436)",
+      "quantity": 1,
+      "specs": "VS1053 Codec with 3W Stereo Amp and MicroSD Slot",
+      "notes": "Handles high-fidelity MP3/WAV playback and file randomization; interfaces via SPI."
     }
   ],
   "servos": [

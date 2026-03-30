@@ -64,7 +64,7 @@ If mDNS is not resolved by your client device, use the IP printed in serial logs
 
 ### 1) Power
 - Provide **5V** to the ESP32 (via USB or 5V/VIN pin) and to your LED strip power supply.
-- Connect all grounds together (ESP32, LED strip power supply, and any relay/DFPlayer modules).
+- Connect all grounds together (ESP32, LED strip power supply, and relay modules).
 
 ### 2) LED Strip (direct control)
 - Connect your LED strip data input to the GPIO pin defined by `LED_PIN` in `firmware/Lighting.h` (defaults to **GPIO 2**).
@@ -78,12 +78,7 @@ If mDNS is not resolved by your client device, use the IP printed in serial logs
 - Each PCA9685 is preconfigured at addresses **0x40** (pwm1) and **0x41** (pwm2).
 - Servo channels (doors) are on PCA9685 #1 (0-2). Misters are on PCA9685 #2 (0-3).
 
-### 3) Audio (DFPlayer Mini)
-- Connect **DFPlayer TX → ESP32 RX2 (GPIO 16)**
-- Connect **DFPlayer RX → ESP32 TX2 (GPIO 17)** (use a 1 kΩ resistor in series on this line)
-- Power the DFPlayer from a stable **5V** supply and share ground with the ESP32.
-
-### 4) Fog/Atmosphere Relay
+### 3) Fog/Atmosphere Relay
 - Connect the relay module input to **GPIO 18** (wired as active LOW in `firmware/Atmosphere.h`).
 - Power the relay module from **5V**, and share ground with the ESP32.
 
@@ -98,9 +93,9 @@ If mDNS is not resolved by your client device, use the IP printed in serial logs
 - Update `firmware/NetworkSecrets.h` with your SSID and password.
 
 ### Customizing Behavior
-- The main controller logic lives in `firmware/Shire_Controller.ino`.
-- `firmware/Atmosphere.h` controls fog timing and relay pin.
-- `firmware/AudioLogic.h` defines which DFPlayer track IDs correspond to each event.
+- The main controller logic lives in `code.py` for CircuitPython.
+- `hardware/atmosphere.py` controls fog timing and relay pin.
+- `hardware/soundscape.py` defines audio sequences (future: replace audio stubs with actual playback)
 
 ---
 

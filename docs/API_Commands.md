@@ -43,7 +43,7 @@ These would be handled by your `WebLogic.h`. You can expand your `handleClient` 
 | **Party Trigger** | `{"event":"party"}` | `playPartyMusic()` |
 | **Dragon Roar** | `{"event":"dragon"}` | `playDragonEvent()` |
 | **Fog Pulse** | `{"event":"fog", "duration":2000}` | Triggers Relay for 2 seconds. |
-| **Volume Set** | `{"volume":25}` | `dfPlayerBase.volume(25)` |
+| **Volume Set** | `{"volume":25}` | `play_audio(player, track)` (stub) |
 
 ---
 

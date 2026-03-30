@@ -24,5 +24,8 @@ You are a CircuitPython lighting expert. Create a module to manage lighting pres
 
 # Verification
 - init_lighting sets all LEDs off.
-- set_segment_color('sun', (255,255,255)) lights sun segment.
 - apply_preset('storm') triggers storm state.
+- apply_preset('calm') triggers calm state.
+- apply_preset('party') triggers party state.
+- apply_preset('test') triggers test state.
+- apply_preset('unknown') with unknown name does not crash.
