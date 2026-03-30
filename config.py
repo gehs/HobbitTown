@@ -1,18 +1,29 @@
 import board  # type: ignore
 
+# --- STARTUP / DRY-LOAD ---
+ALLOW_MISSING_HARDWARE = True  # Boot cleanly even if no external components are wired yet
+
+# Default to zero-wire upload testing. Turn these on as each component is actually connected.
+ENABLE_LIGHTING = False    # True when the external LED strip is connected
+ENABLE_MOTION = False      # True when the PCA9685 + servos/blowers/misters are connected
+ENABLE_ATMOSPHERE = False  # True when the fogger relay is connected
+ENABLE_WEB = True          # Safe to leave enabled for browser-based testing
+
 # --- LIGHTING ---
-NEOPIXEL_PIN = board.IO2   # GPIO 2 for WS2812B LEDs
-NUM_PIXELS = 120           # Total number of LEDs in the diorama
-BRIGHTNESS = 0.5           # 0.0 to 1.0, matches C++ LED_BRIGHTNESS 128/255
+NEOPIXEL_PIN = board.GPIO2   # External WS2812B strip on GPIO2
+NUM_PIXELS = 120             # Total number of LEDs in the diorama
+BRIGHTNESS = 0.5             # 0.0 to 1.0, matches C++ LED_BRIGHTNESS 128/255
 
 # --- I2C for PCA9685 PWM Drivers ---
-I2C_SDA = board.IO21
-I2C_SCL = board.IO22
+# This YD ESP32-S3 board does not expose GPIO22 in CircuitPython.
+# Move the PCA9685 SCL wire to GPIO47 and keep SDA on GPIO21.
+I2C_SDA = board.GPIO21
+I2C_SCL = board.GPIO47
 PCA9685_ADDR1 = 0x40
 PCA9685_ADDR2 = 0x41
 
 # --- ATMOSPHERE (Fogger) ---
-FOGGER_RELAY_PIN = board.IO18  # GPIO 18 relay control
+FOGGER_RELAY_PIN = board.GPIO18  # GPIO18 relay control
 
 # --- MOTION (Servos, Misters, Blowers, Speakers) ---
 # Servo angles

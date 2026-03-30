@@ -38,6 +38,10 @@ def setup_web():
     """Connect WiFi, start mDNS, open listening socket on port 80."""
     global pool, server_socket, _page_index, _page_test
 
+    if not getattr(config, "ENABLE_WEB", True):
+        print("Web: disabled in config.py")
+        return
+
     if not WIFI_SSID or WIFI_SSID == "YOUR_WIFI_SSID":
         print("WiFi SKIPPED: Update secrets.py with your real WiFi credentials.")
         return

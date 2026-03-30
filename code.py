@@ -19,20 +19,41 @@ current_state = DAY
 party_mode_active = False
 last_hour = -1
 
+
+def _safe_setup_step(name, setup_func):
+    """Initialize one subsystem without aborting the whole boot in dry-load mode."""
+    try:
+        setup_func()
+    except Exception as exc:
+        if getattr(config, "ALLOW_MISSING_HARDWARE", False):
+            print(f"{name}: dry-load mode ({exc})")
+        else:
+            raise
+
+
 def setup():
     """Initialize all hardware and systems."""
     print("The Shire is waking up...")
-    
-    lighting.setup_lighting()
-    motion.setup_hardware()
-    audio.setup_audio()
-    atmosphere.setup_atmosphere()
-    web_logic.setup_web()
-    
-    print("Shire controller ready.")
+    print("Dry-load boot enabled: external components can stay unplugged during upload/testing.")
+
+    _safe_setup_step("lighting", lighting.setup_lighting)
+    _safe_setup_step("motion", motion.setup_hardware)
+    _safe_setup_step("audio", audio.setup_audio)
+    _safe_setup_step("atmosphere", atmosphere.setup_atmosphere)
+    _safe_setup_step("web", web_logic.setup_web)
+
+    print("Startup summary:")
+    print(" - lighting:", "ready" if getattr(lighting, "is_available", False) else "dry-load")
+    print(" - motion:", "ready" if getattr(motion, "hardware_ready", False) else "dry-load")
+    print(" - atmosphere:", "ready" if getattr(atmosphere, "atmosphere_ready", False) else "dry-load")
+    print(" - web:", "ready" if getattr(web_logic, "server_socket", None) else "standby")
+    print("Shire controller ready. Upload confirmed.")
+
 
 def loop():
     """Main execution cycle."""
+    global last_hour, party_mode_active
+
     # Always handle web requests so the UI stays responsive
     web_logic.run_web_sync()
 
@@ -42,19 +63,20 @@ def loop():
         return
 
     lighting.run_lighting_cycle()
-    
+
     current_hour = time_sync.get_hour()
     if current_hour != last_hour:
         update_state_by_time(current_hour)
         last_hour = current_hour
-    
+
     if party_mode_active:
         lighting.apply_lighting_preset(5)
         audio.play_party_music()
         party_mode_active = False
-    
+
     audio.run_audio_cycle()
     atmosphere.run_atmosphere_cycle()
+
 
 def update_state_by_time(hour):
     global current_state
@@ -66,8 +88,9 @@ def update_state_by_time(hour):
         current_state = EVENING
     else:
         current_state = NIGHT
-    
+
     apply_shire_atmosphere(current_state)
+
 
 def apply_shire_atmosphere(state):
     if state == MORNING:
@@ -82,9 +105,11 @@ def apply_shire_atmosphere(state):
         lighting.apply_lighting_preset(4)
         audio.play_nighttime()
 
+
 def trigger_hardware_test():
     """Start the hardware certification test sequence."""
     smial_test.start()
+
 
 # --- Main Execution ---
 setup()

@@ -5,18 +5,42 @@ import random
 pixels = None
 current_preset = 0
 animation_step = 0
+is_available = False
+
 
 def setup_lighting():
-    global pixels
-    pixels = neopixel.NeoPixel(config.NEOPIXEL_PIN, config.NUM_PIXELS, brightness=config.BRIGHTNESS)
-    pixels.fill((0, 0, 0))
-    pixels.show()
-    print("Lighting Controller: initialized")
+    global pixels, is_available
+
+    if not getattr(config, "ENABLE_LIGHTING", True):
+        pixels = None
+        is_available = False
+        print("Lighting Controller: disabled (enable in config.py when the strip is connected)")
+        return
+
+    try:
+        pixels = neopixel.NeoPixel(
+            config.NEOPIXEL_PIN,
+            config.NUM_PIXELS,
+            brightness=config.BRIGHTNESS,
+            auto_write=False,
+        )
+        pixels.fill((0, 0, 0))
+        pixels.show()
+        is_available = True
+        print("Lighting Controller: initialized")
+    except Exception as exc:
+        pixels = None
+        is_available = False
+        print(f"Lighting Controller: dry-load mode ({exc})")
+
 
 def apply_lighting_preset(preset_id):
     global current_preset, animation_step
     current_preset = preset_id
     animation_step = 0
+
+    if pixels is None:
+        return
 
     if preset_id == 1:  # Morning - warm glow
         pixels.fill((255, 215, 0))  # Gold
@@ -32,11 +56,16 @@ def apply_lighting_preset(preset_id):
         pass  # Handled in run_lighting_cycle
     else:
         pixels.fill((0, 0, 0))
-    
+
     pixels.show()
+
 
 def run_lighting_cycle():
     global animation_step
+
+    if pixels is None:
+        return
+
     if current_preset == 5:  # Party rainbow
         for i in range(config.NUM_PIXELS):
             hue = ((animation_step + i * 7) % 256) / 255.0
@@ -56,23 +85,27 @@ def run_lighting_cycle():
             pixels.fill((0, 0, 255))  # Blue
         pixels.show()
 
+
 def set_all_lights_off():
+    if pixels is None:
+        return
     pixels.fill((0, 0, 0))
     pixels.show()
+
 
 def hsv_to_rgb(h, s, v):
     """Convert HSV to RGB tuple (0-255)"""
     if s == 0.0:
         r = g = b = int(v * 255)
         return (r, g, b)
-    
+
     h = h * 6.0
     i = int(h)
     f = h - i
     p = v * (1.0 - s)
     q = v * (1.0 - s * f)
     t = v * (1.0 - s * (1.0 - f))
-    
+
     if i == 0:
         r, g, b = v, t, p
     elif i == 1:
@@ -85,5 +118,5 @@ def hsv_to_rgb(h, s, v):
         r, g, b = t, p, v
     else:
         r, g, b = v, p, q
-    
+
     return (int(r * 255), int(g * 255), int(b * 255))
