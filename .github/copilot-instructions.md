@@ -78,3 +78,18 @@ When a user asks you to perform a task that falls within the domain of a skill, 
 - **tech-manual**: Generates a clear, beginner-friendly hardware documentation and wiring guide for a new component. File: .github/skills/tech-manual/skill.md
 - **ui**: Generates a local UI for the diorama. File: .github/skills/ui/skill.md
 - **lighting-management**: Manages lighting effects and dynamic updates for HobbitTown diorama. File: .github/skills/lighting-management/skill.md
+
+## Skill Prioritization Matrix
+
+Use this table to choose the correct skill before loading any skill file. Invoke the primary skill first; add secondary skills only when the request crosses module boundaries.
+
+| Request type | Primary skill | Secondary skill(s) |
+|---|---|---|
+| Wiring, power, or safety question for a new component | tech-manual | new-hardware |
+| Adding a new physical device (sensor, servo, LED strip) | new-hardware | tech-manual, new-scene |
+| Creating or expanding a themed sequence/scene | new-scene | lighting-management, music-scape, ui |
+| Lighting presets, segments, or animations | lighting-management | new-scene, ui |
+| Ambient audio or soundscape design | music-scape | new-scene, ui |
+| Local web controls or dashboards | ui | new-scene, lighting-management |
+
+For full usage guidance and cooperation chains, see `Readme_VSCODE.md`.
