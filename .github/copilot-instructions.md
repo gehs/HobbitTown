@@ -15,6 +15,7 @@ The architecture is modular: hardware interactions live in the `hardware/` folde
 - This project uses CircuitPython for an ESP32-S3. 
 1. Always use Adafruit CircuitPython libraries (like adafruit_motor or neopixel) instead of standard Raspberry Pi or MicroPython libraries.
 
+
 ## Key user preferences extracted from conversation
 - Keep answers short and concise.
 - Use structured markdown with headings, bullets, and code formatting.
@@ -44,8 +45,10 @@ This project controls a physical diorama. The user is new to the hardware and so
 # Strict Coding Rules
 1. **Framework:** ALWAYS use Adafruit CircuitPython syntax and libraries (e.g., `import board`, `neopixel`, `pwmio`, `adafruit_motor`). DO NOT use MicroPython (`machine`) or C++ Arduino syntax.
 2. **No Blocking Code:** The diorama requires multitasking. NEVER use `time.sleep()` for delays inside hardware functions. Use `adafruit_ticks` or track `time.monotonic()` to create non-blocking state machines so animations and sensor reads can happen simultaneously.
-3. **Configuration:** Never hardcode pin numbers or hardware limits in the module files. Always import `config.py` and use the variables defined there.
-4. **Readability:** Prioritize highly readable, descriptive variable names. The user acts as an AI code reviewer, so clarity is more important than clever, hyper-optimized one-liners.
+3. **Include Library Imports:** Always include necessary imports at the top of the file. For example, if controlling a servo, import `pwmio` and `adafruit_motor.servo`.
+4. **Include Library Dependencies:** If a new library is needed, include it in the `requirements.txt` file and mention it in the commit message.
+5. **Configuration:** Never hardcode pin numbers or hardware limits in the module files. Always import `config.py` and use the variables defined there.
+6. **Readability:** Prioritize highly readable, descriptive variable names. The user acts as an AI code reviewer, so clarity is more important than clever, hyper-optimized one-liners.
 
 # Coding Style
 - Write clear, descriptive variable names (e.g., `ambient_light_pin` instead of `pin1`).
@@ -66,6 +69,10 @@ This project controls a physical diorama. The user is new to the hardware and so
 ## Next customization suggestions
 - Add a `docs/CONTRIBUTING.md` section with coding standards.
 - Add a `firmware/CODING_GUIDELINES.md` for embedded-focused patterns.
+
+## References
+- Adafruit CircuitPython documentation: https://circuitpython.readthedocs.io/en/latest/ (Version 10.)
+- 
 
 ## Skills
 Here is a list of skills that contain domain specific knowledge on a variety of topics.

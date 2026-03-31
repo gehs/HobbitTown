@@ -18,3 +18,5 @@ When the user asks to create a new hardware component (e.g., a servo, a sensor, 
 - NEVER use `time.sleep()`. If timing is needed, use `time.monotonic()`.
 - Only use Adafruit CircuitPython libraries.
 - Remind the user to add the new pin definition to `config.py`.
+- Include all library imports at the top of the file.
+- When a New Library is added, verify it exists in /lib and add it to requirements.txt.

@@ -24,3 +24,5 @@ When the user asks to create a new sound set (e.g., a summer day, a thunderstorm
 - Recommend .mp3 files for longer audio samples (e.g., background music)
 - Always err on the side of caution - a missing audio file will not crash the program.
 - Reuse audio files across multiple soundscapes when possible to minimize storage needs.
+- include all library imports at the top of the file.
+- When a New Library is added, verify it exists in /lib and add it to requirements.txt.

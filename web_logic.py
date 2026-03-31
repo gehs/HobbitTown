@@ -8,6 +8,7 @@ Uses raw sockets via CircuitPython's socketpool – no external web framework ne
 import wifi  # type: ignore
 import socketpool  # type: ignore
 import mdns  # type: ignore
+import json
 import config
 
 # ── WiFi / Network credentials ──────────────────────────────────
@@ -35,7 +36,7 @@ _page_test = ""
 # ================================================================
 
 def setup_web():
-    """Connect WiFi, start mDNS, open listening socket on port 80."""
+    """Connect WiFi, start mDNS, open listening socket on port 8080."""
     global pool, server_socket, _page_index, _page_test
 
     if not getattr(config, "ENABLE_WEB", True):
@@ -54,7 +55,7 @@ def setup_web():
     # Advertise via mDNS so the user can reach http://hobbittown.local
     mdns_server = mdns.Server(wifi.radio)
     mdns_server.hostname = DEVICE_HOSTNAME
-    mdns_server.advertise_service(service_type="_http", protocol="_tcp", port=80)
+    mdns_server.advertise_service(service_type="_http", protocol="_tcp", port=8080)
     print("mDNS ready at http://" + DEVICE_HOSTNAME + ".local")
 
     # Pre-load HTML pages into RAM so we don't hit the filesystem on every request
@@ -64,9 +65,10 @@ def setup_web():
     # Open a TCP listening socket (non-blocking so it won't stall the main loop)
     server_socket = pool.socket(pool.AF_INET, pool.SOCK_STREAM)
     server_socket.setblocking(False)
-    server_socket.bind(("0.0.0.0", 80))
+    # Port 8080 – port 80 is reserved for CircuitPython's built-in Web Workflow (OTA updates)
+    server_socket.bind(("0.0.0.0", 8080))
     server_socket.listen(2)
-    print("Web server listening on port 80")
+    print("Web server listening on port 8080")
 
 
 def _load_file(path):
@@ -193,6 +195,10 @@ def _route_request(client, method, path, params):
     # ── Test: reset all hardware ──
     elif path == "/api/test/reset":
         _handle_test_reset(client)
+
+    # ── Test: bus and address diagnostics ──
+    elif path == "/api/test/diagnostics":
+        _handle_test_diagnostics(client)
 
     else:
         _send_response(client, 404, "Not Found")
@@ -393,6 +399,13 @@ def _handle_test_reset(client):
     _send_response(client, 200, "All hardware reset")
 
 
+def _handle_test_diagnostics(client):
+    """Return bus and PCA9685 diagnostics as JSON for the test UI."""
+    import hardware.motion as motion
+    report = motion.get_bus_diagnostics()
+    _send_json_response(client, 200, report)
+
+
 # ================================================================
 #  HTTP helpers
 # ================================================================
@@ -451,6 +464,26 @@ def _send_response(client, status_code, message):
     )
     try:
         client.sendall((header + message).encode("utf-8"))
+    except Exception as e:
+        print("web_logic: send error", e)
+    finally:
+        client.close()
+
+
+def _send_json_response(client, status_code, payload):
+    """Send a JSON API response."""
+    status_text = "OK" if status_code == 200 else "Error"
+    body = json.dumps(payload)
+    header = (
+        "HTTP/1.1 " + str(status_code) + " " + status_text + "\r\n"
+        "Content-Type: application/json\r\n"
+        "Connection: close\r\n"
+        "Access-Control-Allow-Origin: *\r\n"
+        "Content-Length: " + str(len(body)) + "\r\n"
+        "\r\n"
+    )
+    try:
+        client.sendall((header + body).encode("utf-8"))
     except Exception as e:
         print("web_logic: send error", e)
     finally:

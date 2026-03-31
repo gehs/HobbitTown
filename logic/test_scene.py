@@ -36,7 +36,7 @@ class SmialTestScene:
                 'end_time': 80,
             },
             {
-                'name': 'The Great Smial (Smial 3)',
+                'name': 'Smial 3',
                 'door_id': 3,
                 'light_segment': 'smial_3',
                 'speaker_track': 3,

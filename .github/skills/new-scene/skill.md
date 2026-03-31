@@ -20,3 +20,5 @@ When the user asks to create a new scene (e.g., "Dragon Arrival", "Thunderstorm"
 - The `update()` function must return instantly so it does not block the main `code.py` loop from reading sensors.
 - Use highly descriptive variable names for timestamps (e.g., `scene_start_time`, `last_lightning_strike`).
 - Add comments explaining the "script" of the scene (what happens at second 1, second 2, etc.).
+- Include all library imports at the top of the file.
+- When a New Library is added, verify it exists in /lib and add it to requirements.txt.

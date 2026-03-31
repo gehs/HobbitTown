@@ -21,6 +21,8 @@ You are a CircuitPython lighting expert. Create a module to manage lighting pres
 - No blocking `time.sleep()` calls.
 - update_lighting returns quickly.
 - Handle missing segment IDs without crashing.
+- Include all library imports at the top.
+- When a New Library is added, verify it exists in /lib and add it to requirements.txt.
 
 # Verification
 - init_lighting sets all LEDs off.

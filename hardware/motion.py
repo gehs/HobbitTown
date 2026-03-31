@@ -83,3 +83,44 @@ def reset_all():
     # Set servos to 90 degrees
     for i in range(1, 4):
         set_door(i, 90)
+
+
+def get_bus_diagnostics():
+    """Return read-only I2C and PCA9685 health details for UI diagnostics."""
+    expected_addresses = [config.PCA9685_ADDR1, config.PCA9685_ADDR2]
+    report = {
+        "hardware_ready": hardware_ready,
+        "i2c_present": i2c is not None,
+        "sda": str(config.I2C_SDA),
+        "scl": str(config.I2C_SCL),
+        "expected": ["0x%02X" % addr for addr in expected_addresses],
+        "found": [],
+        "pca9685": {},
+        "error": "",
+    }
+
+    if i2c is None:
+        report["error"] = "I2C bus not initialized"
+        for addr in expected_addresses:
+            report["pca9685"]["0x%02X" % addr] = False
+        return report
+
+    try:
+        if i2c.try_lock():
+            try:
+                scanned = i2c.scan()
+                report["found"] = ["0x%02X" % addr for addr in scanned]
+                for addr in expected_addresses:
+                    report["pca9685"]["0x%02X" % addr] = addr in scanned
+            finally:
+                i2c.unlock()
+        else:
+            report["error"] = "I2C bus busy (could not lock)"
+            for addr in expected_addresses:
+                report["pca9685"]["0x%02X" % addr] = False
+    except Exception as exc:
+        report["error"] = str(exc)
+        for addr in expected_addresses:
+            report["pca9685"]["0x%02X" % addr] = False
+
+    return report

@@ -24,3 +24,5 @@ When the user asks for a new UI feature (e.g., "Add a web dashboard to control t
 - Always err on the side of caution regarding vaiables (e.g., ensure they are properly initialized and have appropriate bounds checking).
 - Include error handling in the UI code to gracefully handle any issues that may arise (e.g., failed hardware interactions, invalid user input).
 - Keep all UI code modular and separate from the main application logic to maintain a clean architecture.
+- include all library imports at the top of the file.
+- When a New Library is added, verify it exists in /lib and add it to requirements.txt.

@@ -91,6 +91,23 @@
   .nav a:hover { background: #f5c84222; }
 
   .footer { text-align: center; color: #555; font-size: 0.75em; margin-top: 20px; }
+
+  /* Diagnostics */
+  .diag-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+  .diag-item {
+    background: #0f3460; border: 1px solid #1a508b; border-radius: 8px;
+    padding: 8px; font-size: 0.85em;
+  }
+  .diag-key { color: #9fb3c8; display: block; margin-bottom: 4px; }
+  .diag-value { color: #e0e0e0; font-weight: 600; word-break: break-word; }
+  .diag-pass { color: #52b788; }
+  .diag-fail { color: #ff6b6b; }
+  .diag-warn { color: #f5c842; }
+  #diagRaw {
+    margin-top: 10px; max-height: 160px; overflow: auto;
+    background: #0b2542; border: 1px solid #1a508b; border-radius: 8px;
+    padding: 8px; font-size: 0.78em; color: #b5c7d8;
+  }
 </style>
 </head>
 <body>
@@ -98,18 +115,38 @@
 <h1>&#128295; Test Console</h1>
 <p class="subtitle">Activate individual components in isolation</p>
 
+<!-- ======= BUS DIAGNOSTICS ======= -->
+<div class="card">
+  <h2>&#128300; Bus Diagnostics</h2>
+  <p style="color:#888; font-size:0.8em; margin-bottom:8px;">
+    Verifies I2C bus access and checks whether expected PCA9685 addresses respond.
+  </p>
+  <div class="btn-grid" style="margin-bottom:8px;">
+    <button class="btn" onclick="runDiagnostics()">Run Address Check</button>
+  </div>
+  <div class="diag-grid">
+    <div class="diag-item"><span class="diag-key">I2C Lock</span><span id="diagI2C" class="diag-value">Unknown</span></div>
+    <div class="diag-item"><span class="diag-key">Motion Ready</span><span id="diagMotion" class="diag-value">Unknown</span></div>
+    <div class="diag-item"><span class="diag-key">SDA/SCL</span><span id="diagPins" class="diag-value">Unknown</span></div>
+    <div class="diag-item"><span class="diag-key">Found I2C Addrs</span><span id="diagFound" class="diag-value">Unknown</span></div>
+    <div class="diag-item"><span class="diag-key">PCA9685 0x40</span><span id="diagPca40" class="diag-value">Unknown</span></div>
+    <div class="diag-item"><span class="diag-key">PCA9685 0x41</span><span id="diagPca41" class="diag-value">Unknown</span></div>
+  </div>
+  <div id="diagRaw">Press "Run Address Check" to query the board.</div>
+</div>
+
 <!-- ======= DOORS / SERVOS ======= -->
 <div class="card">
   <h2>&#128682; Doors (Servos)</h2>
-  <!-- Door 1 - Bag End -->
+  <!-- Door 1 - Smial 1 -->
   <div class="slider-row">
-    <label>Door 1 &ndash; Bag End</label>
+    <label>Door 1 &ndash; Smial 1</label>
     <input type="range" id="door1" min="0" max="180" value="90"
            oninput="document.getElementById('door1v').textContent=this.value">
     <span class="val" id="door1v">90</span>&deg;
     <button onclick="sendSlider('/api/test/door?id=1&angle=',document.getElementById('door1').value)">Set</button>
   </div>
-  <!-- Door 2 -->
+  <!-- Door 2 - Smial 2 -->
   <div class="slider-row">
     <label>Door 2 &ndash; Smial 2</label>
     <input type="range" id="door2" min="0" max="180" value="90"
@@ -117,9 +154,9 @@
     <span class="val" id="door2v">90</span>&deg;
     <button onclick="sendSlider('/api/test/door?id=2&angle=',document.getElementById('door2').value)">Set</button>
   </div>
-  <!-- Door 3 -->
+  <!-- Door 3 - Smial 3 -->
   <div class="slider-row">
-    <label>Door 3 &ndash; Great Smial</label>
+    <label>Door 3 &ndash; Smial 3</label>
     <input type="range" id="door3" min="0" max="180" value="90"
            oninput="document.getElementById('door3v').textContent=this.value">
     <span class="val" id="door3v">90</span>&deg;
@@ -278,9 +315,9 @@
       <option value="lightning_fx">Storm Effects</option>
       <option value="server_room">Server Room Edge</option>
       <option value="sun_high_noon">The Sun (HD)</option>
-      <option value="smial_1">Bag End (HD)</option>
+      <option value="smial_1">Smial 1 (HD)</option>
       <option value="smial_2">Smial 2 (HD)</option>
-      <option value="smial_3">Great Smial (HD)</option>
+      <option value="smial_3">Smial 3 (HD)</option>
     </select>
     <input type="color" id="segColor" value="#ff9900">
     <button class="btn" onclick="setSegment()">Set</button>
@@ -382,6 +419,57 @@ function clearSegment() {
   var seg = document.getElementById('segId').value;
   api('/api/test/segment?id=' + seg + '&r=0&g=0&b=0');
 }
+
+function setDiagField(id, text, state) {
+  var el = document.getElementById(id);
+  el.textContent = text;
+  el.className = 'diag-value';
+  if (state === 'pass') {
+    el.className += ' diag-pass';
+  } else if (state === 'fail') {
+    el.className += ' diag-fail';
+  } else if (state === 'warn') {
+    el.className += ' diag-warn';
+  }
+}
+
+function runDiagnostics() {
+  fetch('/api/test/diagnostics')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var i2cOk = data.i2c_present === true && !data.error;
+      var motionOk = data.hardware_ready === true;
+      var found = data.found && data.found.length ? data.found.join(', ') : 'none';
+      var pca40 = data.pca9685 && data.pca9685['0x40'] === true;
+      var pca41 = data.pca9685 && data.pca9685['0x41'] === true;
+
+      setDiagField('diagI2C', i2cOk ? 'LOCK/SCAN OK' : 'NOT READY', i2cOk ? 'pass' : 'fail');
+      setDiagField('diagMotion', motionOk ? 'YES' : 'NO', motionOk ? 'pass' : 'warn');
+      setDiagField('diagPins', String(data.sda) + ' / ' + String(data.scl), '');
+      setDiagField('diagFound', found, data.found && data.found.length ? 'pass' : 'warn');
+      setDiagField('diagPca40', pca40 ? 'DETECTED' : 'MISSING', pca40 ? 'pass' : 'fail');
+      setDiagField('diagPca41', pca41 ? 'DETECTED' : 'MISSING', pca41 ? 'pass' : 'fail');
+
+      var raw = {
+        expected: data.expected,
+        found: data.found,
+        pca9685: data.pca9685,
+        error: data.error || ''
+      };
+      document.getElementById('diagRaw').textContent = JSON.stringify(raw, null, 2);
+      if (data.error) {
+        document.getElementById('toast').textContent = 'Diagnostics warning: ' + data.error;
+        document.getElementById('toast').className = 'show';
+        setTimeout(function() { document.getElementById('toast').className = ''; }, 2000);
+      }
+    })
+    .catch(function() {
+      setDiagField('diagI2C', 'REQUEST FAILED', 'fail');
+      document.getElementById('diagRaw').textContent = 'Diagnostics endpoint unreachable.';
+    });
+}
+
+runDiagnostics();
 </script>
 </body>
 </html>

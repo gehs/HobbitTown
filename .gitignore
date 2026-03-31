@@ -5,3 +5,4 @@
 .vscode/ipch/
 firmware/NetworkSecrets.h
 secrets.py
+settings.toml
