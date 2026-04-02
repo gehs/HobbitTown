@@ -68,7 +68,7 @@
     {
       "type": "SK6812 (RGBW)",
       "assignments": [
-        { "id": "led_strip_detail", "quantity": 10, "notes": "High density - The Mid Day Sun" }
+        { "id": "led_strip_sky", "quantity": 144, "notes": "High density - The Mid Day Sun" }
       ]
     },
     {

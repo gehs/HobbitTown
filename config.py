@@ -10,8 +10,10 @@ ENABLE_ATMOSPHERE = False  # True when the fogger relay is connected
 ENABLE_WEB = True          # Safe to leave enabled for browser-based testing
 
 # --- LIGHTING ---
-NEOPIXEL_PIN = board.GPIO2   # External WS2812B strip on GPIO2
-NUM_PIXELS = 120             # Total number of LEDs in the diorama
+NEOPIXEL_PIN = board.GPIO2   # Sky arc strip on GPIO2: dawn (19) + noon SK6812 (91) + dusk (19)
+NUM_PIXELS = 129             # Total sky arc pixels
+NEOPIXEL_GROUND_PIN = board.GPIO4  # Ground effects strip on GPIO4
+NUM_PIXELS_GROUND = 153      # Total ground pixels: terrain(100) + lanterns(6) + fireflies(12) + stars(10) + lightning(10) + chimneys(7) + bridge_mist(8)
 BRIGHTNESS = 0.5             # 0.0 to 1.0, matches C++ LED_BRIGHTNESS 128/255
 
 # --- I2C for PCA9685 PWM Drivers ---

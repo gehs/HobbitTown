@@ -1,76 +1,187 @@
 {
   "led_controllers": {
-    "pin_primary": "GPIO 2",
-    "pin_high_density": "GPIO 4"
+    "pin_sky": "GPIO 2",
+    "pin_ground": "GPIO 4"
   },
-  "strip_standard_ws2812b": {
-    "total_pixels": 300,
+  "strip_sky_arc": {
+    "description": "Continuous 48-inch sky arc: dawn (12\") → noon bright (24\") → dusk (12\"). Forms complete data chain for sun traversal effect.",
+    "total_pixels": 129,
+    "pixel_layout": "WS2812B (19px) → SK6812 RGBW (91px) → WS2812B (19px)",
     "segments": [
       {
-        "id": "stream",
-        "name": "The River",
-        "range": [0, 24],
-        "purpose": "24-inch run for water shimmer effects."
+        "id": "sky_dawn",
+        "name": "Dawn Sky Gradient",
+        "range": [0, 18],
+        "length_inches": 12,
+        "strip_type": "WS2812B",
+        "purpose": "Pink/purple gradient as sun rises (left side of diorama)"
       },
       {
-        "id": "fireflies",
-        "name": "Fireflies & Stars",
-        "range": [25, 34],
-        "purpose": "10 pixels coupled to Fiber Optic bundles for pinpoint light."
+        "id": "sky_noon",
+        "name": "Noon Sky Peak",
+        "range": [19, 109],
+        "length_inches": 24,
+        "strip_type": "SK6812 RGBW",
+        "purpose": "Bright white RGBW for intense daylight (center, high-density 144/m)"
       },
       {
-        "id": "party_tree",
-        "name": "The Party Tree",
-        "range": [35, 65],
-        "purpose": "30 pixels for hanging lanterns and fireworks bursts."
-      },
-      {
-        "id": "sky_periphery",
-        "name": "Dawn & Dusk Sky",
-        "range": [66, 120],
-        "purpose": "Lower density sky colors (Pinks, Purples, Deep Blues)."
-      },
-      {
-        "id": "lightning_fx",
-        "name": "Storm Effects",
-        "range": [121, 130],
-        "purpose": "High-speed white flashes hidden in 'clouds'."
-      },
-      {
-        "id": "server_room",
-        "name": "Server Room Edge",
-        "range": [131, 150],
-        "purpose": "20 pixels for internal diagnostic/ambient lighting."
+        "id": "sky_dusk",
+        "name": "Dusk Sky Gradient",
+        "range": [110, 128],
+        "length_inches": 12,
+        "strip_type": "WS2812B",
+        "purpose": "Orange/amber gradient as sun sets (right side of diorama)"
       }
-    ]
+    ],
+    "sun_tracker": {
+      "id": "sun",
+      "name": "The Sun",
+      "width_pixels": 3,
+      "traversal_range": [0, 126],
+      "color_dawn": [255, 160, 60],
+      "color_noon": [255, 255, 220],
+      "color_dusk": [255, 100, 20],
+      "description": "3-pixel warm-white light that traverses the 48-inch arc dawn→noon→dusk. Center pixel ranges from 0 to 126. Active during day hours only."
+    },
+    "moon_tracker": {
+      "id": "moon",
+      "name": "The Moon",
+      "width_pixels": 3,
+      "traversal_range": [0, 126],
+      "color": [180, 200, 255],
+      "description": "3-pixel cool blue-white light that traverses the same 48-inch arc as the sun but in reverse (dusk→noon→dawn). Active during night hours only. Mutually exclusive with sun_tracker."
+    }
   },
-  "strip_high_density_sk6812": {
-    "total_pixels": 144,
-    "notes": "144 LEDs/m RGBW strip for high-quality white light.",
+  "strip_ground_effects": {
+    "description": "Ground-level terrain features on GPIO 4. Single WS2812B chain routed left-to-right by x-coordinate through the diorama.",
+    "total_pixels": 153,
+    "strip_type": "WS2812B",
+    "density_per_meter": 60,
+    "coordinate_units": "inches",
     "segments": [
-      {
-        "id": "sun_high_noon",
-        "name": "The Sun",
-        "range": [0, 88],
-        "purpose": "2-foot section of 144/m density for intense sunlight."
-      },
       {
         "id": "smial_1",
-        "name": "Bag End (Smial 1)",
-        "range": [89, 91],
-        "purpose": "3 RGBW pixels for interior warmth."
+        "name": "Bag End",
+        "range": [0, 2],
+        "center_xy": [9, 10],
+        "purpose": "3 warm pixels for hobbit hole window interior glow."
       },
       {
         "id": "smial_2",
         "name": "Smial 2",
-        "range": [92, 94],
-        "purpose": "3 RGBW pixels for interior warmth."
+        "range": [3, 5],
+        "center_xy": [15, 16],
+        "purpose": "3 warm pixels for second hobbit hole window interior glow."
       },
       {
-        "id": "smial_3",
-        "name": "The Great Smial (Smial 3)",
-        "range": [95, 99],
-        "purpose": "5 RGBW pixels for the largest hobbit hole."
+        "id": "bridge",
+        "name": "The Bridge",
+        "range": [6, 19],
+        "span_xy": [[23, 8], [32, 8]],
+        "width_inches": 2,
+        "purpose": "14 pixels of low-intensity path lighting across 9-inch bridge span."
+      },
+      {
+        "id": "stream",
+        "name": "The River",
+        "range": [20, 55],
+        "bounds_xy": [[25, 0], [32, 0], [31, 24], [27, 24]],
+        "purpose": "36 pixels along 24-inch water channel. Strip runs parallel to flow direction. Cool blue/cyan shimmer."
+      },
+      {
+        "id": "smial_3_lower",
+        "name": "The Great Smial - Lower Window",
+        "range": [56, 57],
+        "center_xy": [42, 9],
+        "purpose": "2 warm pixels for lower window of the largest hobbit hole."
+      },
+      {
+        "id": "smial_3_main",
+        "name": "The Great Smial - Main Entrance",
+        "range": [58, 62],
+        "center_xy": [36, 12],
+        "purpose": "5 warm pixels for the main entrance and interior of the largest hobbit hole."
+      },
+      {
+        "id": "smial_3_upper",
+        "name": "The Great Smial - Upper Window",
+        "range": [63, 64],
+        "center_xy": [34, 19],
+        "purpose": "2 warm pixels for upper window of the largest hobbit hole."
+      },
+      {
+        "id": "party_tree",
+        "name": "The Party Tree",
+        "range": [65, 79],
+        "center_xy": [45, 21],
+        "purpose": "15 pixels for hanging colored lanterns and fireworks bursts."
+      },
+      {
+        "id": "server_room",
+        "name": "Server Room Edge",
+        "range": [80, 99],
+        "bounds_xy": [[36, 12], [48, 12], [48, 24], [36, 24]],
+        "area_sqft": 1,
+        "purpose": "20 pixels for ambient and diagnostic edge lighting around the 1x1 foot server room enclosure."
+      },
+      {
+        "id": "path_lanterns",
+        "name": "Path Lanterns",
+        "range": [100, 105],
+        "center_xy": [[20, 8], [23, 8]],
+        "purpose": "6 warm amber pixels along the bridge approach path. Dim with time of day; off at noon, brightest at dusk and dawn."
+      },
+      {
+        "id": "fireflies",
+        "name": "Fireflies",
+        "range": [106, 117],
+        "bounds_xy": [[12, 4], [25, 14]],
+        "purpose": "12 naked LEDs scattered across the low meadow. Each pixel twinkles independently with a randomized fade-in/fade-out timer. Warm yellow-green. Active at dusk and night only."
+      },
+      {
+        "id": "star_field",
+        "name": "Star Field",
+        "range": [118, 127],
+        "purpose": "10 pixels terminating into the fiber optics bundle. Cold white sparkle pattern. Independent of fireflies. Fades in after dusk, fades out at dawn."
+      },
+      {
+        "id": "lightning_fx",
+        "name": "Storm Clouds",
+        "range": [128, 137],
+        "bounds_xy": [[42, 24], [48, 24]],
+        "purpose": "10 pixels hidden behind cloud cutout above the Party Tree. Used for rapid white strobe during storm preset instead of the full-strip flash in preset #9."
+      },
+      {
+        "id": "chimney_bag_end",
+        "name": "Bag End Chimney",
+        "range": [138, 139],
+        "center_xy": [9, 10],
+        "mount": "upward-pointing",
+        "purpose": "2 warm flickering pixels aimed up into the chimney opening of Smial 1. Activates when fogger relay is on to illuminate rising smoke."
+      },
+      {
+        "id": "chimney_smial_2",
+        "name": "Smial 2 Chimney",
+        "range": [140, 141],
+        "center_xy": [15, 16],
+        "mount": "upward-pointing",
+        "purpose": "2 warm flickering pixels aimed up into the chimney opening of Smial 2. Activates when fogger relay is on to illuminate rising smoke."
+      },
+      {
+        "id": "chimney_smial_3",
+        "name": "The Great Smial Chimney",
+        "range": [142, 144],
+        "center_xy": [36, 12],
+        "mount": "upward-pointing",
+        "purpose": "3 warm flickering pixels aimed up into the chimney of the Great Smial. Activates when fogger relay is on. 3 pixels for proportionally larger structure."
+      },
+      {
+        "id": "bridge_mist",
+        "name": "Bridge Morning Mist",
+        "range": [145, 152],
+        "bounds_xy": [[23, 8], [32, 8]],
+        "mount": "upward-pointing under bridge deck",
+        "purpose": "8 cool blue-white pixels mounted beneath the bridge deck facing upward. Creates a mist glow effect. Activates at dawn time window and during fog events (GPIO 18)."
       }
     ]
   }
