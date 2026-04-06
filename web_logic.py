@@ -282,18 +282,18 @@ def _handle_test_door(client, params):
 
 
 def _handle_test_mister(client, params):
-    """Set a single mister to a PWM value (0-255)."""
+    """Set a single vapor channel to a PWM value (0-255)."""
     import hardware.motion as motion
     mister_id = _int_param(params, "id", -1)
     value = _int_param(params, "value", -1)
     if mister_id < 1 or mister_id > 4:
-        _send_response(client, 400, "Mister id must be 1-4")
+        _send_response(client, 400, "Vapor id must be 1-4 (1=water mister, 2-4=Seuthe chimney)")
         return
     if value < 0 or value > 255:
         _send_response(client, 400, "Value must be 0-255")
         return
     motion.set_mister(mister_id, value)
-    _send_response(client, 200, "Mister " + str(mister_id) + " -> " + str(value))
+    _send_response(client, 200, "Vapor " + str(mister_id) + " -> " + str(value))
 
 
 def _handle_test_blower(client, params):

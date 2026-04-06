@@ -4,6 +4,25 @@
 
 This guide provides a **build-up sequence** for wiring the diorama safely and methodically, starting with power infrastructure and simple components, then progressing to complex multi-wire systems. Each phase includes component specs, pin assignments, protective components, and validation steps.
 
+This version is written for beginner bench wiring.
+If you are new, wire one subsystem at a time and test after each subsystem before adding more wires.
+
+### Beginner Bench Rules (Read First)
+
+1. Power OFF before changing any wire.
+2. Use a shared ground bus for everything.
+3. Label wires before plugging them in.
+4. Add only one new connection at a time.
+5. If anything gets hot, power off immediately.
+
+### Recommended Wire Colors
+
+- Red: +5V
+- Black: GND
+- Blue: SDA
+- Yellow: SCL
+- White/Green: signal wires (GPIO, PCA channels)
+
 ---
 
 ## Phase 1: Power Infrastructure & Board Setup
@@ -63,6 +82,7 @@ Before connecting external hardware, verify the board boots without errors.
 **Steps:**
 
 1. Connect ESP32-S3 to your computer via USB.
+   a. Open the Board as a Folder in VS Code (to activate the extension)
 2. Open the CircuitPython REPL (Mu Editor or equivalent).
 3. Run the test script:
    ```python
@@ -125,6 +145,7 @@ Before connecting external hardware, verify the board boots without errors.
 4. **Physical placement:**
    - Route data line away from power and motor wires to minimize EMI.
    - Separate data and power return paths if possible.
+   - If you are cutting/rejoining strips, follow reconnect pathway rules in [LED_STRIP_CUTTING_PLAN.md](LED_STRIP_CUTTING_PLAN.md).
 
 **Validation (Dry-Load):**
 
@@ -167,6 +188,7 @@ Before connecting external hardware, verify the board boots without errors.
 
 **Wiring Steps:**
 - (Identical to WS2812B; use GPIO 4 instead of GPIO 2)
+- If cut into smaller pieces, preserve data order (DOUT -> next DIN) per [LED_STRIP_CUTTING_PLAN.md](LED_STRIP_CUTTING_PLAN.md).
 
 **Validation (Dry-Load):**
 1. Enable lighting and connect strip.
@@ -194,7 +216,7 @@ Before connecting external hardware, verify the board boots without errors.
    - Purpose: I2C requires open-drain drivers; pull-ups hold lines high when idle.
 
 2. **Smoothing capacitor (10µF, 25V):**
-   - Placement: Across 5V and GND at the PCA9685 power input.
+   - Placement: Across 5V and GND at each PCA9685 power input (one capacitor per board).
 
 3. **Series resistor (100Ω) — Optional:**
    - Placement: In-line with SCL and SDA lines (one per line).
@@ -203,9 +225,11 @@ Before connecting external hardware, verify the board boots without errors.
 **Wiring Steps:**
 
 1. **Power:**
-   - PCA9685 VCC → 5V bus
-   - PCA9685 GND → GND bus
-   - 10µF capacitor across VCC/GND
+   - PCA9685 #1 VCC → 5V bus
+   - PCA9685 #1 GND → GND bus
+   - PCA9685 #2 VCC → 5V bus
+   - PCA9685 #2 GND → GND bus
+   - 10µF capacitor across VCC/GND on each board
 
 2. **I2C lines:**
    - PCA9685 SDA → 4.7kΩ resistor to 5V (pull-up)
@@ -222,6 +246,12 @@ Before connecting external hardware, verify the board boots without errors.
 4. **Physical placement:**
    - Place resistors as close as possible to the PCA9685 or ESP32.
    - Keep I2C lines short (<1 meter recommended).
+
+**Beginner bench sequence for PCA setup:**
+1. Wire only power and ground to both PCA9685 boards.
+2. Wire SDA and SCL to both boards.
+3. Run diagnostics and confirm addresses 0x40 and 0x41.
+4. Only after addresses pass, start wiring channels (servos/misters/blowers/speaker control).
 
 **Validation:**
 
@@ -242,6 +272,46 @@ Before connecting external hardware, verify the board boots without errors.
    ```python
    motion.set_door(1, 45)  # Move door 1 to 45 degrees
    ```
+
+### 3.2 PCA9685 Channel Allocation (Current Firmware)
+
+The dual PCA9685 setup is intentionally shared across multiple subsystems, not just door servos.
+
+**PCA9685 #1 (0x40):**
+- Channel 0: Door servo 1
+- Channel 1: Door servo 2
+- Channel 2: Door servo 3
+- Channel 3: Spare servo/output
+- Channels 8-11: Speaker control (digital-style on/off control lines)
+- Channels 12-13: Speaker control (PWM level control lines)
+
+**PCA9685 #2 (0x41):**
+- Channel 0: Water mister #1
+- Channel 1: Seuthe 117 chimney smoke #1
+- Channel 2: Seuthe 117 chimney smoke #2
+- Channel 3: Seuthe 117 chimney smoke #3
+- Channels 4-6: Blower outputs 1-3
+- Channels 7-15: Reserved for expansion
+
+**Vapor system update (current hardware):**
+- You now have one water-based mister and three Seuthe 117 smoke generators.
+- The old "mister 1-4" wording in older notes maps to:
+   - Mister 1 = water mister
+   - Mister 2-4 = Seuthe chimney generators 1-3
+- Seuthe 117 channels require MT3608 boost conversion from 5V to Seuthe operating voltage.
+- Seuthe 117 package guidance indicates 16-18V operating range.
+- Set MT3608 output to 16.0V first (then tune up only if needed), measured with a multimeter before connecting each Seuthe heater.
+- See [WIRING_AUDIO.md](WIRING_AUDIO.md) for boost-stage and control-path wiring sequence.
+
+**Important wiring note for speaker paths via PCA9685:**
+- The PCA9685 channels are signal/control outputs only.
+- Do not power speakers directly from PCA9685 channels.
+- Route each PCA channel to the input stage (driver/transistor/MOSFET/amp control pin) for that speaker path.
+- See [WIRING_AUDIO.md](WIRING_AUDIO.md) for channel-by-channel speaker control wiring details and test flow.
+
+**Simple wording for beginners:**
+- PCA pin = command wire
+- Speaker power = separate amplifier power path
 
 ---
 
@@ -396,7 +466,11 @@ DOOR_CLOSED_ANGLE = 0      # Position for closed door
 
 **Wiring:** Follow Adafruit's official guide (SPI bus: MOSI, MISO, SCK, plus CS and reset pins).
 
-(Full audio wiring is deferred to a separate `WIRING_AUDIO.md` due to complexity.)
+For current implementation details (including PCA9685 speaker-control wiring on channels 8-13), see [WIRING_AUDIO.md](WIRING_AUDIO.md).
+
+If your Music Maker FeatherWing is pinless, solder headers/wires and pass continuity checks before any wiring tests (see pinless workflow in [WIRING_AUDIO.md](WIRING_AUDIO.md)).
+
+If using a pinless Music Maker FeatherWing, complete soldered header/wire preparation first (see pinless workflow in [WIRING_AUDIO.md](WIRING_AUDIO.md)).
 
 ---
 
@@ -418,6 +492,7 @@ DOOR_CLOSED_ANGLE = 0      # Position for closed door
   - [ ] PCA9685 #1 at address 0x40, #2 at 0x41
   - [ ] Enable `ENABLE_MOTION = True`
   - [ ] Run test; console should report "initialized"
+   - [ ] Run `/api/test/diagnostics` and confirm both PCA9685 addresses appear before wiring channels
 
 - [ ] **Servos:**
   - [ ] 100µF capacitor across 5V/GND for every 2 servos
@@ -431,6 +506,18 @@ DOOR_CLOSED_ANGLE = 0      # Position for closed door
   - [ ] Relay contacts connected to fogger control line
   - [ ] Enable `ENABLE_ATMOSPHERE = True`
   - [ ] Test relay click and fog output
+
+- [ ] **Audio Control Wiring (PCA9685):**
+   - [ ] Follow [WIRING_AUDIO.md](WIRING_AUDIO.md) for speaker-control channel mapping (0x40 channels 8-13)
+   - [ ] Confirm channels go to control inputs/driver stage, not directly to speakers
+   - [ ] Run `/api/test/diagnostics` and verify PCA addresses 0x40 and 0x41
+   - [ ] Run `/api/test/speaker` channel tests and verify expected hardware response
+
+- [ ] **Bench Workflow Discipline (Beginner):**
+   - [ ] Power off before changing wires
+   - [ ] Add one wire/channel at a time
+   - [ ] Label channel wires (CH8-CH13) before testing
+   - [ ] Stop immediately if any module is unexpectedly warm
 
 ---
 
@@ -455,7 +542,7 @@ DOOR_CLOSED_ANGLE = 0      # Position for closed door
    smial_test.start()
    ```
 3. **Review [USAGE_Hardware_Test.md](USAGE_Hardware_Test.md)** for expected behavior.
-4. **Proceed to audio wiring** once motion and atmosphere are stable (see future `WIRING_AUDIO.md`).
+4. **Proceed to audio control wiring** once motion and atmosphere are stable (see [WIRING_AUDIO.md](WIRING_AUDIO.md)).
 
 ---
 
