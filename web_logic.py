@@ -27,8 +27,7 @@ pool = None
 server_socket = None
 
 # ── HTML page cache (loaded once at startup to save memory) ──────
-_page_index = ""
-_page_test = ""
+# Removed pre-loading to avoid memory issues with large files
 
 
 # ================================================================
@@ -48,6 +47,9 @@ def setup_web():
         return
 
     wifi.radio.connect(WIFI_SSID, WIFI_PASSWORD)
+    # Set static IP (change these to match your network)
+    import ipaddress
+    wifi.radio.set_ipv4_address(ipv4=ipaddress.IPv4Address("192.168.50.100"), netmask=ipaddress.IPv4Address("255.255.255.0"), gateway=ipaddress.IPv4Address("192.168.50.1"))
     print("WiFi connected. IP:", wifi.radio.ipv4_address)
 
     pool = socketpool.SocketPool(wifi.radio)
@@ -57,10 +59,6 @@ def setup_web():
     mdns_server.hostname = DEVICE_HOSTNAME
     mdns_server.advertise_service(service_type="_http", protocol="_tcp", port=8080)
     print("mDNS ready at http://" + DEVICE_HOSTNAME + ".local")
-
-    # Pre-load HTML pages into RAM so we don't hit the filesystem on every request
-    _page_index = _load_file("static/index.html")
-    _page_test = _load_file("static/test.html")
 
     # Open a TCP listening socket (non-blocking so it won't stall the main loop)
     server_socket = pool.socket(pool.AF_INET, pool.SOCK_STREAM)
@@ -142,9 +140,11 @@ def _route_request(client, method, path, params):
 
     # ── HTML pages ──
     if path == "/" or path == "/index.html":
-        _send_html(client, _page_index)
+        html = _load_file("static/index.html")
+        _send_html(client, html)
     elif path == "/test" or path == "/test.html":
-        _send_html(client, _page_test)
+        html = _load_file("static/test.html")
+        _send_html(client, html)
 
     # ── Lighting preset ──
     elif path == "/api/preset":
@@ -439,12 +439,9 @@ def _send_html(client, html):
         "Content-Length: " + str(len(html)) + "\r\n"
         "\r\n"
     )
+    response = header + html
     try:
-        client.sendall(header.encode("utf-8"))
-        # Send HTML in chunks to avoid memory pressure on ESP32
-        chunk_size = 1024
-        for i in range(0, len(html), chunk_size):
-            client.sendall(html[i:i + chunk_size].encode("utf-8"))
+        client.sendall(response.encode("utf-8"))
     except Exception as e:
         print("web_logic: send error", e)
     finally:
