@@ -15,6 +15,11 @@ Source of truth: `lights.json`
 
 When you cut addressable LEDs, reconnect in the same data order.
 
+For this project, use an SN74AHCT125N level shifter on each ESP32 LED data output before the first strip DIN.
+- GPIO 2 or GPIO 4 from the ESP32 is 3.3V logic.
+- WS2812B and SK6812 strips are powered from 5V and behave more reliably with a 5V logic-level data signal.
+- Recommended chain: ESP32 GPIO -> SN74AHCT125N -> 470 ohm resistor -> first DIN.
+
 Always preserve this pathway:
 - Controller GPIO -> DIN of segment 1
 - DOUT of segment N -> DIN of segment N+1
@@ -71,8 +76,10 @@ The sky arc is **three physically distinct strips** chained in data order. Dawn 
 2. Confirm DIN direction arrows on all three before soldering.
 3. Solder DOUT of Dawn WS2812B → DIN of Noon SK6812 (joint at pixel 18/19).
 4. Solder DOUT of Noon SK6812 → DIN of Dusk WS2812B (joint at pixel 109/110).
-5. Route GPIO 2 data line → 470 Ω resistor → DIN of Dawn strip.
-6. Power all three from the 5V bus; add 1000 µF capacitor at the start of each strip section.
+5. Route GPIO 2 data line → SN74AHCT125N input.
+6. Route SN74AHCT125N output → 470 Ω resistor → DIN of Dawn strip.
+7. Power the SN74AHCT125N from 5V and GND; tie the selected OE pin low.
+8. Power all three from the 5V bus; add 1000 µF capacitor at the start of each strip section.
 
 ---
 

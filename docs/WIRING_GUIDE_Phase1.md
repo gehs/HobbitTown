@@ -121,11 +121,17 @@ Before connecting external hardware, verify the board boots without errors.
    - Size: 1/4W resistor.
    - Purpose: Limits signal reflections and protects ESP32 GPIO from over-current.
 
-2. **Smoothing capacitor (1000µF, 25V):**
+2. **Logic level shifter (SN74AHCT125N) — Strongly recommended:**
+   - Placement: Between ESP32 GPIO 2 and the LED strip data input.
+   - Power: SN74AHCT125N VCC -> 5V bus, GND -> common GND.
+   - Purpose: Converts the ESP32's 3.3V logic output into a stronger 5V data signal for WS2812B and SK6812 strips.
+   - Use this especially when the first LED is more than a few inches from the ESP32, when the data wire runs near power wiring, or when you see flicker, random colors, or startup instability.
+
+3. **Smoothing capacitor (1000µF, 25V):**
    - Placement: Across 5V and GND at the LED strip's power input.
    - Reason: WS2812B draws large inrush currents during color changes. Capacitor buffers voltage sag.
 
-3. **Diode (1N4007) — Optional but recommended:**
+4. **Diode (1N4007) — Optional but recommended:**
    - Placement: Inline with the 5V line feeding the LED strip (anode to supply, cathode to strip).
    - Purpose: Protects against reverse polarity if a connector is accidentally reversed.
 
@@ -137,13 +143,20 @@ Before connecting external hardware, verify the board boots without errors.
    - Capacitor negative → GND bus
 
 2. **Data line:**
-   - GPIO 2 → 470Ω resistor → LED strip DIN
+   - GPIO 2 → SN74AHCT125N input A
+   - Matching SN74AHCT125N output Y → 470Ω resistor → LED strip DIN
+   - Tie the matching SN74AHCT125N OE pin to GND so that channel stays enabled
 
-3. **Ground:**
+3. **Level shifter power:**
+   - SN74AHCT125N VCC → 5V bus
+   - SN74AHCT125N GND → GND bus
+
+4. **Ground:**
    - LED strip GND → GND bus
 
-4. **Physical placement:**
+5. **Physical placement:**
    - Route data line away from power and motor wires to minimize EMI.
+   - Place the SN74AHCT125N physically close to the ESP32 or at the start of the LED run.
    - Separate data and power return paths if possible.
    - If you are cutting/rejoining strips, follow reconnect pathway rules in [LED_STRIP_CUTTING_PLAN.md](LED_STRIP_CUTTING_PLAN.md).
 
@@ -184,10 +197,11 @@ Before connecting external hardware, verify the board boots without errors.
 - Data pin: **GPIO 4** (pin_high_density in lights.json)
 
 **Protective Components:**
-- Same as WS2812B: 470Ω data resistor, 1000µF capacitor, optional 1N4007 diode.
+- Same as WS2812B: SN74AHCT125N level shifter strongly recommended, 470Ω data resistor, 1000µF capacitor, optional 1N4007 diode.
 
 **Wiring Steps:**
 - (Identical to WS2812B; use GPIO 4 instead of GPIO 2)
+- Recommended data path: GPIO 4 -> SN74AHCT125N input -> SN74AHCT125N output -> 470Ω resistor -> strip DIN.
 - If cut into smaller pieces, preserve data order (DOUT -> next DIN) per [LED_STRIP_CUTTING_PLAN.md](LED_STRIP_CUTTING_PLAN.md).
 
 **Validation (Dry-Load):**
@@ -525,7 +539,7 @@ If using a pinless Music Maker FeatherWing, complete soldered header/wire prepar
 
 | Symptom | Likely Cause | Fix |
 |---------|--------------|-----|
-| LED strip not responding | Missing 470Ω resistor or bad GPIO 2 connection | Check resistor; try GPIO 4 |
+| LED strip not responding | Missing level shifter, missing 470Ω resistor, or bad GPIO connection | Check SN74AHCT125N wiring, resistor, ground, and strip DIN direction |
 | I2C "Bus Error" | Missing pull-up resistors or loose wire | Verify 4.7kΩ resistors on SDA/SCL |
 | Servo doesn't move | Servo power from PCA9685 instead of 5V bus | Rewire servo 5V directly to 5V bus |
 | Servo jitter | Insufficient capacitor or noisy power supply | Add 100µF capacitor near servo |
