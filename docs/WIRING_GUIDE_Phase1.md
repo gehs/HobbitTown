@@ -207,17 +207,6 @@ Before connecting external hardware, verify the board boots without errors.
    - PCA9685 GND → GND bus
    - 10µF capacitor across VCC/GND
 
-2. **I2C lines:**
-   - PCA9685 SDA → 4.7kΩ resistor to 5V (pull-up)
-   - PCA9685 SDA → GPIO 21
-   - PCA9685 SCL → 4.7kΩ resistor to 5V (pull-up)
-   - PCA9685 SCL → GPIO 47
-   - Optional: 100Ω series resistor on each line near the ESP32
-
-3. **Address configuration (hardware):**
-   - **PCA9685 #1 (address 0x40):** A0 pin to GND, A1 to GND, A2 to GND, A3 to GND
-   - **PCA9685 #2 (address 0x41):** A0 pin to 5V, A1 to GND, A2 to GND, A3 to GND
-   - (Check your PCA9685 pinout; address pins are typically solder jumpers or breakout legs.)
 
 4. **Physical placement:**
    - Place resistors as close as possible to the PCA9685 or ESP32.
@@ -242,6 +231,53 @@ Before connecting external hardware, verify the board boots without errors.
    ```python
    motion.set_door(1, 45)  # Move door 1 to 45 degrees
    ```
+
+---
+
+## Phase 3.2: Audio Wiring for WAV Trigger
+
+If you are using the SparkFun Qwiic WAV Trigger Pro, wire the ESP32 and WAV Trigger carefully using the shared I2C bus:
+
+1. **Common ground is mandatory:**
+   - Connect the ESP32 GND to the WAV Trigger GND.
+   - Connect the WAV Trigger power supply GND to the same shared ground.
+
+2. **Qwiic / I2C control mode (recommended):**
+   - `GPIO21` → Qwiic SDA
+   - `GPIO47` → Qwiic SCL
+   - Connect the WAV Trigger's Qwiic `GND` pin to ESP32 ground.
+   - Connect the WAV Trigger's Qwiic `3V3` pin to the ESP32 3.3V supply.
+   - In `config.py`, enable the new mode:
+     ```python
+     ENABLE_AUDIO = True
+     ENABLE_AUDIO_I2C = True
+     ```
+   - The default Qwiic I2C address is `0x13`.
+
+3. **UART control mode (alternative):**
+   - `AUDIO_UART_TX` → WAV Trigger RX
+   - `AUDIO_UART_RX` → WAV Trigger TX
+   - Use 3.3V TTL logic levels and do not connect 5V directly to the ESP32 UART pins.
+   - In `config.py`, enable:
+     ```python
+     ENABLE_AUDIO = True
+     ENABLE_AUDIO_UART = True
+     ```
+
+4. **Direct trigger output mode (optional):**
+   - Connect ESP32 GPIO pins to the WAV Trigger trigger pins.
+   - Use `AUDIO_TRIGGER_1_PIN` and `AUDIO_TRIGGER_2_PIN` in `config.py`.
+   - Set `ENABLE_AUDIO_TRIGGERS = True` when using GPIO8 and GPIO9.
+   - This mode pulses the pin low or high based on the trigger polarity to emulate grounding the trigger.
+
+5. **Power note:**
+   - The WAV Trigger Pro should be powered from a stable 3.3V/5V supply as required by the board and Qwiic connector.
+   - Use the shared ground between power, WAV Trigger, and ESP32.
+
+6. **Built-in test endpoints:**
+   - Verify audio wiring and I2C status with `http://[BRAIN_IP]/api/test/audio/status`
+   - Trigger a track test with `http://[BRAIN_IP]/api/test/audio?track=1&loop=0`
+   - For direct trigger pins, use `track=1` or `track=2` to pulse T1 or T2 if configured in `config.py`.
 
 ---
 

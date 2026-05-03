@@ -27,6 +27,28 @@ PCA9685_ADDR2 = 0x41
 # --- ATMOSPHERE (Fogger) ---
 FOGGER_RELAY_PIN = board.GPIO18  # GPIO18 relay control
 
+# --- AUDIO (Tsunami Super WAV Trigger) ---
+ENABLE_AUDIO = False  # Set True after wiring the WAV Trigger and validating audio control mode.
+ENABLE_AUDIO_I2C = False  # Enable Qwiic/I2C command mode for the WAV Trigger Pro.
+ENABLE_AUDIO_UART = False  # Enable UART command mode for the WAV Trigger.
+ENABLE_AUDIO_TRIGGERS = False  # Enable direct trigger outputs if the WAV Trigger is wired to ESP32 GPIO pins.
+AUDIO_I2C_ADDR = 0x13  # Default 7-bit Qwiic address for WAV Trigger Pro.
+AUDIO_UART_TX = board.GPIO43
+AUDIO_UART_RX = board.GPIO44
+AUDIO_UART_BAUDRATE = 9600
+AUDIO_UART_TIMEOUT = 0.1
+AUDIO_TRIGGER_1_PIN = board.GPIO8
+AUDIO_TRIGGER_2_PIN = board.GPIO9
+AUDIO_TRIGGER_ACTIVE_LOW = True
+AUDIO_TRIGGER_PULSE_MS = 100
+AUDIO_TRIGGER_1_TRACK = 1
+AUDIO_TRIGGER_2_TRACK = 2
+AUDIO_TRACK_DAYTIME = 1
+AUDIO_TRACK_SUNSET = 2
+AUDIO_TRACK_NIGHTTIME = 3
+AUDIO_TRACK_DRAGON_EVENT = 4
+AUDIO_TRACK_PARTY_MUSIC = 5
+
 # --- MOTION (Servos, Misters, Blowers, Speakers) ---
 # Servo angles
 SERVO_MIN_PULSE = 150

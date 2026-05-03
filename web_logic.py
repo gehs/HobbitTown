@@ -177,6 +177,8 @@ def _route_request(client, method, path, params):
     # ── Test: audio playback ──
     elif path == "/api/test/audio":
         _handle_test_audio(client, params)
+    elif path == "/api/test/audio/status":
+        _handle_test_audio_status(client)
 
     # ── Test: LED segment color ──
     elif path == "/api/test/segment":
@@ -338,6 +340,13 @@ def _handle_test_audio(client, params):
     audio.play_audio(player, track, loop=(loop == 1))
     mode = "looping" if loop == 1 else "one-shot"
     _send_response(client, 200, "Playing track " + str(track) + " (" + mode + ")")
+
+
+def _handle_test_audio_status(client):
+    """Return WAV Trigger audio module readiness and UART/device info."""
+    import hardware.audio as audio
+    status = audio.get_status()
+    _send_json_response(client, 200, status)
 
 
 def _handle_test_segment(client, params):
