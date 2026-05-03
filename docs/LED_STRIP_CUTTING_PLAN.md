@@ -11,6 +11,39 @@ Source of truth: `lights.json`
 
 ---
 
+## Addressable Reconnect Rules (Read Before Cutting)
+
+When you cut addressable LEDs, reconnect in the same data order.
+
+For this project, use an SN74AHCT125N level shifter on each ESP32 LED data output before the first strip DIN.
+- GPIO 2 or GPIO 4 from the ESP32 is 3.3V logic.
+- WS2812B and SK6812 strips are powered from 5V and behave more reliably with a 5V logic-level data signal.
+- Recommended chain: ESP32 GPIO -> SN74AHCT125N -> 470 ohm resistor -> first DIN.
+
+Always preserve this pathway:
+- Controller GPIO -> DIN of segment 1
+- DOUT of segment N -> DIN of segment N+1
+- Last segment DOUT -> end (no return loop)
+
+Pad-by-pad solder rule for each reconnect:
+1. 5V pad -> 5V pad (red wire)
+2. GND pad -> GND pad (black wire)
+3. DOUT (upstream segment) -> DIN (next segment) (data wire)
+
+Never do these:
+- DIN -> DIN
+- DOUT -> DOUT
+- Reverse arrow direction
+
+Beginner bench method:
+1. Cut one segment only.
+2. Label both ends immediately: DIN side and DOUT side.
+3. Solder 3 jumper wires (5V/GND/DATA).
+4. Power and run a quick test before cutting the next segment.
+5. Repeat one segment at a time.
+
+---
+
 ## Strip 1: Sky Arc (GPIO 2)
 
 The sky arc is **three physically distinct strips** chained in data order. Dawn and Dusk are WS2812B (60px/m). Noon is SK6812 RGBW (144px/m) — a different strip type purchased separately. There are **2 solder joints** between the three pieces.
@@ -43,8 +76,10 @@ The sky arc is **three physically distinct strips** chained in data order. Dawn 
 2. Confirm DIN direction arrows on all three before soldering.
 3. Solder DOUT of Dawn WS2812B → DIN of Noon SK6812 (joint at pixel 18/19).
 4. Solder DOUT of Noon SK6812 → DIN of Dusk WS2812B (joint at pixel 109/110).
-5. Route GPIO 2 data line → 470 Ω resistor → DIN of Dawn strip.
-6. Power all three from the 5V bus; add 1000 µF capacitor at the start of each strip section.
+5. Route GPIO 2 data line → SN74AHCT125N input.
+6. Route SN74AHCT125N output → 470 Ω resistor → DIN of Dawn strip.
+7. Power the SN74AHCT125N from 5V and GND; tie the selected OE pin low.
+8. Power all three from the 5V bus; add 1000 µF capacitor at the start of each strip section.
 
 ---
 
@@ -66,7 +101,8 @@ Count pixels from the DIN end. Cut after the last pixel of each segment.
 | 6 | Great Smial Main Entrance | 5 | 58–62 | 62 | x=36, y=12 — entrance |
 | 7 | Great Smial Upper Window | 2 | 63–64 | 64 | x=34, y=19 — window |
 | 8 | Party Tree | 15 | 65–79 | 79 | x=45, y=21 — branches |
-| 9 | Server Room Edge | 20 | 80–99 | 99 | x=36–48, y=12–24 — perimeter |
+| 9 | Server Room Edge | 16 | 80–95 | 95 | x=36–48, y=12–24 — perimeter |
+| 9a | etc | 4 | 96-99 | 99 | tbd |
 | 10 | Path Lanterns | 6 | 100–105 | 105 | x=20–23, y=8 — bridge approach |
 | 11 | Fireflies | 12 | 106–117 | 117 | scattered x=12–25, y=4–14 — meadow |
 | 12 | Star Field | 10 | 118–127 | 127 | fiber optics bundle input |
@@ -99,6 +135,7 @@ WS2812B worst-case: 60 mA/pixel. @ BRIGHTNESS 0.5: 30 mA/pixel.
 | Great Smial Upper Window | 2 | 0.12 A | 0.06 A | ~0.04 A |
 | Party Tree | 15 | 0.90 A | 0.45 A | ~0.25 A lanterns |
 | Server Room Edge | 20 | 1.20 A | 0.60 A | ~0.20 A ambient |
+| etc | 4 | 0.36 A | 0.12 A | ~0.08 A |
 | Path Lanterns | 6 | 0.36 A | 0.18 A | ~0.10 A amber |
 | Fireflies | 12 | 0.72 A | 0.36 A | ~0.08 A twinkle |
 | Star Field | 10 | 0.60 A | 0.30 A | ~0.10 A sparkle |
@@ -118,6 +155,14 @@ WS2812B worst-case: 60 mA/pixel. @ BRIGHTNESS 0.5: 30 mA/pixel.
 5. Solder data jumper wires: DOUT of each piece → DIN of next in sequence.
 6. Route GPIO 4 → 470 Ω resistor → DIN of segment 1 (Bag End).
 7. Power injection: add a 1000 µF capacitor at the strip DIN start and a second injection point at pixel 80 (Server Room) halfway through.
+
+### Reconnect Pathway Checklist (Ground Effects)
+
+- Segment 1 DIN receives controller data from the GPIO4 resistor path.
+- Each segment DOUT is wired to the next segment DIN.
+- Every jumper includes 5V and GND continuity (not just DATA).
+- DATA wires are kept short and routed away from high-current motor/relay wiring.
+- After every 3 to 4 reconnect joints, run a quick color test before continuing.
 
 ---
 

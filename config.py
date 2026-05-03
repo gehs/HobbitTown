@@ -5,7 +5,7 @@ ALLOW_MISSING_HARDWARE = True  # Boot cleanly even if no external components are
 
 # Default to zero-wire upload testing. Turn these on as each component is actually connected.
 ENABLE_LIGHTING = False    # True when the external LED strip is connected
-ENABLE_MOTION = False      # True when the PCA9685 + servos/blowers/misters are connected
+ENABLE_MOTION = False      # True when PCA9685 + servos/blowers/vapor channels are connected
 ENABLE_ATMOSPHERE = False  # True when the fogger relay is connected
 ENABLE_WEB = True          # Safe to leave enabled for browser-based testing
 
@@ -49,7 +49,7 @@ AUDIO_TRACK_NIGHTTIME = 3
 AUDIO_TRACK_DRAGON_EVENT = 4
 AUDIO_TRACK_PARTY_MUSIC = 5
 
-# --- MOTION (Servos, Misters, Blowers, Speakers) ---
+# --- MOTION (Servos, Vapor Channels, Blowers, Speakers) ---
 # Servo angles
 SERVO_MIN_PULSE = 150
 SERVO_MAX_PULSE = 600
