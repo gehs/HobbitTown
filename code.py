@@ -14,9 +14,9 @@ import config
 
 # Sky arc strip sections
 DAWN_PIXELS = 19      # WS2812B (GRB)
-NOON_PIXELS = 91      # SK6812 RGBW (32-bit)
+DAY_PIXELS = 91      # SK6812 RGBW (32-bit)
 DUSK_PIXELS = 19      # WS2812B (GRB)
-TOTAL_SKY_PIXELS = DAWN_PIXELS + NOON_PIXELS + DUSK_PIXELS
+TOTAL_SKY_PIXELS = DAWN_PIXELS + DAY_PIXELS + DUSK_PIXELS
 
 # Ground strip test pixels
 GROUND_PIXEL_COUNT = 70
@@ -67,7 +67,7 @@ class ColorOrderTester:
         self.pixels[index] = (g, r, b, 0)
 
     def set_pixel_rgbw(self, index, color):
-        """Set pixel in noon section as RGBW"""
+        """Set pixel in Day section as RGBW"""
         if not isinstance(color, tuple) or len(color) < 3:
             self.pixels[index] = (0, 0, 0, 0)
             return
@@ -78,7 +78,7 @@ class ColorOrderTester:
     def _build_bytearray(self):
         buffer = bytearray()
         for index, (r, g, b, w) in enumerate(self.pixels):
-            if index < DAWN_PIXELS or index >= DAWN_PIXELS + NOON_PIXELS:
+            if index < DAWN_PIXELS or index >= DAWN_PIXELS + DAY_PIXELS:
                 # Dawn/Dusk are WS2812B GRB (24-bit)
                 buffer.extend((g, r, b))
             else:
@@ -134,20 +134,20 @@ def test_color_orders():
     print(f"Sky strip (GPIO{config.NEOPIXEL_PIN}): {TOTAL_SKY_PIXELS} pixels total")
     print(f"Ground strip (GPIO{config.NEOPIXEL_GROUND_PIN}): {GROUND_PIXEL_COUNT} pixels")
     print(f"  Dawn (WS2812B GRB): pixels 0-{DAWN_PIXELS-1}")
-    print(f"  Noon (SK6812 ???): pixels {DAWN_PIXELS}-{DAWN_PIXELS+NOON_PIXELS-1}")
-    print(f"  Dusk (WS2812B GRB): pixels {DAWN_PIXELS+NOON_PIXELS}-{TOTAL_SKY_PIXELS-1}")
+    print(f"  Noon (SK6812 ???): pixels {DAWN_PIXELS}-{DAWN_PIXELS+DAY_PIXELS-1}")
+    print(f"  Dusk (WS2812B GRB): pixels {DAWN_PIXELS+DAY_PIXELS}-{TOTAL_SKY_PIXELS-1}")
     print()
     print("Testing different color orders for SK6812 section...")
     print("Watch the noon section and note which order shows the correct color!")
 
     # Test red
-    sky_strip.test_section_color_orders(DAWN_PIXELS, DAWN_PIXELS + NOON_PIXELS, (255, 0, 0), 3.0)
+    sky_strip.test_section_color_orders(DAWN_PIXELS, DAWN_PIXELS + DAY_PIXELS, (255, 0, 0), 3.0)
 
     # Test green
-    sky_strip.test_section_color_orders(DAWN_PIXELS, DAWN_PIXELS + NOON_PIXELS, (0, 255, 0), 3.0)
+    sky_strip.test_section_color_orders(DAWN_PIXELS, DAWN_PIXELS + DAY_PIXELS, (0, 255, 0), 3.0)
 
     # Test blue
-    sky_strip.test_section_color_orders(DAWN_PIXELS, DAWN_PIXELS + NOON_PIXELS, (0, 0, 255), 3.0)
+    sky_strip.test_section_color_orders(DAWN_PIXELS, DAWN_PIXELS + DAY_PIXELS, (0, 0, 255), 3.0)
 
     print("\nDiagnostic complete!")
     print("Which color order showed the correct colors for the SK6812 section?")
@@ -163,11 +163,11 @@ def demo_corrected_colors(correct_order):
         sky_strip.set_pixel_grb(i, (255, 0, 0))  # Red
 
     # Set noon section with correct order
-    for i in range(DAWN_PIXELS, DAWN_PIXELS + NOON_PIXELS):
+    for i in range(DAWN_PIXELS, DAWN_PIXELS + DAY_PIXELS):
         sky_strip.set_pixel_order(i, (255, 0, 0), correct_order)  # Red
 
     # Set dusk section (GRB)
-    for i in range(DAWN_PIXELS + NOON_PIXELS, TOTAL_SKY_PIXELS):
+    for i in range(DAWN_PIXELS + DAY_PIXELS, TOTAL_SKY_PIXELS):
         sky_strip.set_pixel_grb(i, (255, 0, 0))  # Red
 
     sky_strip.show()
@@ -181,11 +181,11 @@ def demo_corrected_colors(correct_order):
             sky_strip.set_pixel_grb(i, color)
 
         # Noon (correct order)
-        for i in range(DAWN_PIXELS, DAWN_PIXELS + NOON_PIXELS):
+        for i in range(DAWN_PIXELS, DAWN_PIXELS + DAY_PIXELS):
             sky_strip.set_pixel_order(i, color, correct_order)
 
         # Dusk (GRB)
-        for i in range(DAWN_PIXELS + NOON_PIXELS, TOTAL_SKY_PIXELS):
+        for i in range(DAWN_PIXELS + DAY_PIXELS, TOTAL_SKY_PIXELS):
             sky_strip.set_pixel_grb(i, color)
 
         sky_strip.show()

@@ -1,7 +1,8 @@
 {
   "led_controllers": {
     "pin_sky": "GPIO 2",
-    "pin_ground": "GPIO 4"
+    "pin_ground": "GPIO 4",
+    "pin_stream": "GPIO 5" 
   },
   "strip_sky_arc": {
     "description": "Continuous 48-inch sky arc: dawn (12\") → noon bright (24\") → dusk (12\"). Forms complete data chain for sun traversal effect.",
@@ -33,23 +34,44 @@
         "purpose": "Orange/amber gradient as sun sets (right side of diorama)"
       }
     ],
+    "strip_type_zones": [
+      { "range": [0, 18],   "type": "WS2812B", "color_bytes": 3, "note": "dawn segment" },
+      { "range": [19, 109], "type": "SK6812",  "color_bytes": 4, "note": "noon segment — RGBW, W channel is additive white" },
+      { "range": [110, 128],"type": "WS2812B", "color_bytes": 3, "note": "dusk segment" }
+    ],
     "sun_tracker": {
       "id": "sun",
       "name": "The Sun",
       "width_pixels": 3,
       "traversal_range": [0, 126],
-      "color_dawn": [255, 160, 60],
-      "color_noon": [255, 255, 220],
-      "color_dusk": [255, 100, 20],
-      "description": "3-pixel warm-white light that traverses the 48-inch arc dawn→noon→dusk. Center pixel ranges from 0 to 126. Active during day hours only."
+      "colors": {
+        "WS2812B": {
+          "color_dawn":  [255, 160,  60],
+          "color_noon":  [255, 255, 220],
+          "color_dusk":  [255, 100,  20]
+        },
+        "SK6812": {
+          "color_dawn":  [255, 160,  60,   0],
+          "color_noon":  [255, 240, 200, 255],
+          "color_dusk":  [255, 100,  20,   0]
+        }
+      },
+      "description": "3-pixel warm-white light that traverses the 48-inch arc dawn→noon→dusk. Center pixel ranges from 0 to 126. Active during day hours only. Color tuple length (3 or 4) must match the strip_type_zone at the current pixel position."
     },
     "moon_tracker": {
       "id": "moon",
       "name": "The Moon",
       "width_pixels": 3,
       "traversal_range": [0, 126],
-      "color": [180, 200, 255],
-      "description": "3-pixel cool blue-white light that traverses the same 48-inch arc as the sun but in reverse (dusk→noon→dawn). Active during night hours only. Mutually exclusive with sun_tracker."
+      "colors": {
+        "WS2812B": {
+          "color": [180, 200, 255]
+        },
+        "SK6812": {
+          "color": [140, 160, 255, 60]
+        }
+      },
+      "description": "3-pixel cool blue-white light that traverses the same 48-inch arc as the sun but in reverse (dusk→noon→dawn). Active during night hours only. Mutually exclusive with sun_tracker. Color tuple length (3 or 4) must match the strip_type_zone at the current pixel position."
     }
   },
   "strip_ground_effects": {
@@ -80,13 +102,6 @@
         "span_xy": [[23, 8], [32, 8]],
         "width_inches": 2,
         "purpose": "14 pixels of low-intensity path lighting across 9-inch bridge span."
-      },
-      {
-        "id": "stream",
-        "name": "The River",
-        "range": [20, 55],
-        "bounds_xy": [[25, 0], [32, 0], [31, 24], [27, 24]],
-        "purpose": "36 pixels along 24-inch water channel. Strip runs parallel to flow direction. Cool blue/cyan shimmer."
       },
       {
         "id": "smial_3_lower",
@@ -182,6 +197,29 @@
         "bounds_xy": [[23, 8], [32, 8]],
         "mount": "upward-pointing under bridge deck",
         "purpose": "8 cool blue-white pixels mounted beneath the bridge deck facing upward. Creates a mist glow effect. Activates at dawn time window and during fog events (GPIO 18)."
+      }
+    ]
+  },
+  "strip_water_effects": {
+    "description": "SK6812 RGBW strip on GPIO 5 for river shimmer effect. Positioned into the EDGE of acrylic base of the stream.",
+    "total_pixels": 40,
+    "strip_type": "SK6812 RGBW",
+    "density_per_meter": 144,
+    "purpose": "20 pixels along 24-inch water channel. Cool blue/cyan shimmer. Independent of the main ground strip pixels to allow for different animation patterns and brightness levels.",
+    "segments": [
+      {
+        "id": "stream_shimmer_left",
+        "name": "Stream Shimmer Left",
+        "range": [0, 19],
+        "bounds_xy": [[25, 0], [32, 0], [31, 24], [27, 24]],
+        "purpose": "20 pixels along the Left Side of the acrylic base of the stream."
+      },
+      {
+        "id": "stream_shimmer_right",
+        "name": "Stream Shimmer Right",
+        "range": [20, 39],
+        "bounds_xy": [[25, 0], [32, 0], [31, 24], [27, 24]],
+        "purpose": "20 pixels along the Right Side of the acrylic base of the stream."
       }
     ]
   }
