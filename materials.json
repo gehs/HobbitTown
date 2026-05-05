@@ -16,10 +16,10 @@
     },
     {
       "id": "audio_controller_main",
-      "type": "Adafruit Music Maker FeatherWing (3436)",
+      "type": "Tsunami Super WAV Trigger",
       "quantity": 1,
-      "specs": "VS1053 Codec with 3W Stereo Amp and MicroSD Slot",
-      "notes": "Handles high-fidelity MP3/WAV playback and file randomization; interfaces via SPI."
+      "specs": "Serial Connection TX/RX, MicroSD Slot",
+      "notes": "WAV files only. 44.1kHz, 16-bit Mono. Use for high-quality audio playback."
     }
   ],
   "servos": [
@@ -45,6 +45,7 @@
         { "id": "spk_spot_bridge", "location": "Under Bridge", "type": "1-inch Spot" }
       ],
       "notes": "Limited frequency range; use for chirps, clicks, or localized speech.",
+      "ohm_rating": "8Ω",
       "spares": 3
     },
     {
@@ -54,13 +55,17 @@
         { "id": "exciter_ambient_L", "location": "Left Chassis / Sub-floor" },
         { "id": "exciter_ambient_R", "location": "Right Chassis / Sub-floor" }
       ],
-      "notes": "Use for immersive environmental background (wind, thunder, low-end rumble)."
+      "notes": "Use for immersive environmental background (wind, thunder, low-end rumble).",
+      "ohm_rating": "4Ω",
+      "spares": 0
     },
     {
       "type": "Amplifiers",
       "assignments": [
-        { "id": "amp_i2s_main", "type": "MAX98357", "notes": "Main digital audio out" },
-        { "id": "amp_analog_aux", "type": "PAM8406", "notes": "Driving spot speakers" }
+        { "id": "amp_spot_temp", "type": "GF1002", "notes": "Driving spot speakers" },
+        { "id": "amp_exc_temp", "type": "GF1002", "notes": "Driving exciter speakers" },
+        { "id": "amp_spot_final", "type": "TPA2012", "notes": "Final amplifier for spot speakers" },
+        { "id": "amp_exc_final", "type": "MAX9744", "notes": "Final amplifier for exciter speakers" }
       ]
     }
   ],

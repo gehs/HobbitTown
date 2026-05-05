@@ -507,20 +507,28 @@ DOOR_CLOSED_ANGLE = 0      # Position for closed door
 
 ### 6.1 Adafruit Music Maker FeatherWing
 
+### 6.1 Tsunami Super WAV Trigger
+
 **Component Specs:**
-- Type: Adafruit Music Maker FeatherWing (3436)
-- Chipset: VS1053b MP3/WAV codec
-- Interface: SPI
-- Output: 3W stereo amplifier built-in
+- Type: Tsunami Super WAV Trigger
+- Interface: UART serial control (57600 baud)
+- Output: Mono Audio Out : 8 line outs available.
+- Input: MicroSD card (Class 10, under 32GB, FAT32 and 32 bit, supports 44.1kHz mono WAV files)
 - Power: 5V USB or external
 
-**Wiring:** Follow Adafruit's official guide (SPI bus: MOSI, MISO, SCK, plus CS and reset pins).
+**Wiring:**
+- ESP32-S3 GPIO17 (TX) → Tsunami RXI
+- ESP32-S3 GPIO18 (RX) → Tsunami TXO
+- Common ground between ESP32-S3 and Tsunami
+- Tsunami Audio Out 1L → GF1002 L input
 
-For current implementation details (including PCA9685 speaker-control wiring on channels 8-13), see [WIRING_AUDIO.md](WIRING_AUDIO.md).
+**Configuration:**
+- Set `AUDIO_UART_TX = board.GPIO17` in `config.py`
+- Set `AUDIO_UART_RX = board.GPIO18` in `config.py`
+- Baudrate: 57600 (fixed)
+- Copy `tsunami.ini` to Tsunami SD card root with `BAUD=57600`, `MONO=1`, `SERIAL=1`
 
-If your Music Maker FeatherWing is pinless, solder headers/wires and pass continuity checks before any wiring tests (see pinless workflow in [WIRING_AUDIO.md](WIRING_AUDIO.md)).
-
-If using a pinless Music Maker FeatherWing, complete soldered header/wire preparation first (see pinless workflow in [WIRING_AUDIO.md](WIRING_AUDIO.md)).
+For detailed wiring steps and testing procedures, see [WIRING_AUDIO.md](WIRING_AUDIO.md).
 
 ---
 

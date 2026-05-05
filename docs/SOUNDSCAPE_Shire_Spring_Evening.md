@@ -15,37 +15,37 @@ This soundscape captures the magical transition of a spring evening, from the la
 ## Audio Components & Configuration
 
 ### Component 1: Evening Bird Chorus (Primary Layer)
-- **Type:** Looping MP3 background track
+- **Type:** Looping WAV track
 - **Duration:** ~15 minutes (seamless loop)
-- **Audio Output:** MAX98357 Amplifier #1 → Speaker #1 (Bag End/Main area)
+- **Audio Output:** Tsunami track 001 → GF1002 amplifier → Speaker(s)
 - **Timing:** Runs continuously from 6:30 PM, peaks during golden hour (7:00–7:45 PM), fades to near-silence by 8:20 PM
 - **Description:** Spring evening songbirds featuring robins, thrushes, and warblers. Dynamic mix that shifts from bright, active chirping to softer, more contemplative evening songs. Volume gradually decreases as daylight fades.
 
 ### Component 2: Water Features (Secondary Layer)
-- **Type:** Looping MP3/WAV ambient track
+- **Type:** Looping WAV track
 - **Duration:** ~10-12 minutes (seamless loop)
-- **Audio Output:** MAX98357 Amplifier #2 → Speaker #2 (River segment area)
+- **Audio Output:** Tsunami track 002 → GF1002 amplifier → Speaker(s)
 - **Timing:** Subtle throughout, peaks around 7:30 PM as bird chorus fades
 - **Description:** Gentle stream flow with occasional babbling sounds. Reuses spring dawn water layer but emphasizes softer, more meditative quality. Becomes more prominent as active bird song diminishes.
 
 ### Component 3: Breeze & Foliage Rustle (Ambient Layer)
-- **Type:** Looping WAV or short MP3
+- **Type:** Looping WAV track
 - **Duration:** ~8-10 minutes (seamless loop)
-- **Audio Output:** MAX98357 Amplifier #3 → Speaker #3 (Party Tree area)
+- **Audio Output:** Tsunami track 003 → GF1002 amplifier → Speaker(s)
 - **Timing:** Subtle at 6:30 PM, peaks around 7:15 PM, settles to gentle background by 8:00 PM
 - **Description:** Soft wind through spring leaves, gentle rustling of flowering branches and new foliage. Captures the calm settling of the landscape as evening approaches. Reuses spring dawn wind layer with adjusted dynamics.
 
 ### Component 4: Insect Chorus & Frogs (Nature Layer)
-- **Type:** Looping MP3 or triggerable WAV samples
+- **Type:** Looping WAV track or triggerable samples
 - **Duration:** ~12-14 minutes (seamless loop, fades in gradually)
-- **Audio Output:** MAX98357 Amplifier #4 → Speaker #4 (Bridge area)
+- **Audio Output:** Tsunami track 004 → GF1002 amplifier → Speaker(s)
 - **Timing:** Begins fading in around 7:15 PM, becomes prominent by 7:45 PM
 - **Description:** Spring crickets, cicadas, and distant frogs calling. Starts barely audible and builds as daylight fades, creating the signature evening chorus. This is the primary transition marker—as insects rise, birds fade.
 
 ### Component 5: Distant Bell & Evening Ambience (Event Markers)
-- **Type:** Single WAV samples + subtle ambient track
-- **Duration:** 3-5 seconds for bell tolls; ambient runs continuously
-- **Audio Output:** MAX98357 Amplifier #5 → Audio Exciter #1 (atmospheric presence)
+- **Type:** Single WAV samples
+- **Duration:** 3-5 seconds for bell tolls
+- **Audio Output:** Tsunami tracks 020-021 → GF1002 amplifier (or aux → Exciters)
 - **Timing:** Shire bell at 7:00 PM (1 toll), again at 7:30 PM (2 tolls), optionally at 8:00 PM (1 toll for half-hour)
 - **Description:** Distant Shire bell marking the hour and half-hour, adding a fantastical anchor point. Subtle ambient glow-down sound suggesting dimming light and the arrival of twilight magic.
 
@@ -53,13 +53,15 @@ This soundscape captures the magical transition of a spring evening, from the la
 
 ## Speaker & Amplifier Mapping
 
-| Component | Speaker # | Amplifier | Location/Purpose |
+| Component | Tsunami Track | Amplifier | Method |
 |-----------|-----------|-----------|------------------|
-| Evening Birds | #1 | MAX98357 #1 | Center (Bag End) - primary narrative |
-| Water Features | #2 | MAX98357 #2 | River segment - supporting ambience |
-| Wind/Foliage | #3 | MAX98357 #3 | Party Tree area - environmental depth |
-| Insects/Frogs | #4 | MAX98357 #4 | Bridge area - emerging evening life |
-| Bell/Glow | Exciter #1 | MAX98357 #5 | Directional/atmospheric presence |
+| Evening Birds | 001 | GF1002 | Continuous loop, volume fade |
+| Water Features | 002 | GF1002 | Continuous loop, volume fade |
+| Wind/Foliage | 003 | GF1002 | Continuous loop, volume fade |
+| Insects/Frogs | 004 | GF1002 | Continuous loop, volume fade-in |
+| Bell Toll | 020-021 | GF1002 (or aux/Exciters) | Event triggers at 7:00/7:30 PM |
+
+**Architecture:** All components route through a single GF1002 amplifier. The Tsunami plays WAV files sequentially or simultaneously as the scene logic dictates. Optional exciter output available via auxiliary jack for atmospheric depth.
 
 ---
 
