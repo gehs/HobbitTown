@@ -23,14 +23,14 @@ GROUND_PIXEL_COUNT = 70
 BRIGHTNESS = 0.25
 
 # Explicit pin mapping for this diagnostic
-SKY_PIN = config.NEOPIXEL_SKY_PIN        # GPIO4
+SKY_PIN = config.NEOPIXEL_PIN        # GPIO4
 GROUND_PIN = config.NEOPIXEL_GROUND_PIN  # GPIO2
 
 
 class ColorOrderTester:
     """Tests different color orders to find the correct mapping for SK6812 LEDs"""
 
-    def __init__(self, pin, total_pixels, brightness=0.25):
+    def __init__(self, pin, total_pixels, brightness=0.5):
         self.pin = digitalio.DigitalInOut(pin)
         self.pin.direction = digitalio.Direction.OUTPUT
         self.total_pixels = total_pixels
