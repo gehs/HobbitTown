@@ -449,12 +449,8 @@ def _send_html(client, html):
         "\r\n"
     )
     response = header + html
-    try:
-        client.sendall(response.encode("utf-8"))
-    except Exception as e:
-        print("web_logic: send error", e)
-    finally:
-        client.close()
+    _send_with_retry(client, response.encode("utf-8"))
+    client.close()
 
 
 def _send_response(client, status_code, message):
@@ -468,12 +464,8 @@ def _send_response(client, status_code, message):
         "Content-Length: " + str(len(message)) + "\r\n"
         "\r\n"
     )
-    try:
-        client.sendall((header + message).encode("utf-8"))
-    except Exception as e:
-        print("web_logic: send error", e)
-    finally:
-        client.close()
+    _send_with_retry(client, (header + message).encode("utf-8"))
+    client.close()
 
 
 def _send_json_response(client, status_code, payload):
@@ -488,12 +480,36 @@ def _send_json_response(client, status_code, payload):
         "Content-Length: " + str(len(body)) + "\r\n"
         "\r\n"
     )
-    try:
-        client.sendall((header + body).encode("utf-8"))
-    except Exception as e:
-        print("web_logic: send error", e)
-    finally:
-        client.close()
+    _send_with_retry(client, (header + body).encode("utf-8"))
+    client.close()
+
+
+def _send_with_retry(client, data):
+    """Send data with retries and chunking for large payloads. Handles EAGAIN errors."""
+    import time
+    chunk_size = 512  # Send in 512-byte chunks
+    offset = 0
+    max_retries = 5
+    
+    while offset < len(data):
+        chunk = data[offset:offset + chunk_size]
+        retries = 0
+        
+        while retries < max_retries:
+            try:
+                client.sendall(chunk)
+                offset += chunk_size
+                break
+            except OSError as e:
+                if e.errno == 11:  # EAGAIN – buffer full
+                    retries += 1
+                    time.sleep(0.02)  # 20ms backoff
+                else:
+                    print("web_logic: send error", e)
+                    return
+        else:
+            print("web_logic: send timeout after retries")
+            return
 
 
 # ================================================================

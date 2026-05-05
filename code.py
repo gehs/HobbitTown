@@ -1,123 +1,115 @@
+"""
+Tsunami Super WAV Trigger binary packet test for ESP32-S3.
+
+This test validates the Tsunami UART1 connection to Audio Out 1L.
+It only exercises the first output path for the WAV Trigger.
+
+The Tsunami uses a binary packet protocol:
+  0xF0 0xAA (Start of Message)
+  Length (1 byte)
+  Command code
+  Command data
+  0x55 (End of Message)
+
+Wire (UART1 on GPIO17/18):
+- Tsunami RXI -> ESP32 GPIO17 (U1TXD)
+- Tsunami TXO -> ESP32 GPIO18 (U1RXD)
+- Common ground
+
+To repeat: copy `tsunami.ini` to the SD root, save `code.py`, reset the ESP32, then confirm the Tsunami green track LED and audio output.
+"""
+
+import board  # type: ignore
+import busio  # type: ignore
 import time
-import config
-import hardware.lighting as lighting
-import hardware.motion as motion
-import hardware.audio as audio
-import hardware.atmosphere as atmosphere
-import hardware.soundscape as soundscape
-import time_sync
-import web_logic
-from logic.test_scene import smial_test
-
-# States
-MORNING = 0
-DAY = 1
-EVENING = 2
-NIGHT = 3
-
-current_state = DAY
-party_mode_active = False
-last_hour = -1
 
 
-def _safe_setup_step(name, setup_func):
-    """Initialize one subsystem without aborting the whole boot in dry-load mode."""
-    try:
-        setup_func()
-    except Exception as exc:
-        if getattr(config, "ALLOW_MISSING_HARDWARE", False):
-            print(f"{name}: dry-load mode ({exc})")
-        else:
-            raise
+class Tsunami:
+    def __init__(self, tx_pin, rx_pin, baudrate=57600):
+        # Initialize the UART bus. Tsunami expects exactly 57600 baud by default.
+        self.uart = busio.UART(tx_pin, rx_pin, baudrate=baudrate)
+        
+    def _send_track_command(self, action, track_num):
+        """Builds and sends the 8-byte Track Control packet."""
+        # The track number is a 16-bit integer, so we split it into two 8-bit bytes (Little Endian)
+        track_lsb = track_num & 0xFF
+        track_msb = (track_num >> 8) & 0xFF
+        
+        packet = bytearray([
+            0xF0,              # Start of Message 1
+            0xAA,              # Start of Message 2
+            0x08,              # Length of message
+            0x03,              # Command: Track Control
+            action,            # Action Code
+            track_lsb,         # Track LSB
+            track_msb,         # Track MSB
+            0x55               # End of Message
+        ])
+        self.uart.write(packet)
+
+    def track_play_poly(self, track_num):
+        """Plays a track, blending it with any already playing."""
+        self._send_track_command(0x01, track_num)
+        
+    def track_play_solo(self, track_num):
+        """Stops all current tracks and plays the requested track."""
+        self._send_track_command(0x00, track_num)
+        
+    def track_pause(self, track_num):
+        self._send_track_command(0x02, track_num)
+        
+    def track_resume(self, track_num):
+        self._send_track_command(0x03, track_num)
+        
+    def track_stop(self, track_num):
+        self._send_track_command(0x04, track_num)
+        
+    def stop_all(self):
+        """Stop all is a specific 5-byte command (CMD 0x04)"""
+        packet = bytearray([0xF0, 0xAA, 0x05, 0x04, 0x55])
+        self.uart.write(packet)
 
 
 def setup():
-    """Initialize all hardware and systems."""
-    print("The Shire is waking up...")
-    print("Dry-load boot enabled: external components can stay unplugged during upload/testing.")
-
-    _safe_setup_step("lighting", lighting.setup_lighting)
-    _safe_setup_step("motion", motion.setup_hardware)
-    _safe_setup_step("audio", audio.setup_audio)
-    _safe_setup_step("atmosphere", atmosphere.setup_atmosphere)
-    _safe_setup_step("web", web_logic.setup_web)
-
-    print("Startup summary:")
-    print(" - lighting:", "ready" if getattr(lighting, "is_available", False) else "dry-load")
-    print(" - motion:", "ready" if getattr(motion, "hardware_ready", False) else "dry-load")
-    print(" - atmosphere:", "ready" if getattr(atmosphere, "atmosphere_ready", False) else "dry-load")
-    print(" - web:", "ready" if getattr(web_logic, "server_socket", None) else "standby")
-    print("Shire controller ready. Upload confirmed.")
+    """Test the Tsunami connection with correct pins."""
+    print("Tsunami test starting...")
+    
+    try:
+        # Use GPIO17 (TX) and GPIO18 (RX) for UART1
+        tsunami = Tsunami(board.GPIO17, board.GPIO18, baudrate=57600)
+        print("? Tsunami UART initialized on GPIO17/18 at 57600 baud")
+        
+        # Wait for Tsunami to be ready
+        time.sleep(1)
+        
+        # Play track 001 (poly mode)
+        print("\nPlaying track 001...")
+        tsunami.track_play_poly(1)
+        print("Track 001 sent. Listening for 4 seconds...")
+        time.sleep(4)
+        
+        # Play track 002 (poly mode - will blend with track 001)
+        print("\nPlaying track 002...")
+        tsunami.track_play_poly(2)
+        print("Track 002 sent. Listening for 4 seconds...")
+        time.sleep(4)
+        
+        # Stop all
+        print("\nStopping all tracks...")
+        tsunami.stop_all()
+        
+        print("\n? Test complete! Check if you heard the audio.")
+        
+    except Exception as e:
+        print(f"\n? ERROR: {e}")
+        import traceback
+        traceback.print_exc()
 
 
 def loop():
-    """Main execution cycle."""
-    global last_hour, party_mode_active
-
-    # Always handle web requests so the UI stays responsive
-    web_logic.run_web_sync()
-
-    # Check if hardware test is running
-    if smial_test.is_running:
-        smial_test.update()
-        return
-
-    lighting.run_lighting_cycle()
-
-    current_hour = time_sync.get_hour()
-    if current_hour != last_hour:
-        update_state_by_time(current_hour)
-        last_hour = current_hour
-
-    if party_mode_active:
-        lighting.apply_lighting_preset(5)
-        audio.play_party_music()
-        party_mode_active = False
-
-    audio.run_audio_cycle()
-    atmosphere.run_atmosphere_cycle()
-
-
-def update_state_by_time(hour):
-    global current_state
-    if 6 <= hour < 9:
-        current_state = MORNING
-    elif 9 <= hour < 17:
-        current_state = DAY
-    elif 17 <= hour < 20:
-        current_state = EVENING
-    else:
-        current_state = NIGHT
-
-    apply_shire_atmosphere(current_state)
-
-
-def apply_shire_atmosphere(state):
-    if state == MORNING:
-        lighting.apply_lighting_preset(1)
-        audio.play_daytime()
-    elif state == DAY:
-        lighting.apply_lighting_preset(2)
-    elif state == EVENING:
-        lighting.apply_lighting_preset(3)
-        audio.play_sunset_sfx()
-    elif state == NIGHT:
-        lighting.apply_lighting_preset(4)
-        audio.play_nighttime()
-
-
-def trigger_hardware_test():
-    """Start the hardware certification test sequence."""
-    smial_test.start()
-
-
-# --- Main Execution ---
-setup()
-
-while True:
-    try:
-        loop()
-        time.sleep(config.LOOP_DELAY)
-    except Exception as e:
-        print(f"Error in main loop: {e}")
+    while True:
         time.sleep(1)
+
+
+setup()
+loop()
