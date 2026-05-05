@@ -1,0 +1,10 @@
+{
+  "servers": {
+    "hobbittown-validator": {
+      "type": "stdio",
+      "command": "python",
+      "args": ["${workspaceFolder}/mcp_server/server.py"],
+      "env": {}
+    }
+  }
+}
