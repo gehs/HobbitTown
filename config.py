@@ -10,11 +10,13 @@ ENABLE_ATMOSPHERE = False  # True when the fogger relay is connected
 ENABLE_WEB = True          # Safe to leave enabled for browser-based testing
 
 # --- LIGHTING ---
-NEOPIXEL_PIN = board.GPIO2   # Sky arc strip on GPIO2: dawn (19) + noon SK6812 (91) + dusk (19)
-NUM_PIXELS = 129             # Total sky arc pixels
-NEOPIXEL_GROUND_PIN = board.GPIO4  # Ground effects strip on GPIO4
+NEOPIXEL_SKY_PIN = board.GPIO4   # Sky arc strip on GPIO4: dawn (19) + noon SK6812 (91) + dusk (19)
+NUM_PIXELS_SKY = 129             # Total sky arc pixels
+NEOPIXEL_GROUND_PIN = board.GPIO2  # Ground effects strip on GPIO2
 NUM_PIXELS_GROUND = 153      # Total ground pixels: terrain(100) + lanterns(6) + fireflies(12) + stars(10) + lightning(10) + chimneys(7) + bridge_mist(8)
-BRIGHTNESS = 0.5             # 0.0 to 1.0, matches C++ LED_BRIGHTNESS 128/255
+BRIGHTNESS = 0.25             # 0.0 to 1.0, matches C++ LED_BRIGHTNESS 128/255
+
+# NOTE: Ground lights are wired to GPIO2 and sky lights are wired to GPIO4.
 
 # --- I2C for PCA9685 PWM Drivers ---
 # This YD ESP32-S3 board does not expose GPIO22 in CircuitPython.

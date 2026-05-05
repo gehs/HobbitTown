@@ -112,7 +112,8 @@ Before connecting external hardware, verify the board boots without errors.
 - Data rate: 800 kHz
 
 **Pin Assignment (from `config.py`):**
-- Data pin: **GPIO 2** (NEOPIXEL_PIN)
+- Ground lights data pin: **GPIO 2** (`NEOPIXEL_GROUND_PIN`)
+- Sky lights data pin: **GPIO 4** (`NEOPIXEL_PIN`)
 
 **Protective Components:**
 
