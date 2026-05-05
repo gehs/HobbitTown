@@ -112,6 +112,16 @@ If you are also cutting LED strips in this build, follow addressable reconnect p
 
 ---
 
+## Tsunami WAV Trigger UART test (confirmed for Audio Out 1L)
+
+- Use UART1 on the ESP32-S3: `GPIO17` -> Tsunami `RXI`, `GPIO18` -> Tsunami `TXO`, plus common ground.
+- Set `AUDIO_UART_BAUDRATE = 57600` in `config.py` and upload the working `code.py` test harness.
+- Confirm `tsunami.ini` is copied to the Tsunami SD card root and contains `BAUD=57600`, `MONO=1`, `SERIAL=1`.
+- Run the board and verify the Tsunami green track indicator lights when `track_play_poly()` is called.
+- This test currently validates the Tsunami output path for Audio Out 1L only. Other outputs should be tested in future wiring runs.
+
+---
+
 ## 1) Audio Control Architecture
 
 ### 1.1 Ambient path — Music Maker FeatherWing → GF1002 boards

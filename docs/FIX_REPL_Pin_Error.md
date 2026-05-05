@@ -4,6 +4,18 @@ If the serial monitor is only showing partial chat output, use this note directl
 
 ## 1) Enter the CircuitPython REPL
 
+1. Open the Serial Monitor in VS Code
+Press Ctrl+Shift+P (or Cmd+Shift+P on Mac) to open the command palette
+Type "Serial Monitor" and select "Serial Monitor: Open"
+This should connect to your ESP32 board via USB
+2. Enter the REPL
+Once the serial monitor is open and showing CircuitPython output, press any key on your keyboard
+You should see the >>> prompt appear
+The board will pause its main program and enter interactive mode
+3. Run Commands
+At the >>> prompt, you can type Python commands
+For example, to check your board pins as mentioned in the doc:
+
 - In the serial monitor, **press any key**.
 - Then type these **one line at a time**:
 
