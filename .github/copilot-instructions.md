@@ -85,6 +85,7 @@ When a user asks you to perform a task that falls within the domain of a skill, 
 - **tech-manual**: Generates a clear, beginner-friendly hardware documentation and wiring guide for a new component. File: .github/skills/tech-manual/skill.md
 - **ui**: Generates a local UI for the diorama. File: .github/skills/ui/skill.md
 - **lighting-management**: Manages lighting effects and dynamic updates for HobbitTown diorama. File: .github/skills/lighting-management/skill.md
+- **unit-tester**: Generates isolated unit tests for code.py to verify logic without hardware dependencies. File: .github/skills/unit-tester/skill.md
 
 ## Skill Prioritization Matrix
 
@@ -98,5 +99,6 @@ Use this table to choose the correct skill before loading any skill file. Invoke
 | Lighting presets, segments, or animations | lighting-management | new-scene, ui |
 | Ambient audio or soundscape design | music-scape | new-scene, ui |
 | Local web controls or dashboards | ui | new-scene, lighting-management |
+| Unit testing code.py logic | unit-tester | |
 
 For full usage guidance and cooperation chains, see `Readme_VSCODE.md`.

@@ -15,16 +15,16 @@
 | GPIO17 | GPIO17 | UART1 TX (U1TXD) — preferred for Tsunami RXI in serial mode |
 | GPIO18 | GPIO18 | UART1 RX (U1RXD) — preferred for Tsunami TXO in serial mode |
 | GPIO2 | GPIO2 | Ground lights data pin — `NEOPIXEL_GROUND_PIN` |
-| GPIO21 | GPIO21 | I2C SDA (Qwiic WAV Trigger Pro SDA) |
+| GPIO21 | GPIO21 | Chimney Pin - Smial1 |
 | GPIO3 | GPIO3 | |
-| GPIO35 | GPIO35 | |
+| GPIO35 | GPIO35 | FAILED when attempting to use for Chimney Test - Possibly Reserved|
 | GPIO36 | GPIO36 | |
 | GPIO37 | GPIO37 | |
 | GPIO38 | GPIO38 | |
 | GPIO39 | GPIO39 | |
 | GPIO4 | GPIO4 | Sky lights data pin — `NEOPIXEL_PIN` |
-| GPIO40 | GPIO40 | |
-| GPIO41 | GPIO41 | |
+| GPIO40 | GPIO40 | Chimney Pin - Smial2 |
+| GPIO41 | GPIO41 | Chimney Pin - Smail3 |
 | GPIO42 | GPIO42 | |
 | GPIO43 | GPIO43 | UART0 TX / USB console (avoid for Tsunami UART if using USB REPL) |
 | GPIO44 | GPIO44 | UART0 RX / USB console (avoid for Tsunami UART if using USB REPL) |

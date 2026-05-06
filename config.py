@@ -26,10 +26,12 @@ PCA9685_ADDR1 = 0x40
 PCA9685_ADDR2 = 0x41
 
 # --- ATMOSPHERE (Fogger) ---
-FOGGER_RELAY_PIN = <Needs Assigned>  # will pass through relay control
+FOGGER_RELAY_PIN = None  # assign actual pin when fogger relay wiring is available
 
 # --- CHIMNEY (Smoke/Fog) ---
-CHIMNEY_RELAY_PIN = board.GPIO19  # GPIO19 relay control for chimney smoke
+CHIMNEY_RELAY_PIN1 = board.GPIO21  # GPIO21 relay control for chimney smoke smial 1 (GPIO19 Failed)
+CHIMNEY_RELAY_PIN2 = board.GPIO40  # GPIO40 relay control for chimney smoke smial 2
+CHIMNEY_RELAY_PIN3 = board.GPIO41  # GPIO41 relay control for chimney smoke smial 3
 
 # --- AUDIO (Tsunami Super WAV Trigger) ---
 ENABLE_AUDIO = True  # Set True after wiring the WAV Trigger and validating audio control mode.
