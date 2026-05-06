@@ -35,8 +35,8 @@
 | GPIO5 | GPIO5 | |
 | GPIO6 | GPIO6 | |
 | GPIO7 | GPIO7 | |
-| GPIO8 | GPIO8 | Optional WAV Trigger direct trigger output (T1) |
-| GPIO9 | GPIO9 | Optional WAV Trigger direct trigger output (T2) |
+| GPIO8 | GPIO8 | I2C SDA (PCA9685 SDA) |
+| GPIO9 | GPIO9 | I2C SCL (PCA9685 SCL) |
 | NEOPIXEL | GPIO48 | |
 | RX | GPIO44 | UART0 RX / USB console |
 | TX | GPIO43 | UART0 TX / USB console |

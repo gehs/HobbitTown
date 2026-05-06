@@ -20,8 +20,8 @@ def print_wiring_reminder():
     print("  GND  -> common ground with ESP32 and servos")
     print("  VCC  -> 5V logic power for PCA9685 and I2C")
     print("  V+   -> 5V servo power bus")
-    print("  SDA  -> GPIO8")
-    print("  SCL  -> GPIO9")
+    print("  SDA  -> GPIO21")
+    print("  SCL  -> GPIO47")
     print("  OE   -> tie to GND on non-jumpered boards")
     print("---")
 

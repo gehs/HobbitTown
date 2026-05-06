@@ -218,15 +218,15 @@ Before connecting external hardware, verify the board boots without errors.
 **Component:** Two PCA9685 PWM drivers at different I2C addresses (0x40 and 0x41).
 
 **Pin Assignments (from `config.py`):**
-- SDA (data): **GPIO 21**
-- SCL (clock): **GPIO 47**
+- SDA (data): **GPIO 8**
+- SCL (clock): **GPIO 9**
 - Frequency: 100 kHz (standard I2C)
 
 **Protective Components:**
 
 1. **Pull-up resistors (4.7 kΩ × 2):**
-   - One resistor: SDA (GPIO 21) to 5V
-   - One resistor: SCL (GPIO 47) to 5V
+   - One resistor: SDA (GPIO 8) to 5V
+   - One resistor: SCL (GPIO 9) to 5V
    - Size: 1/4W resistor
    - Purpose: I2C requires open-drain drivers; pull-ups hold lines high when idle.
 
@@ -245,6 +245,9 @@ Before connecting external hardware, verify the board boots without errors.
    - PCA9685 #2 VCC → 5V bus
    - PCA9685 #2 GND → GND bus
    - 10µF capacitor across VCC/GND on each board
+   - If the PCA9685 board is non-jumpered, tie `OE` to GND to enable outputs.
+   - `VCC` supplies the PCA9685 logic and I2C reference voltage.
+   - `V+` supplies servo power. Servo signal and power grounds must share the same GND bus.
 
 
 4. **Physical placement:**
@@ -328,8 +331,8 @@ If you are using the SparkFun Qwiic WAV Trigger Pro, wire the ESP32 and WAV Trig
    - Connect the WAV Trigger power supply GND to the same shared ground.
 
 2. **Qwiic / I2C control mode (recommended):**
-   - `GPIO21` → Qwiic SDA
-   - `GPIO47` → Qwiic SCL
+   - `GPIO8` → Qwiic SDA
+   - `GPIO9` → Qwiic SCL
    - Connect the WAV Trigger's Qwiic `GND` pin to ESP32 ground.
    - Connect the WAV Trigger's Qwiic `3V3` pin to the ESP32 3.3V supply.
    - In `config.py`, enable the new mode:
@@ -538,7 +541,7 @@ If using a pinless Music Maker FeatherWing, complete soldered header/wire prepar
   - [ ] Run test and verify lights respond
 
 - [ ] **I2C Bus:**
-  - [ ] 4.7kΩ pull-up resistors on SDA (GPIO 21) and SCL (GPIO 47) to 5V
+  - [ ] 4.7kΩ pull-up resistors on SDA (GPIO 8) and SCL (GPIO 9) to 5V
   - [ ] 10µF capacitor on PCA9685 power inputs
   - [ ] PCA9685 #1 at address 0x40, #2 at 0x41
   - [ ] Enable `ENABLE_MOTION = True`

@@ -20,9 +20,8 @@ BRIGHTNESS = 0.25             # 0.0 to 1.0, matches C++ LED_BRIGHTNESS 128/255
 
 # --- I2C for PCA9685 PWM Drivers ---
 # This YD ESP32-S3 board does not expose GPIO22 in CircuitPython.
-# Move the PCA9685 SCL wire to GPIO47 and keep SDA on GPIO21.
-I2C_SDA = board.GPIO21
-I2C_SCL = board.GPIO47
+I2C_SDA = board.GPIO8
+I2C_SCL = board.GPIO9
 PCA9685_ADDR1 = 0x40
 PCA9685_ADDR2 = 0x41
 
@@ -40,19 +39,9 @@ AUDIO_UART_RX = board.GPIO18  # Use UART1 RX (U1RXD) for Tsunami TXO.
 AUDIO_UART_BAUDRATE = 57600
 AUDIO_UART_TIMEOUT = 0.1
 
-# NOTE: GPIO18 is used for the Tsunami UART RX line when ENABLE_AUDIO_UART=True.
-# If the fogger relay also needs GPIO18, move that relay to a different pin first.
-AUDIO_TRIGGER_1_PIN = board.GPIO8
-AUDIO_TRIGGER_2_PIN = board.GPIO9
-AUDIO_TRIGGER_ACTIVE_LOW = True
-AUDIO_TRIGGER_PULSE_MS = 100
-AUDIO_TRIGGER_1_TRACK = 1
-AUDIO_TRIGGER_2_TRACK = 2
-AUDIO_TRACK_DAYTIME = 1
-AUDIO_TRACK_SUNSET = 2
-AUDIO_TRACK_NIGHTTIME = 3
-AUDIO_TRACK_DRAGON_EVENT = 4
-AUDIO_TRACK_PARTY_MUSIC = 5
+AUDIO_TRIGGER_1_PIN = board.GPIO10  # Available GPIO for audio trigger 1
+AUDIO_TRIGGER_2_PIN = board.GPIO11  # Available GPIO for audio trigger 2
+
 
 # --- MOTION (Servos, Vapor Channels, Blowers, Speakers) ---
 # Servo angles

@@ -21,13 +21,36 @@ def setup_hardware():
 
     try:
         i2c = busio.I2C(config.I2C_SCL, config.I2C_SDA)
-        pwm1 = adafruit_pca9685.PCA9685(i2c, address=config.PCA9685_ADDR1)
-        pwm2 = adafruit_pca9685.PCA9685(i2c, address=config.PCA9685_ADDR2)
-        pwm1.frequency = 60
-        pwm2.frequency = 60
-        hardware_ready = True
-        reset_all()
-        print("Hobbit Town Hardware: initialized")
+        pwm1_ready = False
+        pwm2_ready = False
+
+        try:
+            pwm1 = adafruit_pca9685.PCA9685(i2c, address=config.PCA9685_ADDR1)
+            pwm1.frequency = 60
+            pwm1_ready = True
+        except Exception as exc:
+            pwm1 = None
+            print(f"Hobbit Town Hardware: PCA9685 #1 missing at 0x{config.PCA9685_ADDR1:02X} ({exc})")
+
+        try:
+            pwm2 = adafruit_pca9685.PCA9685(i2c, address=config.PCA9685_ADDR2)
+            pwm2.frequency = 60
+            pwm2_ready = True
+        except Exception as exc:
+            pwm2 = None
+            print(f"Hobbit Town Hardware: PCA9685 #2 missing at 0x{config.PCA9685_ADDR2:02X} ({exc})")
+
+        hardware_ready = pwm1_ready or pwm2_ready
+        if hardware_ready:
+            reset_all()
+            if pwm1_ready and pwm2_ready:
+                print("Hobbit Town Hardware: initialized with both PCA9685 boards")
+            elif pwm1_ready:
+                print("Hobbit Town Hardware: initialized with PCA9685 #1 only")
+            else:
+                print("Hobbit Town Hardware: initialized with PCA9685 #2 only")
+        else:
+            print("Hobbit Town Hardware: no PCA9685 detected")
     except Exception as exc:
         i2c = None
         pwm1 = None
@@ -40,12 +63,20 @@ def servo_pulse_from_angle(deg):
     return int((deg / 180.0) * (config.SERVO_MAX_PULSE - config.SERVO_MIN_PULSE) + config.SERVO_MIN_PULSE)
 
 
+def set_servo_channel(channel, angle):
+    """Set a PCA9685 PWM channel to the given servo angle."""
+    if not hardware_ready or pwm1 is None:
+        return
+    if 0 <= channel <= 15:
+        pulse = servo_pulse_from_angle(angle)
+        pwm1.channels[channel].duty_cycle = int(pulse / 4095.0 * 65535)
+
+
 def set_door(id, angle):
     if not hardware_ready or pwm1 is None:
         return
     if 1 <= id <= 3:
-        pulse = servo_pulse_from_angle(angle)
-        pwm1.channels[id - 1].duty_cycle = int(pulse / 4095.0 * 65535)
+        set_servo_channel(id - 1, angle)
 
 
 def set_mister(id, value):
@@ -75,14 +106,19 @@ def set_blower(id, value):
 
 
 def reset_all():
-    if not hardware_ready or pwm1 is None or pwm2 is None:
+    if not hardware_ready:
         return
-    for i in range(16):
-        pwm1.channels[i].duty_cycle = 0
-        pwm2.channels[i].duty_cycle = 0
-    # Set servos to 90 degrees
-    for i in range(1, 4):
-        set_door(i, 90)
+
+    if pwm1 is not None:
+        for i in range(16):
+            pwm1.channels[i].duty_cycle = 0
+        # Set door servos to 90 degrees when PCA9685 #1 is present
+        for i in range(1, 4):
+            set_door(i, 90)
+
+    if pwm2 is not None:
+        for i in range(16):
+            pwm2.channels[i].duty_cycle = 0
 
 
 def get_bus_diagnostics():
