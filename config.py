@@ -32,16 +32,45 @@ FOGGER_RELAY_PIN = board.GPIO18  # GPIO18 relay control
 ENABLE_AUDIO = True  # Set True after wiring the WAV Trigger and validating audio control mode.
 ENABLE_AUDIO_I2C = False  # Enable Qwiic/I2C command mode for the WAV Trigger Pro.
 ENABLE_AUDIO_UART = True  # Enable UART command mode for the WAV Trigger.
-ENABLE_AUDIO_TRIGGERS = False  # Enable direct trigger outputs if the WAV Trigger is wired to ESP32 GPIO pins.
+ENABLE_AUDIO_TRIGGERS = False  # Optional direct trigger mode (GPIO pulses). Not needed for normal UART control.
 AUDIO_I2C_ADDR = 0x13  # Default 7-bit Qwiic address for WAV Trigger Pro.
 AUDIO_UART_TX = board.GPIO17  # Use UART1 TX (U1TXD) for Tsunami RXI.
 AUDIO_UART_RX = board.GPIO18  # Use UART1 RX (U1RXD) for Tsunami TXO.
 AUDIO_UART_BAUDRATE = 57600
 AUDIO_UART_TIMEOUT = 0.1
 
-AUDIO_TRIGGER_1_PIN = board.GPIO10  # Available GPIO for audio trigger 1
-AUDIO_TRIGGER_2_PIN = board.GPIO11  # Available GPIO for audio trigger 2
+# Tsunami supports 8 audio outputs. The current firmware sends track numbers over UART,
+# and channel routing is determined by how tracks are prepared on the Tsunami SD card.
+# These settings document a track-numbering convention so scene logic stays consistent.
+AUDIO_OUTPUT_COUNT = 8
+AUDIO_TRACK_RANGES_BY_OUTPUT = (
+	(1, 99),
+	(100, 199),
+	(200, 299),
+	(300, 399),
+	(400, 499),
+	(500, 599),
+	(600, 699),
+	(700, 799),
+)
 
+# If True, scene code should only use track IDs inside AUDIO_TRACK_RANGES_BY_OUTPUT.
+# If False, any valid Tsunami track ID may be used.
+ENFORCE_AUDIO_OUTPUT_TRACK_RANGES = True
+
+# NOTE: GPIO18 is used for the Tsunami UART RX line when ENABLE_AUDIO_UART=True.
+# If the fogger relay also needs GPIO18, move that relay to a different pin first.
+AUDIO_TRIGGER_1_PIN = board.GPIO8
+AUDIO_TRIGGER_2_PIN = board.GPIO9
+AUDIO_TRIGGER_ACTIVE_LOW = True
+AUDIO_TRIGGER_PULSE_MS = 100
+AUDIO_TRIGGER_1_TRACK = 1
+AUDIO_TRIGGER_2_TRACK = 2
+AUDIO_TRACK_DAYTIME = 1
+AUDIO_TRACK_SUNSET = 2
+AUDIO_TRACK_NIGHTTIME = 3
+AUDIO_TRACK_DRAGON_EVENT = 4
+AUDIO_TRACK_PARTY_MUSIC = 5
 
 # --- MOTION (Servos, Vapor Channels, Blowers, Speakers) ---
 # Servo angles

@@ -21,12 +21,14 @@
 
 ## Speaker/Amplifier Assignment
 
-| Layer | Speaker | Amplifier | Notes |
-|-------|---------|-----------|-------|
-| Base Storm | Speaker #1 | MAX98357 #1 | Main immersion
-| Thunder, Gusts | Speaker #2 | MAX98357 #2 | Localized strong hits
-| Post-Storm Birds | Speaker #3 | MAX98357 #3 | Clean natural transition
-| Storm Texture | Speaker #4 | MAX98357 #4 | Stream/river + small audio detail
+| Layer | Audio Output | Amplifier | Notes |
+|-------|-------|-----------|-------|
+| Base Storm | Tsunami track 001 | GF1002 | Main immersion (rain + wind loop) |
+| Thunder, Gusts | Tsunami track 002-005 | GF1002 | Event triggers (cracks, gusts) |
+| Post-Storm Birds | Tsunami track 006 | GF1002 | Clean natural transition |
+| Storm Texture | Optional: Tsunami aux → LQ-AMP10W | Exciters only | Deep rumble felt through floor panels |
+
+**Architecture note:** All speaker outputs route through a single GF1002 amplifier. The Tsunami mixes all tracks into a unified stereo output that plays through speakers and optionally through the LQ-AMP10W exciters for atmospheric vibration.
 
 ## Implementation Details
 

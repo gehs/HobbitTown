@@ -6,52 +6,198 @@ Use it after wiring the PCA9685 board with VCC, GND, SDA, SCL, OE low, and V+ fo
 
 import time
 import config
-import hardware.motion as motion
-
-TEST_CHANNELS = [0, 1, 2, 3]
-SWEEP_ANGLE = 90
-RETURN_ANGLE = 0
-PAUSE_SECONDS = 2.0
 
 
-def print_wiring_reminder():
-    print("PCA9685 bench test starting")
-    print("--- Wiring reminder ---")
-    print("  GND  -> common ground with ESP32 and servos")
-    print("  VCC  -> 5V logic power for PCA9685 and I2C")
-    print("  V+   -> 5V servo power bus")
-    print("  SDA  -> GPIO8")
-    print("  SCL  -> GPIO9")
-    print("  OE   -> tie to GND on non-jumpered boards")
-    print("---")
+# Sky arc strip sections
+DAWN_PIXELS = 19      # WS2812B (GRB)
+NOON_PIXELS = 91      # SK6812 RGBW (32-bit)
+DUSK_PIXELS = 19      # WS2812B (GRB)
+TOTAL_SKY_PIXELS = DAWN_PIXELS + NOON_PIXELS + DUSK_PIXELS
+
+# Ground strip test pixels
+GROUND_PIXEL_COUNT = 70
+BRIGHTNESS = 0.25
+
+# Explicit pin mapping for this diagnostic
+SKY_PIN = config.NEOPIXEL_SKY_PIN        # GPIO4
+GROUND_PIN = config.NEOPIXEL_GROUND_PIN  # GPIO2
 
 
-def run_servo_test():
-    config.ENABLE_MOTION = True
-    motion.setup_hardware()
+class ColorOrderTester:
+    """Tests different color orders to find the correct mapping for SK6812 LEDs"""
 
-    diagnostics = motion.get_bus_diagnostics()
-    print("I2C diagnostics:", diagnostics.get("found", []))
-    print("Expected addresses:", diagnostics.get("expected", []))
-    print("PCA9685 health:", diagnostics.get("pca9685", {}))
-    if not diagnostics.get("hardware_ready"):
-        print("Hardware not ready. Verify power, OE, and I2C wiring.")
-        return
+    def __init__(self, pin, total_pixels, brightness=0.25):
+        self.pin = digitalio.DigitalInOut(pin)
+        self.pin.direction = digitalio.Direction.OUTPUT
+        self.total_pixels = total_pixels
+        self.brightness = brightness
+        self.pixels = [(0, 0, 0, 0)] * total_pixels
 
-    print("Beginning servo channel sweep")
-    for channel in TEST_CHANNELS:
-        print(f"Channel {channel}: move to {SWEEP_ANGLE}°")
-        motion.set_servo_channel(channel, SWEEP_ANGLE)
-        time.sleep(PAUSE_SECONDS)
-        print(f"Channel {channel}: return to {RETURN_ANGLE}°")
-        motion.set_servo_channel(channel, RETURN_ANGLE)
-        time.sleep(1.0)
+    def set_pixel_order(self, index, color, order):
+        """Set pixel with specified color order for the noon RGBW section"""
+        if not isinstance(color, tuple) or len(color) < 3:
+            self.pixels[index] = (0, 0, 0, 0)
+            return
 
-    print("Servo sweep complete. Restoring door servos to 90°.")
-    for door_id in (1, 2, 3):
-        motion.set_door(door_id, 90)
-    print("Test finished.")
+        r, g, b = color
+        if order == "RGB":
+            self.pixels[index] = (r, g, b, 0)
+        elif order == "GRB":
+            self.pixels[index] = (g, r, b, 0)
+        elif order == "BRG":
+            self.pixels[index] = (b, r, g, 0)
+        elif order == "GBR":
+            self.pixels[index] = (g, b, r, 0)
+        elif order == "BGR":
+            self.pixels[index] = (b, g, r, 0)
+        elif order == "RBG":
+            self.pixels[index] = (r, b, g, 0)
+
+    def set_pixel_grb(self, index, color):
+        """Standard GRB for WS2812B"""
+        if not isinstance(color, tuple) or len(color) < 3:
+            self.pixels[index] = (0, 0, 0, 0)
+            return
+
+        r, g, b = color
+        self.pixels[index] = (g, r, b, 0)
+
+    def set_pixel_rgbw(self, index, color):
+        """Set pixel in noon section as RGBW"""
+        if not isinstance(color, tuple) or len(color) < 3:
+            self.pixels[index] = (0, 0, 0, 0)
+            return
+
+        r, g, b = color
+        self.pixels[index] = (r, g, b, 0)
+
+    def _build_bytearray(self):
+        buffer = bytearray()
+        for index, (r, g, b, w) in enumerate(self.pixels):
+            if index < DAWN_PIXELS or index >= DAWN_PIXELS + NOON_PIXELS:
+                # Dawn/Dusk are WS2812B GRB (24-bit)
+                buffer.extend((g, r, b))
+            else:
+                # Noon/sun section is SK6812 RGBW (32-bit)
+                buffer.extend((r, g, b, w))
+        return buffer
+
+    def show(self):
+        neopixel_write(self.pin, self._build_bytearray())
+
+    def test_section_color_orders(self, start_pixel, end_pixel, color, delay=2.0):
+        """Test different color orders on a pixel range"""
+        orders = ["RGB", "GRB", "BRG", "GBR", "BGR", "RBG"]
+
+        print(f"\nTesting pixels {start_pixel}-{end_pixel-1} with {color}")
+        print("Expected color should be: RED" if color == (255, 0, 0) else
+              "GREEN" if color == (0, 255, 0) else
+              "BLUE" if color == (0, 0, 255) else str(color))
+
+        for order in orders:
+            # Clear section
+            for i in range(start_pixel, end_pixel):
+                self.pixels[i] = (0, 0, 0, 0)
+
+            # Set with current order
+            for i in range(start_pixel, end_pixel):
+                self.set_pixel_order(i, color, order)
+
+            self.show()
+            print(f"  {order}: ", end="")
+            time.sleep(delay)
+
+        # Clear section at end
+        for i in range(start_pixel, end_pixel):
+            self.pixels[i] = (0, 0, 0, 0)
+        self.show()
 
 
-print_wiring_reminder()
-run_servo_test()
+# Initialize strips
+sky_strip = ColorOrderTester(SKY_PIN, TOTAL_SKY_PIXELS, BRIGHTNESS)  # GPIO4
+ground_pixels = neopixel.NeoPixel(
+    GROUND_PIN,  # GPIO2
+    GROUND_PIXEL_COUNT,
+    brightness=BRIGHTNESS,
+    auto_write=False,
+)
+
+
+def test_color_orders():
+    """Run diagnostic test for different color orders"""
+    print("LED Color Order Diagnostic Test")
+    print("=" * 40)
+    print(f"Sky strip (GPIO{config.NEOPIXEL_PIN}): {TOTAL_SKY_PIXELS} pixels total")
+    print(f"Ground strip (GPIO{config.NEOPIXEL_GROUND_PIN}): {GROUND_PIXEL_COUNT} pixels")
+    print(f"  Dawn (WS2812B GRB): pixels 0-{DAWN_PIXELS-1}")
+    print(f"  Noon (SK6812 ???): pixels {DAWN_PIXELS}-{DAWN_PIXELS+NOON_PIXELS-1}")
+    print(f"  Dusk (WS2812B GRB): pixels {DAWN_PIXELS+NOON_PIXELS}-{TOTAL_SKY_PIXELS-1}")
+    print()
+    print("Testing different color orders for SK6812 section...")
+    print("Watch the noon section and note which order shows the correct color!")
+
+    # Test red
+    sky_strip.test_section_color_orders(DAWN_PIXELS, DAWN_PIXELS + NOON_PIXELS, (255, 0, 0), 3.0)
+
+    # Test green
+    sky_strip.test_section_color_orders(DAWN_PIXELS, DAWN_PIXELS + NOON_PIXELS, (0, 255, 0), 3.0)
+
+    # Test blue
+    sky_strip.test_section_color_orders(DAWN_PIXELS, DAWN_PIXELS + NOON_PIXELS, (0, 0, 255), 3.0)
+
+    print("\nDiagnostic complete!")
+    print("Which color order showed the correct colors for the SK6812 section?")
+    print("Update the code with the correct order (RGB, GRB, BRG, etc.)")
+
+
+def demo_corrected_colors(correct_order):
+    """Demo the strip with corrected color order"""
+    print(f"\nDemo with corrected SK6812 order: {correct_order}")
+
+    # Set dawn section (GRB)
+    for i in range(DAWN_PIXELS):
+        sky_strip.set_pixel_grb(i, (255, 0, 0))  # Red
+
+    # Set noon section with correct order
+    for i in range(DAWN_PIXELS, DAWN_PIXELS + NOON_PIXELS):
+        sky_strip.set_pixel_order(i, (255, 0, 0), correct_order)  # Red
+
+    # Set dusk section (GRB)
+    for i in range(DAWN_PIXELS + NOON_PIXELS, TOTAL_SKY_PIXELS):
+        sky_strip.set_pixel_grb(i, (255, 0, 0))  # Red
+
+    sky_strip.show()
+    time.sleep(2)
+
+    # Test other colors
+    colors = [(0, 255, 0), (0, 0, 255), (255, 255, 255)]  # Green, Blue, White
+    for color in colors:
+        # Dawn (GRB)
+        for i in range(DAWN_PIXELS):
+            sky_strip.set_pixel_grb(i, color)
+
+        # Noon (correct order)
+        for i in range(DAWN_PIXELS, DAWN_PIXELS + NOON_PIXELS):
+            sky_strip.set_pixel_order(i, color, correct_order)
+
+        # Dusk (GRB)
+        for i in range(DAWN_PIXELS + NOON_PIXELS, TOTAL_SKY_PIXELS):
+            sky_strip.set_pixel_grb(i, color)
+
+        sky_strip.show()
+        time.sleep(1.5)
+
+
+# Main test
+print("Starting LED color order diagnostic...")
+print(f"Configured sky pin: GPIO{SKY_PIN} (should be 4)")
+print(f"Configured ground pin: GPIO{GROUND_PIN} (should be 2)")
+
+# First run the diagnostic
+test_color_orders()
+
+# Then demo with assumed correct order (change this based on your results!)
+# Common SK6812 orders: RGB, GRB, BRG
+demo_corrected_colors("RGB")  # Change this to the correct order you observed
+
+print("\nTest complete. Update the code with the correct color order!")

@@ -15,37 +15,37 @@ This soundscape captures the tranquil transition from pre-dawn darkness to early
 ## Audio Components & Configuration
 
 ### Component 1: Ambient Bird Chorus (Primary Layer)
-- **Type:** Looping MP3 background track
+- **Type:** Looping WAV track
 - **Duration:** ~10-12 minutes (seamless loop)
-- **Audio Output:** MAX98357 Amplifier #1 → Speaker #1 (Bag End/Main area)
+- **Audio Output:** Tsunami track 001 → GF1002 amplifier → Speaker(s)
 - **Timing:** Runs continuously from 4:00 AM, gradually increases in volume
 - **Description:** Mixed spring birdsong featuring robins, thrushes, blackbirds, and sparrows. Starts very quietly at 4:00 AM and crescendos by 6:30 AM as more "birds" awaken.
 
 ### Component 2: Water Features (Secondary Layer)
-- **Type:** Looping MP3/WAV ambient track
+- **Type:** Looping WAV track
 - **Duration:** ~8-10 minutes (seamless loop)
-- **Audio Output:** MAX98357 Amplifier #2 → Speaker #2 (River segment area)
-- **Timing:** Fades in around 4:30 AM
+- **Audio Output:** Tsunami track 002 → GF1002 amplifier → Speaker(s)
+- **Timing:** Fades in around 4:30 AM (scene logic raises volume)
 - **Description:** Gentle stream flow, distant running water, occasional babbling brook sounds. Suggests the River running through the Shire.
 
 ### Component 3: Breeze & Foliage Rustle (Ambient Layer)
-- **Type:** Looping WAV or short MP3
+- **Type:** Looping WAV track
 - **Duration:** ~6-8 minutes (seamless loop)
-- **Audio Output:** MAX98357 Amplifier #3 → Speaker #3 (Party Tree area)
+- **Audio Output:** Tsunami track 003 → GF1002 amplifier → Speaker(s)
 - **Timing:** Subtle throughout, peaks around 5:30 AM
 - **Description:** Soft wind through leaves, gentle rustling of spring flowers and budding branches. Occasional gentle gusts.
 
 ### Component 4: Dew & Nature Micro-sounds (Texture Layer)
 - **Type:** Short WAV samples
 - **Duration:** 1-3 seconds each, triggered randomly
-- **Audio Output:** MAX98357 Amplifier #4 → Speaker #4 (Bridge area)
+- **Audio Output:** Tsunami tracks 010-012 (random selection) → GF1002 amplifier → Speaker(s)
 - **Timing:** Random trigger intervals starting around 4:45 AM
 - **Description:** Occasional dew drops falling, small insects stirring, delicate natural sounds that add depth without overwhelming.
 
 ### Component 5: Distant Bell Toll & Rooster (Event Markers)
 - **Type:** Single WAV samples
 - **Duration:** 3-8 seconds
-- **Audio Output:** MAX98357 Amplifier #5 → Audio Exciter #1 (atmospheric presence)
+- **Audio Output:** Tsunami tracks 020 (rooster), 021 (bell) → GF1002 amplifier, or aux output → Exciters
 - **Timing:** Rooster at 5:15 AM (single crow), church/Shire bell at 6:00 AM (2-3 tolls)
 - **Description:** Distant rooster crow suggesting nearby farms. Subtle Shire bell toll marking the quarter-hour, adding a fantastical element to the natural soundscape.
 
@@ -53,13 +53,16 @@ This soundscape captures the tranquil transition from pre-dawn darkness to early
 
 ## Speaker & Amplifier Mapping
 
-| Component | Speaker # | Amplifier | Location/Purpose |
+| Component | Tsunami Track | Amplifier | Method |
 |-----------|-----------|-----------|------------------|
-| Bird Chorus | #1 | MAX98357 #1 | Center (Bag End) - primary narrative |
-| Water Features | #2 | MAX98357 #2 | River segment - spatial positioning |
-| Wind/Foliage | #3 | MAX98357 #3 | Party Tree area - ambient surround |
-| Micro-sounds | #4 | MAX98357 #4 | Bridge area - subtle texture |
-| Bell/Rooster | Exciter #1 | MAX98357 #5 | Directional/atmospheric depth |
+| Bird Chorus | 001 | GF1002 | Continuous loop, volume fade |
+| Water Features | 002 | GF1002 | Continuous loop, volume fade |
+| Wind/Foliage | 003 | GF1002 | Continuous loop, volume fade |
+| Micro-sounds | 010-012 | GF1002 | Random event triggers |
+| Rooster | 020 | GF1002 (or aux/Exciters) | Single event at 5:15 AM |
+| Bell Toll | 021 | GF1002 (or aux/Exciters) | Single event at 6:00 AM |
+
+**Architecture:** All components route through a single GF1002 amplifier. The Tsunami plays WAV files sequentially or simultaneously as the scene logic dictates. Optional exciter output available via auxiliary jack for atmospheric depth.
 
 ---
 
