@@ -1,16 +1,18 @@
 """Chimney Relay Test for Hobbit Town.
 
-This script tests the chimney relay on GPIO19.
-Connect the MT3608 output to the relay COM, and power the relay.
-The script will move the relay on and off slowly so you can hear the click.
+This script tests the chimney relays on GPIO21, GPIO40, GPIO41 for smials 1-3.
+Connect the MT3608 outputs to the relay COMs, and power the relays.
+The script will move each relay on and off slowly so you can hear the clicks.
 """
 
 import time
 import digitalio
 import config
 
-# Chimney relay pin
-CHIMNEY_PIN = config.CHIMNEY_RELAY_PIN
+# Chimney relay pins
+CHIMNEY_PIN1 = config.CHIMNEY_RELAY_PIN1
+CHIMNEY_PIN2 = config.CHIMNEY_RELAY_PIN2
+CHIMNEY_PIN3 = config.CHIMNEY_RELAY_PIN3
 
 # Seconds to wait for each relay state change
 STATE_WAIT_SECONDS = 5
@@ -30,31 +32,34 @@ def countdown(seconds):
 
 
 def test_chimney_relay():
-    """Test the chimney relay with clear on/off steps."""
-    print("Starting chimney relay test on GPIO19.")
+    """Test the chimney relays with clear on/off steps."""
+    print("Starting chimney relay test on GPIO21, GPIO35, GPIO36.")
     print("If the relay is active-low, the printed ON/OFF labels may be reversed.")
 
-    pin = digitalio.DigitalInOut(CHIMNEY_PIN)
-    pin.direction = digitalio.Direction.OUTPUT
+    pins = [
+        (CHIMNEY_PIN1, "Chimney 1 (GPIO21)"),
+        (CHIMNEY_PIN2, "Chimney 2 (GPIO40)"),
+        (CHIMNEY_PIN3, "Chimney 3 (GPIO41)"),
+    ]
 
-    print("Initial state: OFF first")
-    set_relay(pin, False, "Initial state")
-    countdown(STATE_WAIT_SECONDS)
+    for pin_obj, label in pins:
+        print(f"\nTesting {label}")
+        pin = digitalio.DigitalInOut(pin_obj)
+        pin.direction = digitalio.Direction.OUTPUT
 
-    print("Now switching relay ON")
-    set_relay(pin, True, "Relay state")
-    countdown(STATE_WAIT_SECONDS)
+        print("Initial state: OFF")
+        set_relay(pin, False, "Initial state")
+        countdown(STATE_WAIT_SECONDS)
 
-    print("Now switching relay OFF")
-    set_relay(pin, False, "Relay state")
-    countdown(STATE_WAIT_SECONDS)
+        print("Switching ON")
+        set_relay(pin, True, "Relay state")
+        countdown(STATE_WAIT_SECONDS)
 
-    print("One more ON/OFF cycle")
-    set_relay(pin, True, "Relay state")
-    countdown(STATE_WAIT_SECONDS)
-    set_relay(pin, False, "Relay state")
+        print("Switching OFF")
+        set_relay(pin, False, "Relay state")
+        countdown(STATE_WAIT_SECONDS)
 
-    print("Test complete. If the relay stays active, check wiring and whether the module is active-low.")
+    print("\nAll chimney tests complete. If relays stay active, check wiring and active-low setting.")
 
 
 if __name__ == "__main__":

@@ -36,14 +36,14 @@ class Tsunami:
         track_msb = (track_num >> 8) & 0xFF
         
         packet = bytearray([
-            0xF0,              # Start of Message 1
-            0xAA,              # Start of Message 2
-            0x08,              # Length of message
-            0x03,              # Command: Track Control
-            action,            # Action Code
-            track_lsb,         # Track LSB
-            track_msb,         # Track MSB
-            0x55               # End of Message
+            0xF0,
+            0xAA,
+            0x08,
+            0x03,
+            action,
+            track_lsb,
+            track_msb,
+            0x55
         ])
         self.uart.write(packet)
 
