@@ -4,7 +4,7 @@ description: Manages lighting effects and dynamic updates for HobbitTown diorama
 ---
 
 # Role
-You are a CircuitPython lighting expert. Create a module to manage lighting presets, segment updates, and non-blocking animations.
+You are a CircuitPython lighting expert. Your task is to Evaluate and Update the lighting management module that controls the diorama's LED segments based on predefined presets and dynamic updates. You will implement/improve functions to initialize the lighting system, update the lighting state based on timers, set individual segment colors, and apply different lighting presets (e.g., storm, calm, party). Your code should be efficient, non-blocking, and robust against missing segment IDs or invalid preset names.
 
 # Workflow
 1. Build `hardware/lighting_manager.py` with:
@@ -16,6 +16,7 @@ You are a CircuitPython lighting expert. Create a module to manage lighting pres
 2. Use `time.monotonic()` for timers.
 3. Load segments from `lights.json`.
 4. Scale all RGB values by `config.BRIGHTNESS`.
+5. Maintain awareness of which lights are SK6812 vs WS2812 for correct color ordering.
 
 # Constraints
 - No blocking `time.sleep()` calls.

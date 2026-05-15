@@ -27,8 +27,8 @@ def setup_lighting_stream():
 
     try:
         pixels = neopixel.NeoPixel(
-            config.NEOPIXEL_STREAM_BEAD_PIN,
-            config.NUM_PIXELS_STREAM_BEAD,
+            config.NEOPIXEL_STREAM_PIN,
+            config.NUM_PIXELS_STREAM,
             brightness=config.BRIGHTNESS,
             auto_write=False,
         )
@@ -56,8 +56,8 @@ def apply_lighting_preset_stream(preset_id):
     elif preset_id == 2:  # Day - bright white
         pixels.fill((255, 255, 255))  # White
     elif preset_id == 3:  # Sunset - orange gradient
-        for i in range(config.NUM_PIXELS_STREAM_BEAD):
-            v = 0.784 - (0.784 - 0.251) * (i / (config.NUM_PIXELS_STREAM_BEAD - 1))
+        for i in range(config.NUM_PIXELS_STREAM):
+            v = 0.784 - (0.784 - 0.251) * (i / (config.NUM_PIXELS_STREAM - 1))
             pixels[i] = hsv_to_rgb(0.078, 0.784, v)
     elif preset_id == 4:  # Night - dim blue
         pixels.fill((138, 43, 226))  # BlueViolet
@@ -77,13 +77,13 @@ def run_lighting_cycle_stream():
         return
 
     if current_preset == 5:  # Party rainbow
-        for i in range(config.NUM_PIXELS_STREAM_BEAD):
+        for i in range(config.NUM_PIXELS_STREAM):
             hue = ((animation_step + i * 7) % 256) / 255.0
             pixels[i] = hsv_to_rgb(hue, 1.0, 1.0)
         animation_step += 1
         pixels.show()
     elif current_preset == 6:  # Fast party
-        for i in range(config.NUM_PIXELS_STREAM_BEAD):
+        for i in range(config.NUM_PIXELS_STREAM):
             hue = ((animation_step + i * 12) % 256) / 255.0
             pixels[i] = hsv_to_rgb(hue, 1.0, 1.0)
         animation_step += 2

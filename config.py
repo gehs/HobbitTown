@@ -35,8 +35,8 @@ NEOPIXEL_GROUND_PIN = board.GPIO2
 NUM_PIXELS_GROUND = 153
 
 # Stream bead string: independent effect lighting
-NEOPIXEL_STREAM_BEAD_PIN = board.GPIO5
-NUM_PIXELS_STREAM_BEAD = 85
+NEOPIXEL_STREAM_PIN = board.GPIO5
+NUM_PIXELS_STREAM = 85
 
 # Global lighting brightness limit (0.0 to 1.0; actual pin brightness adjusted per strip)
 BRIGHTNESS = 0.25
