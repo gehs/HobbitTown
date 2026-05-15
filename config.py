@@ -31,7 +31,7 @@ NEOPIXEL_SKY_PIN = board.GPIO4
 NUM_PIXELS_SKY = 129
 
 # Ground effects strip: terrain(100) + lanterns(6) + fireflies(12) + stars(10) + lightning(10) + chimneys(7) + bridge_mist(8)
-NEOPIXEL_GROUND_PIN = board.GPIO2
+NEOPIXEL_GROUND_PIN = board.GPIO6  # Moved from GPIO2 for left-side NeoPixel grouping (GPIO4/5/6)
 NUM_PIXELS_GROUND = 153
 
 # Stream bead string: independent effect lighting
@@ -119,7 +119,7 @@ ENFORCE_AUDIO_OUTPUT_TRACK_RANGES = True
 # ============================================================================
 # HARDWARE: ATMOSPHERE (Fogger Relay)
 # ============================================================================
-FOGGER_RELAY_PIN = None  # Assign actual pin when fogger relay wiring is available
+FOGGER_RELAY_PIN = board.GPIO39  # Right-side relay zone, adjacent to chimney relay block
 
 # Fogger timing limits (used by atmosphere.py)
 FOG_DURATION = 15  # seconds
@@ -130,9 +130,9 @@ FOG_INTERVAL = 300  # seconds (5 minutes) between fog cycles
 # ============================================================================
 # Three independent relay controls for chimney smoke/fog effects.
 
-CHIMNEY_RELAY_PIN1 = board.GPIO21  # Smial 1 (GPIO19 failed, using GPIO21)
-CHIMNEY_RELAY_PIN2 = board.GPIO40  # Smial 2
-CHIMNEY_RELAY_PIN3 = board.GPIO41  # Smial 3
+CHIMNEY_RELAY_PIN1 = board.GPIO42  # Smial 1 (right-side pos 6, top of relay block)
+CHIMNEY_RELAY_PIN2 = board.GPIO41  # Smial 2 (right-side pos 7)
+CHIMNEY_RELAY_PIN3 = board.GPIO40  # Smial 3 (right-side pos 8)
 
 # ============================================================================
 # SYSTEM TIMING

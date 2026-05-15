@@ -27,8 +27,8 @@ def validate_hardware():
 
     print("\n[LIGHTING PINS]")
     print(f"  Sky Arc        (GPIO4):  {config.NUM_PIXELS_SKY} pixels @ {config.BRIGHTNESS:.2f} brightness")
-    print(f"  Ground Effects (GPIO2):  {config.NUM_PIXELS_GROUND} pixels @ {config.BRIGHTNESS:.2f} brightness")
-    print(f"  Stream Beads   (GPIO5):  {config.NUM_PIXELS_STREAM_BEAD} pixels @ {config.BRIGHTNESS:.2f} brightness")
+    print(f"  Ground Effects (GPIO6):  {config.NUM_PIXELS_GROUND} pixels @ {config.BRIGHTNESS:.2f} brightness")
+    print(f"  Stream Beads   (GPIO5):  {config.NUM_PIXELS_STREAM} pixels @ {config.BRIGHTNESS:.2f} brightness")
 
     print("\n[I2C BUS]")
     print(f"  SDA: GPIO8")
@@ -45,10 +45,10 @@ def validate_hardware():
         print(f"  I2C Address:       0x{config.AUDIO_I2C_ADDR:02X} (WAV Trigger Pro)")
 
     print("\n[RELAYS]")
-    print(f"  Fogger      (GPIO21?): {config.FOGGER_RELAY_PIN}")
-    print(f"  Chimney 1   (GPIO21):  {config.CHIMNEY_RELAY_PIN1}")
-    print(f"  Chimney 2   (GPIO40):  {config.CHIMNEY_RELAY_PIN2}")
-    print(f"  Chimney 3   (GPIO41):  {config.CHIMNEY_RELAY_PIN3}")
+    print(f"  Fogger      (GPIO39):  {config.FOGGER_RELAY_PIN}")
+    print(f"  Chimney 1   (GPIO42):  {config.CHIMNEY_RELAY_PIN1}")
+    print(f"  Chimney 2   (GPIO41):  {config.CHIMNEY_RELAY_PIN2}")
+    print(f"  Chimney 3   (GPIO40):  {config.CHIMNEY_RELAY_PIN3}")
 
     print("\n[MODULE STATUS]")
     print(f"  ENABLE_LIGHTING:    {config.ENABLE_LIGHTING}")

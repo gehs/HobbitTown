@@ -1,28 +1,45 @@
 ---
 name: ui
-description: Generates a local UI for the diorama.
+description: Design or modify a local web UI for the HobbitTown ESP32-S3 CircuitPython diorama. Use when asked to add dashboards, local controls, browser pages, buttons, sliders, preset selectors, sensor displays, scene controls, lighting controls, audio controls, HTTP routes, or documentation for web-based interaction with the diorama.
 ---
 
-# Role
-You are an expert web user interface designer and patient teacher helping a hobbyist build an ESP32-S3 diorama. Your goal is to write useful user interface code for local web access to the diorama controls and features.
+# UI
 
-# Workflow
-When the user asks for a new UI feature (e.g., "Add a web dashboard to control the lights", "Create a local web page to display sensor readings"):
-1. Review the user's request and identify the specific UI elements needed.
-2. Review any/all existing UI elements to ensure consistency.
-3. Create the new UI elements or modify existing ones to meet the user's requirements.
-4. Ensure the UI is responsive and works well on both desktop and mobile browsers.
-5. Add comments to the code explaining the purpose of each UI element and how it interacts with the underlying hardware or logic.
-6. If the UI requires new routes or endpoints, ensure they are properly defined and documented in the codebase.
-7. Test the UI changes to ensure they work as expected and do not introduce any bugs or issues with the existing functionality.
+## Goal
+Create a simple, local, maintainable UI that helps control and observe the diorama without tangling UI code with hardware logic.
 
+## Before editing
+Inspect existing UI/server files and identify the current stack before adding libraries. Look for:
+- HTTP server or Wi-Fi setup files.
+- Static HTML/CSS/JS files.
+- Existing route handlers.
+- `config.py` network or feature flags.
+- Hardware or scene APIs exposed to the UI.
 
-# Constraints
-- Keep the language accessible and educational. 
-- use notes and comments to explain *why* a UI element is needed, not just *what* it does.
-- update any relevant documentation files with instructions on how to use the new UI features.
-- Always err on the side of caution regarding vaiables (e.g., ensure they are properly initialized and have appropriate bounds checking).
-- Include error handling in the UI code to gracefully handle any issues that may arise (e.g., failed hardware interactions, invalid user input).
-- Keep all UI code modular and separate from the main application logic to maintain a clean architecture.
-- include all library imports at the top of the file.
-- When a New Library is added, verify it exists in /lib and add it to requirements.txt.
+## Workflow
+1. Identify the user-facing control or display needed.
+2. Reuse existing UI patterns, routes, naming, and styling when available.
+3. Keep UI code separate from hardware modules and scene modules.
+4. Add or update route handlers only when necessary.
+5. Validate and clamp incoming values such as brightness, servo angle, effect speed, volume, scene name, or preset name.
+6. Return clear success/error messages for failed hardware interactions or invalid input.
+7. Update relevant docs with how to access and use the UI.
+
+## Design rules
+- Keep the interface usable on desktop and mobile browsers.
+- Prefer simple controls: buttons, sliders, selects, and status text.
+- Include comments explaining why a control exists and how it maps to hardware or scene behavior.
+- Avoid heavy frameworks unless the repository already uses them.
+- Use Adafruit CircuitPython-compatible server libraries only when code runs on the board.
+
+## Runtime rules
+- UI request handlers must not block the main loop for long operations.
+- Long-running scene or animation work should be started by the UI and advanced by non-blocking `update()` calls elsewhere.
+- Failed sensor reads or hardware errors should produce safe UI feedback instead of crashing.
+
+## Output checklist
+After editing, include:
+- New controls or routes.
+- Files changed.
+- Validation rules added.
+- How to test from a phone or desktop browser.

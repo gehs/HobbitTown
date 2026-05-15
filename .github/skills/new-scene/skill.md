@@ -1,24 +1,46 @@
 ---
 name: new-scene
-description: Scaffolds a new Scene orchestration module for the diorama (e.g., Thunderstorm, Party), coordinating multiple hardware components using non-blocking timers.
+description: Create or modify non-blocking CircuitPython scene orchestration modules for HobbitTown. Use when the user asks for themed sequences such as thunderstorm, party, market day, dragon arrival, sunrise, or night mode that coordinate lighting, audio, motion, sensors, UI controls, and timers through start(), update(), and stop() functions.
 ---
 
-# Role
-You are an expert CircuitPython developer. Your job is to create a new "Scene" module that orchestrates lighting, motion, and sound for the diorama over a timeline.
+# New Scene
 
-# Workflow
-When the user asks to create a new scene (e.g., "Dragon Arrival", "Thunderstorm"):
-1. Create a new `.py` file in the `logic/` directory (e.g., `logic/scene_dragon.py`).
-2. Import `time`, `config`, and any necessary hardware modules (`hardware.lighting`, `hardware.motion`, etc.).
-3. Scaffold a state-machine or step-based sequence. Provide these three standard functions:
-   - `start()`: Sets up the initial hardware states for the start of the scene (e.g., dims the main lights, resets servos).
-   - `update()`: A non-blocking function intended to run continuously in the main loop. It must use `time.monotonic()` to track how much time has passed since `start()` was called, and trigger the next step of the scene accordingly (e.g., "if 2 seconds have passed, flash lightning; if 3 seconds have passed, play thunder").
-   - `stop()`: Cleans up the scene and safely resets all hardware before transitioning to a different scene.
+## Goal
+Create a scene module that coordinates existing hardware modules over time without blocking the main loop.
 
-# Constraints
-- NEVER use `time.sleep()`. All animation and sequence timing MUST rely on `time.monotonic()`.
-- The `update()` function must return instantly so it does not block the main `code.py` loop from reading sensors.
-- Use highly descriptive variable names for timestamps (e.g., `scene_start_time`, `last_lightning_strike`).
-- Add comments explaining the "script" of the scene (what happens at second 1, second 2, etc.).
-- Include all library imports at the top of the file.
-- When a New Library is added, verify it exists in /lib and add it to requirements.txt.
+## Before editing
+Inspect existing files:
+- `logic/` scene modules for naming and lifecycle style.
+- `hardware/` modules that the scene will call.
+- `config.py` for constants and feature flags.
+- Relevant docs or asset plans in `docs/`.
+
+## Workflow
+1. Create or update a scene file in `logic/`, for example `logic/scene_thunderstorm.py`.
+2. Import `time`, `config`, and only the hardware modules the scene actually uses.
+3. Provide these lifecycle functions:
+   - `start()` sets initial state and records `scene_start_time`.
+   - `update(current_time=None)` advances the scene using elapsed-time checks.
+   - `stop()` returns hardware to a safe idle state.
+4. Use descriptive timestamp variables such as `scene_start_time`, `last_lightning_time`, and `next_thunder_time`.
+5. Write scene behavior as a state machine or step table. Do not write blocking scripts.
+6. Add comments that explain the story beats, for example what should happen at second 1, second 3, and second 10.
+7. Coordinate with secondary skills when needed:
+   - `lighting-management` for LED effects and presets.
+   - `music-scape` for audio files and trigger timing.
+   - `new-hardware` for missing hardware modules.
+   - `ui` for controls or status display.
+
+## Runtime rules
+- Do not use `time.sleep()` in scene modules.
+- `update()` must return quickly so `code.py` can keep reading sensors and handling UI.
+- Missing optional hardware should not crash the scene. Print a warning or skip that feature.
+- Scene code should call public hardware-module functions instead of directly manipulating pins whenever possible.
+
+## Output checklist
+After editing, include:
+- Scene timeline summary.
+- Files changed.
+- Hardware modules used.
+- Audio or lighting assets needed.
+- How to test and how to stop the scene safely.

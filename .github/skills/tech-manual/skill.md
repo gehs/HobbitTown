@@ -1,24 +1,65 @@
 ---
 name: tech-manual
-description: Generates a clear, beginner-friendly hardware documentation and wiring guide for a new component.
+description: Write beginner-friendly HobbitTown hardware documentation, wiring guides, and safety notes for ESP32-S3 CircuitPython components. Use when asked about wiring, pin choice, voltage, current draw, external power, resistors, capacitors, flyback diodes, level shifting, grounding, or physical installation of sensors, servos, motors, relays, LEDs, speakers, amplifiers, and displays.
 ---
 
-# Role
-You are an expert electrical engineer and patient teacher helping a hobbyist build an ESP32-S3 diorama. Your goal is to write a highly readable `.md` documentation file that acts as a step-by-step physical wiring manual.
+# Tech Manual
 
-# Workflow
-When the user asks for a tech manual for a new component (e.g., "Servo motor", "NeoPixel strip", "Relay"):
-1. Create a new `.md` file in the `docs/` folder (e.g., `docs/wiring_servo.md`).
-2. Structure the document with the following specific headers and information:
+## Goal
+Create clear, cautious hardware documentation for a hobbyist building an ESP32-S3 CircuitPython diorama.
 
-   - **Component Overview:** What the component does in plain English.
-   - **ESP32-S3 Pin Assignment:** Recommend a specific pin type (e.g., standard GPIO, PWM capable) and note any pins to avoid (like strapping pins).
-   - **Current Loading & Power:** State exactly how much power (mA or Amps) this component draws. Clearly state whether it can be powered directly from the ESP32's 3.3V/5V pins or if it requires a separate external power supply. 
-   - **Required Protective Components:** - *Resistors:* Do I need a data-line resistor? (e.g., 470 ohm for NeoPixels).
-     - *Diodes:* Do I need a flyback diode? (e.g., for motors or solenoids to prevent voltage spikes).
-     - *Capacitors:* Do I need a smoothing capacitor? (e.g., 1000uF across power leads).
-   - **Step-by-Step Wiring Guide:** A simple bulleted list of where every wire goes (Ground, Power, Data).
+## Critical safety rule
+Do not invent exact electrical limits. If the exact part number or datasheet is not available, label values as estimates and ask the user to confirm the module. Always choose conservative power guidance.
 
-# Constraints
-- Keep the language accessible and educational. Explain *why* a component (like a diode or resistor) is needed.
-- Always err on the side of caution regarding power limits. The ESP32-S3 GPIO pins can only safely supply about 20-40mA.
+## Workflow
+When asked for a wiring guide or tech manual, create or update a document in `docs/`, for example `docs/wiring_servo.md`.
+
+Use this structure:
+
+```markdown
+# Wiring Guide: <component>
+
+## Component overview
+Plain-English description of what it does.
+
+## Assumptions
+Board, component part number, supply voltage, and any unknowns.
+
+## ESP32-S3 pin assignment
+Recommended pin type, pins to avoid, and why.
+
+## Power and current
+Expected current draw, whether external power is required, and grounding rules.
+
+## Protective components
+- Resistors
+- Diodes
+- Capacitors
+- Level shifting
+- Fuses or current limiting when relevant
+
+## Step-by-step wiring
+Every connection: power, ground, signal/data, enable, and shared ground.
+
+## CircuitPython notes
+Libraries, config names, and testing approach.
+
+## Safety checklist
+What to verify before powering the circuit.
+```
+
+## Guidance standards
+- Explain why each protective component matters.
+- Emphasize common-ground requirements when using external power.
+- Warn that ESP32-S3 GPIO pins are signal pins, not power supplies for motors, long LED strips, relays, or speakers.
+- For NeoPixels/LED strips, consider a data-line resistor, power-injection needs, and a smoothing capacitor across power leads when appropriate.
+- For motors, solenoids, and relays, consider flyback protection unless the driver board already includes it.
+- For 5V logic devices, consider whether level shifting is needed.
+
+## Output checklist
+Include:
+- Parts list.
+- Wiring steps.
+- Power warning.
+- First-power test procedure.
+- Follow-up question for unknown part numbers if needed.

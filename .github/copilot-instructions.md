@@ -1,104 +1,46 @@
-# Copilot Chat Instructions for HobbitTown
+# Copilot Instructions for HobbitTown
 
-## Purpose
-This file defines project-level guidance for the Copilot Chat AI agent in this repository.
+## Project context
+HobbitTown is an interactive physical diorama controlled by an ESP32-S3 running CircuitPython. Keep the code modular: hardware drivers live in `hardware/`, high-level orchestration lives in `logic/`, configuration lives in `config.py`, and the main loop lives in `code.py`.
 
+The user is learning embedded hardware and software. Favor clear, safe, educational changes over clever or compact code.
 
-# Role & Project Context
-You are an expert embedded systems engineer helping write code for an interactive diorama. 
-The hardware is an **ESP32-S3** running **CircuitPython**. 
-The architecture is modular: hardware interactions live in the `hardware/` folder, high-level decisions live in `logic/`, and the main loop runs in `code.py`.
+## Non-negotiable coding rules
+- Use CircuitPython syntax and Adafruit-compatible libraries. Do not use Arduino C++, Raspberry Pi GPIO libraries, or MicroPython `machine` APIs.
+- Do not use blocking timing such as `time.sleep()` inside runtime modules that must cooperate with the main loop. Use `time.monotonic()` or `adafruit_ticks` style elapsed-time checks.
+- Keep hardware modules non-blocking. Each `update()` function must return quickly.
+- Do not hardcode pins, LED counts, timing limits, brightness limits, or hardware capacities inside feature modules. Read them from `config.py` or documented JSON/config files.
+- Initialize hardware into a safe state: LEDs off, servos/motors idle, relays off, audio stopped unless explicitly requested.
+- Handle missing files, missing hardware IDs, bad preset names, sensor read failures, and unavailable audio assets without crashing the main loop.
+- Add new Adafruit library dependencies to `requirements.txt` and, when possible, check whether the library is already present in `/lib`.
 
-## Apply-to
-- All files in repository, unless a narrower per-directory instructions file exists.
-- All technologies in this repo: CircuitPython (Arduino), markdown, config files.
-- This project uses CircuitPython for an ESP32-S3. 
-1. Always use Adafruit CircuitPython libraries (like adafruit_motor or neopixel) instead of standard Raspberry Pi or MicroPython libraries.
+## Repository conventions
+- `hardware/`: direct hardware control modules such as lighting, audio, motors, buttons, sensors, and displays.
+- `logic/`: scene/state-machine orchestration that coordinates hardware modules.
+- `docs/`: beginner-friendly wiring guides, soundscape plans, scene plans, and version notes.
+- `tests/` or root test files: on-device hardware test scripts for the serial terminal.
+- `config.py`: pin names, constants, limits, feature flags, and shared project configuration.
+- `requirements.txt`: CircuitPython library bundle dependencies.
 
+## Response style
+- Use concise markdown with headings and bullets.
+- Explain why a hardware safety choice matters.
+- Include a short `What changed` section after edits.
+- Include a `How to test` section when code changes are made.
+- When uncertain about exact hardware limits, say so and ask for the component part number or datasheet instead of guessing.
 
-## Key user preferences extracted from conversation
-- Keep answers short and concise.
-- Use structured markdown with headings, bullets, and code formatting.
-- Write in a neutral/impersonal tone.
-- Avoid unnecessary verbosity.
+## Skill routing
+Project skills are stored in `.github/skills/`. Use the most specific skill for the task before falling back to general instructions.
 
-## Rules and conventions
-1. Always use Adafruit CircuitPython libraries (like adafruit_motor or neopixel) instead of standard Raspberry Pi or MicroPython libraries.
-2. Maintain format and style requirements from the current conversation:
-   - concise responses
-   - clear headings (##, ###)
-   - bullets for lists
-   - backticks around filenames/symbols
-   - limit paragraphs to 2-4 sentences
-3. For code changes in `firmware/`, prefer safe incremental edits and preserve existing naming style.
-4. When reviewing or editing, include a brief `✅ What changed` summary and maintain high-level intent.
-
-# Project Context
-This project controls a physical diorama. The user is new to the hardware and software, so explanations should be clear and educational. The diorama has multiple hardware components (LEDs, motors, sensors) that need to be orchestrated together. The codebase is modular, with separate files for hardware control and high-level logic.
-
-# Architectural Rules
-1. **Modular Design:** Never suggest monolithic code. Always separate hardware control logic from the main application loop.
-2. **State Management:** The diorama relies on a central state machine. Hardware modules should not block the main thread (avoid `delay()` or `sleep()` unless necessary).
-3. **Hardware Safety:** Always initialize hardware states safely on startup (e.g., turn off all LEDs, set servos to default positions).
-4. **Error Handling:** If a sensor fails to read, the code should fail gracefully without crashing the main loop.
-
-# Strict Coding Rules
-1. **Framework:** ALWAYS use Adafruit CircuitPython syntax and libraries (e.g., `import board`, `neopixel`, `pwmio`, `adafruit_motor`). DO NOT use MicroPython (`machine`) or C++ Arduino syntax.
-2. **No Blocking Code:** The diorama requires multitasking. NEVER use `time.sleep()` for delays inside hardware functions. Use `adafruit_ticks` or track `time.monotonic()` to create non-blocking state machines so animations and sensor reads can happen simultaneously.
-3. **Include Library Imports:** Always include necessary imports at the top of the file. For example, if controlling a servo, import `pwmio` and `adafruit_motor.servo`.
-4. **Include Library Dependencies:** If a new library is needed, include it in the `requirements.txt` file and mention it in the commit message.
-5. **Configuration:** Never hardcode pin numbers or hardware limits in the module files. Always import `config.py` and use the variables defined there.
-6. **Readability:** Prioritize highly readable, descriptive variable names. The user acts as an AI code reviewer, so clarity is more important than clever, hyper-optimized one-liners.
-
-# Coding Style
-- Write clear, descriptive variable names (e.g., `ambient_light_pin` instead of `pin1`).
-- Include brief comments explaining *why* a hardware interaction is happening, not just *what* it is.
-
-# Documentation Style
-- When generating documentation, use structured markdown with clear headings, bullet points, and concise explanations.
-- For each Commit, create a .md for the Version update with a clear summary of changes and any new instructions for users.
-
-
-## Clarifications assumed
-- These rules are global unless explicitly overridden by other instructions in nested directories.
-- This is a strong preference for style, not a hard compilation constraint.
-
-## Example prompts to test this behavior
-- "Add a new LED segment defintion in `docs/LED_SEGMENTS.md` with concise structured instructions." 
-
-## Next customization suggestions
-- Add a `docs/CONTRIBUTING.md` section with coding standards.
-- Add a `firmware/CODING_GUIDELINES.md` for embedded-focused patterns.
-
-## References
-- Adafruit CircuitPython documentation: https://circuitpython.readthedocs.io/en/latest/ (Version 10.)
-- 
-
-## Skills
-Here is a list of skills that contain domain specific knowledge on a variety of topics.
-Each skill comes with a description of the topic and a file path that contains the detailed instructions.
-When a user asks you to perform a task that falls within the domain of a skill, use the 'read_file' tool to acquire the full instructions from the file URI.
-
-- **music-scape**: generates music ideas and soundscapes for the diorama. File: .github/skills/music-scape/skill.md
-- **new-hardware**: Scaffolds a new CircuitPython hardware module for the diorama project. File: .github/skills/new-hardware/skill.md
-- **new-scene**: Scaffolds a new Scene orchestration module for the diorama (e.g., Thunderstorm, Party), coordinating multiple hardware components using non-blocking timers. File: .github/skills/new-scene/skill.md
-- **tech-manual**: Generates a clear, beginner-friendly hardware documentation and wiring guide for a new component. File: .github/skills/tech-manual/skill.md
-- **ui**: Generates a local UI for the diorama. File: .github/skills/ui/skill.md
-- **lighting-management**: Manages lighting effects and dynamic updates for HobbitTown diorama. File: .github/skills/lighting-management/skill.md
-- **unit-tester**: Generates isolated unit tests for code.py to verify logic without hardware dependencies. File: .github/skills/unit-tester/skill.md
-
-## Skill Prioritization Matrix
-
-Use this table to choose the correct skill before loading any skill file. Invoke the primary skill first; add secondary skills only when the request crosses module boundaries.
-
-| Request type | Primary skill | Secondary skill(s) |
+| Request type | Primary skill | Secondary skill |
 |---|---|---|
-| Wiring, power, or safety question for a new component | tech-manual | new-hardware |
-| Adding a new physical device (sensor, servo, LED strip) | new-hardware | tech-manual, new-scene |
-| Creating or expanding a themed sequence/scene | new-scene | lighting-management, music-scape, ui |
-| Lighting presets, segments, or animations | lighting-management | new-scene, ui |
-| Ambient audio or soundscape design | music-scape | new-scene, ui |
-| Local web controls or dashboards | ui | new-scene, lighting-management |
-| Unit testing code.py logic | unit-tester | |
+| Wiring, power, protection components, pin safety | `tech-manual` | `new-hardware` |
+| New sensor, motor, LED strip, relay, display, audio board | `new-hardware` | `tech-manual` |
+| New themed sequence such as storm, party, market, dragon arrival | `new-scene` | `lighting-management`, `music-scape`, `ui` |
+| LED segments, presets, brightness, animations | `lighting-management` | `new-scene` |
+| Ambient audio, sound effects, sample lists, trigger mapping | `music-scape` | `new-scene` |
+| Web dashboard, controls, settings page, local UI | `ui` | `lighting-management`, `new-scene` |
+| On-device serial hardware test launcher or test modules | `unit-tester` | `new-hardware` |
 
-For full usage guidance and cooperation chains, see `Readme_VSCODE.md`.
+## Agent behavior
+Before editing files, inspect the relevant existing files and preserve naming style. Prefer incremental edits over rewrites. When a request crosses multiple domains, start with the primary skill and then apply secondary skills only for the parts that need them.

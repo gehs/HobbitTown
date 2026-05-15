@@ -201,25 +201,39 @@
     ]
   },
   "strip_water_effects": {
-    "description": "SK6812 RGBW strip on GPIO 5 for river shimmer effect. Positioned into the EDGE of acrylic base of the stream.",
-    "total_pixels": 40,
-    "strip_type": "SK6812 RGBW",
-    "density_per_meter": 144,
-    "purpose": "20 pixels along 24-inch water channel. Cool blue/cyan shimmer. Independent of the main ground strip pixels to allow for different animation patterns and brightness levels.",
+    "description": "WS2812B strip on GPIO 5 for river shimmer effect. Main lights positioned into the EDGE of acrylic base of the stream.",
+    "total_pixels": 89,
+    "strip_type": "WS2812B",
+    "density_per_meter": 60,
+    "purpose": "Tail lights for redirected filament piping, main (left, head, right) underlighting of stream. Independent of the main ground strip pixels to allow for different animation patterns and brightness levels.",
     "segments": [
       {
-        "id": "stream_shimmer_left",
-        "name": "Stream Shimmer Left",
-        "range": [0, 19],
+        "id": "stream_tail",
+        "name": "Stream Tail",
+        "range": [0, 5],
         "bounds_xy": [[25, 0], [32, 0], [31, 24], [27, 24]],
-        "purpose": "20 pixels along the Left Side of the acrylic base of the stream."
+        "purpose": "6 pixels along the Tail of the acrylic base of the stream."
       },
       {
-        "id": "stream_shimmer_right",
-        "name": "Stream Shimmer Right",
-        "range": [20, 39],
+        "id": "stream_left",
+        "name": "Stream Left",
+        "range": [6, 32],
         "bounds_xy": [[25, 0], [32, 0], [31, 24], [27, 24]],
-        "purpose": "20 pixels along the Right Side of the acrylic base of the stream."
+        "purpose": "26 pixels along the Left Side of the acrylic base of the stream."
+      },
+      {
+        "id": "stream_head",
+        "name": "Stream Head",
+        "range": [33, 60],
+        "bounds_xy": [[25, 0], [32, 0], [31, 24], [27, 24]],
+        "purpose": "27 pixels along the Head of the acrylic base of the stream."
+      },
+      {
+        "id": "stream_right",
+        "name": "Stream Right",
+        "range": [61, 88],
+        "bounds_xy": [[25, 0], [32, 0], [31, 24], [27, 24]],
+        "purpose": "27 pixels along the Right Side of the acrylic base of the stream."
       }
     ]
   }

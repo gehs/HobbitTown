@@ -1,0 +1,281 @@
+{
+  "profile_name": "HobbitTown Board Profile",
+  "generated_on": "2026-05-15",
+  "repository": {
+    "owner": "gehs",
+    "name": "HobbitTown",
+    "branch": "master"
+  },
+  "board": {
+    "board_id": "mcu_primary_s3",
+    "type": "ESP32-S3-DevKitC-1",
+    "manufacturer": "UICPAL",
+    "specs": "N16R8 (16MB Flash, 8MB PSRAM)",
+    "firmware": "CircuitPython",
+    "source": "materials.json"
+  },
+  "pins": [
+    {
+      "pin": "GPIO2",
+      "board print": "G2",
+      "board location": "Right hand side, Pin 2 from top",
+      "assigned": true,
+      "available": false,
+      "configured_names": [
+        "NEOPIXEL_GROUND_PIN"
+      ],
+      "interfaces": [
+        "NeoPixel data"
+      ],
+      "direction": "output",
+      "connected_hardware": [
+        "Ground effects LED strip (WS2812B)"
+      ],
+      "used_by": [
+        "hardware/lighting_ground.py"
+      ],
+      "source_refs": [
+        "config.py"
+      ]
+    },
+    {
+      "pin": "GPIO4",
+      "board print": "G4",
+      "board location": "Left hand side, Pin 4 from top",
+      "assigned": true,
+      "available": false,
+      "configured_names": [
+        "NEOPIXEL_SKY_PIN"
+      ],
+      "interfaces": [
+        "NeoPixel data"
+      ],
+      "direction": "output",
+      "connected_hardware": [
+        "Sky arc LED strip"
+      ],
+      "used_by": [
+        "hardware/lighting_sky.py"
+      ],
+      "source_refs": [
+        "config.py"
+      ]
+    },
+    {
+      "pin": "GPIO5",
+      "board print": "G5",
+      "board location": "Left hand side, Pin 5 from top",
+      "assigned": true,
+      "available": false,
+      "configured_names": [
+        "NEOPIXEL_STREAM_PIN"
+      ],
+      "interfaces": [
+        "NeoPixel data"
+      ],
+      "direction": "output",
+      "connected_hardware": [
+        "Stream bead LED strip"
+      ],
+      "used_by": [
+        "hardware/lighting_stream.py"
+      ],
+      "source_refs": [
+        "config.py"
+      ]
+    },
+    {
+      "pin": "GPIO8",
+      "board print": "G8",
+      "board location": "Left hand side, Pin 12 from top",
+      "assigned": true,
+      "available": false,
+      "configured_names": [
+        "I2C_SDA"
+      ],
+      "interfaces": [
+        "I2C SDA"
+      ],
+      "direction": "bidirectional (I2C)",
+      "connected_hardware": [
+        "PCA9685 bus"
+      ],
+      "used_by": [
+        "hardware/motion.py"
+      ],
+      "source_refs": [
+        "config.py"
+      ],
+      "notes": [
+        "Shared assignment: I2C and optional trigger output use the same pin."
+      ]
+    },
+    {
+      "pin": "GPIO9",
+      "board print": "G9",
+      "board location": "Left hand side, Pin 17 from top",
+      "assigned": true,
+      "available": false,
+      "configured_names": [
+        "I2C_SCL"
+      ],
+      "interfaces": [
+        "I2C SCL"
+      ],
+      "direction": "output (I2C clock)",
+      "connected_hardware": [
+        "PCA9685 bus"
+      ],
+      "used_by": [
+        "hardware/motion.py"
+      ],
+      "source_refs": [
+        "config.py"
+      ],
+      "notes": [
+        "tbd."
+      ]
+    },
+    {
+      "pin": "GPIO17",
+      "configured_names": [
+        "AUDIO_UART_TX"
+      ],
+      "interfaces": [
+        "UART TX"
+      ],
+      "direction": "output",
+      "connected_hardware": [
+        "Tsunami RXI"
+      ],
+      "used_by": [
+        "hardware/audio.py",
+        "code.py",
+        "code copy.py",
+        "code_GoodSoundTest.py",
+        "code_GoodVolumeTest.py"
+      ],
+      "source_refs": [
+        "config.py"
+      ]
+    },
+    {
+      "pin": "GPIO18",
+      "configured_names": [
+        "AUDIO_UART_RX"
+      ],
+      "interfaces": [
+        "UART RX"
+      ],
+      "direction": "input",
+      "connected_hardware": [
+        "Tsunami TXO"
+      ],
+      "used_by": [
+        "hardware/audio.py",
+        "code.py",
+        "code copy.py",
+        "code_GoodSoundTest.py",
+        "code_GoodVolumeTest.py"
+      ],
+      "source_refs": [
+        "config.py"
+      ]
+    },
+    {
+      "pin": "GPIO21",
+      "board print": "G21",
+      "board location": "Right hand side, Pin 18 from top",
+      "assigned": true,
+      "available": false,
+      "configured_names": [
+        "CHIMNEY_RELAY_PIN1"
+      ],
+      "interfaces": [
+        "Digital relay control"
+      ],
+      "direction": "output",
+      "connected_hardware": [
+        "Smial 1 chimney relay"
+      ],
+      "used_by": [
+        "code.py"
+      ],
+      "source_refs": [
+        "config.py"
+      ]
+    },
+    {
+      "pin": "GPIO40",
+      "board print": "G40",
+      "board location": "Right hand side, Pin 8 from top",
+      "assigned": true,
+      "available": false,
+      "configured_names": [
+        "CHIMNEY_RELAY_PIN2"
+      ],
+      "interfaces": [
+        "Digital relay control"
+      ],
+      "direction": "output",
+      "connected_hardware": [
+        "Smial 2 chimney relay"
+      ],
+      "used_by": [
+        "code.py"
+      ],
+      "source_refs": [
+        "config.py"
+      ]
+    },
+    {
+      "pin": "GPIO41",
+      "board print": "G41",
+      "board location": "Right hand side, Pin 7 from top",
+      "assigned": true,
+      "available": false,
+      "configured_names": [
+        "CHIMNEY_RELAY_PIN3"
+      ],
+      "interfaces": [
+        "Digital relay control"
+      ],
+      "direction": "output",
+      "connected_hardware": [
+        "Smial 3 chimney relay"
+      ],
+      "used_by": [
+        "code.py"
+      ],
+      "source_refs": [
+        "config.py"
+      ]
+    }
+  ],
+  "unassigned_or_dynamic_pins": [
+    {
+      "configured_name": "FOGGER_RELAY_PIN",
+      "value": null,
+      "status": "unassigned",
+      "notes": "Set this to a board.GPIOx pin before enabling atmosphere relay control."
+    }
+  ],
+  "i2c_devices": [
+    {
+      "address": "0x40",
+      "device": "PCA9685 #1"
+    },
+    {
+      "address": "0x41",
+      "device": "PCA9685 #2"
+    },
+    {
+      "address": "0x13",
+      "device": "WAV Trigger Pro (optional)"
+    }
+  ],
+  "warnings": [
+    "GPIO8 and GPIO9 are dual-assigned to both I2C and optional audio trigger outputs.",
+    "Direct board.GPIO17/GPIO18 usage exists in code.py and test copies; consider routing all runtime pin access through config.py constants only."
+  ]
+}

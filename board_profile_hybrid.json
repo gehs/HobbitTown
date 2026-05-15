@@ -1,0 +1,2909 @@
+{
+  "profile_name": "HobbitTown Board Profile",
+  "schema_version": "0.2 - Preliminary - Subject to Change",
+  "generated_on": "2026-05-15",
+  "intended_path": "hardware/board_profile.json",
+  "repository": {
+    "owner": "gehs",
+    "name": "HobbitTown",
+    "branch": "master"
+  },
+  "board": {
+    "board_id": "mcu_primary_s3",
+    "type": "ESP32-S3-DevKitC-1",
+    "manufacturer": "UICPAL",
+    "specs": "N16R8 (16MB Flash, 8MB PSRAM)",
+    "firmware": "CircuitPython",
+    "logic_voltage": "3.3V",
+    "source": [
+      "ESP32_S3_Pinout_Reference.md",
+      "shire_s3_pin_audit_v1.csv",
+      "user project audit JSON"
+    ]
+  },
+  "circuitpython_naming": {
+    "required_pattern": "board.GPIO{gpio_number}",
+    "do_not_use_patterns": [
+      "board.IO{gpio_number}",
+      "board.D{number}",
+      "raw_integer_gpio"
+    ],
+    "verified_by_user": true,
+    "rule": "Generated CircuitPython must use circuitpython_name exactly as provided in this profile."
+  },
+  "allocation_policy": {
+    "default_pin_policy": "Do not recommend a pin unless it appears in pins[], exposed is true, available_for_new_assignment is true, and capabilities match the requested function.",
+    "preserve_tested_assignments": "Pins marked proven_isolated or proven_full_system should not be changed unless there is a safety, conflict, or wiring-routing reason.",
+    "assignment_status_values": [
+      "unassigned",
+      "proposed",
+      "proven_isolated",
+      "proven_full_system",
+      "reserved",
+      "avoid",
+      "do_not_use"
+    ],
+    "full_system_test_required_before_promotion": true,
+    "shared_bus_rule": "I2C SDA/SCL may be shared only by I2C devices. Do not treat an active I2C pin as available for general trigger output.",
+    "voltage_warning": "GPIO pins are 3.3V logic. Do not connect 5V signals directly.",
+    "code_rule": "Use config.py constants that refer to board.GPIOx objects; avoid direct pin literals in runtime modules."
+  },
+  "pins": [
+    {
+      "pin": "GPIO4",
+      "gpio_number": 4,
+      "circuitpython_name": "board.GPIO4",
+      "board_print": "G4",
+      "board_location": "left side, pin 4 from top",
+      "header_side": "left",
+      "header_position": 4,
+      "exposed": true,
+      "primary_function": "GPIO / RTC",
+      "alternate_functions": [
+        "ADC1_3",
+        "TOUCH4"
+      ],
+      "assigned": true,
+      "available": false,
+      "available_for_new_assignment": false,
+      "assignment_status": "proven_isolated",
+      "configured_names": [
+        "NEOPIXEL_SKY_PIN"
+      ],
+      "interfaces": [
+        "NeoPixel data"
+      ],
+      "capabilities": [
+        "analog_in",
+        "capacitive_touch",
+        "digital_in",
+        "digital_out",
+        "rtc"
+      ],
+      "preferred_for": [
+        "addressable_led_data",
+        "analog_sensor"
+      ],
+      "direction": "output",
+      "connected_hardware": [
+        "Sky arc LED strip"
+      ],
+      "used_by": [
+        "hardware/lighting_sky.py"
+      ],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "config.py",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "sky_lighting",
+        "wire_bundle": "neopixel_data",
+        "preferred_side": "left",
+        "crossover_risk": "unknown",
+        "header_order_hint": 4
+      },
+      "risk": {
+        "level": "low",
+        "avoid_for": [
+          "new_assignment"
+        ],
+        "warnings": [
+          "Currently assigned in HobbitTown; do not reassign unless intentionally migrating the hardware and code."
+        ]
+      },
+      "notes": [
+        "Board reference use case: Sky Lighting (NeoPixel).",
+        "CSV audit aliases/notes: GPIO4 = Recommended UART TX"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO4",
+          "function_note": "Recommended UART TX"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO5",
+      "gpio_number": 5,
+      "circuitpython_name": "board.GPIO5",
+      "board_print": "G5",
+      "board_location": "left side, pin 5 from top",
+      "header_side": "left",
+      "header_position": 5,
+      "exposed": true,
+      "primary_function": "GPIO / RTC",
+      "alternate_functions": [
+        "ADC1_4",
+        "TOUCH5"
+      ],
+      "assigned": true,
+      "available": false,
+      "available_for_new_assignment": false,
+      "assignment_status": "proven_isolated",
+      "configured_names": [
+        "NEOPIXEL_STREAM_PIN"
+      ],
+      "interfaces": [
+        "NeoPixel data"
+      ],
+      "capabilities": [
+        "analog_in",
+        "capacitive_touch",
+        "digital_in",
+        "digital_out",
+        "rtc"
+      ],
+      "preferred_for": [
+        "addressable_led_data",
+        "analog_sensor"
+      ],
+      "direction": "output",
+      "connected_hardware": [
+        "Stream bead LED strip"
+      ],
+      "used_by": [
+        "hardware/lighting_stream.py"
+      ],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "config.py",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "stream_lighting",
+        "wire_bundle": "neopixel_data",
+        "preferred_side": "left",
+        "crossover_risk": "unknown",
+        "header_order_hint": 5
+      },
+      "risk": {
+        "level": "low",
+        "avoid_for": [
+          "new_assignment"
+        ],
+        "warnings": [
+          "Currently assigned in HobbitTown; do not reassign unless intentionally migrating the hardware and code."
+        ]
+      },
+      "notes": [
+        "Board reference use case: Stream Bead Lighting (NeoPixel).",
+        "CSV audit aliases/notes: GPIO5 = Recommended UART RX"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO5",
+          "function_note": "Recommended UART RX"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO6",
+      "gpio_number": 6,
+      "circuitpython_name": "board.GPIO6",
+      "board_print": "G6",
+      "board_location": "left side, pin 6 from top",
+      "header_side": "left",
+      "header_position": 6,
+      "exposed": true,
+      "primary_function": "GPIO / RTC",
+      "alternate_functions": [
+        "ADC1_5",
+        "TOUCH6"
+      ],
+      "assigned": true,
+      "available": false,
+      "available_for_new_assignment": false,
+      "assignment_status": "proposed",
+      "configured_names": [
+        "NEOPIXEL_GROUND_PIN"
+      ],
+      "interfaces": [
+        "NeoPixel data"
+      ],
+      "capabilities": [
+        "analog_in",
+        "capacitive_touch",
+        "digital_in",
+        "digital_out",
+        "rtc"
+      ],
+      "preferred_for": [
+        "addressable_led_data",
+        "analog_sensor"
+      ],
+      "direction": "output",
+      "connected_hardware": [
+        "Ground effects LED strip (WS2812B)"
+      ],
+      "used_by": [
+        "hardware/lighting_ground.py"
+      ],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "config.py",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "ground_lighting",
+        "wire_bundle": "neopixel_data",
+        "preferred_side": "left",
+        "crossover_risk": "low",
+        "header_order_hint": 6
+      },
+      "risk": {
+        "level": "low",
+        "avoid_for": [
+          "new_assignment"
+        ],
+        "warnings": [
+          "Migrated from GPIO2; requires isolated test before promotion to proven_isolated."
+        ]
+      },
+      "notes": [
+        "Migrated from GPIO2 to group all NeoPixel data on left side (GPIO4/5/6 consecutive).",
+        "CSV audit aliases/notes: GPIO6 = Digital IO"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO6",
+          "function_note": "Digital IO"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO7",
+      "gpio_number": 7,
+      "circuitpython_name": "board.GPIO7",
+      "board_print": "G7",
+      "board_location": "left side, pin 7 from top",
+      "header_side": "left",
+      "header_position": 7,
+      "exposed": true,
+      "primary_function": "GPIO / RTC",
+      "alternate_functions": [
+        "ADC1_6",
+        "TOUCH7"
+      ],
+      "assigned": false,
+      "available": true,
+      "available_for_new_assignment": true,
+      "assignment_status": "unassigned",
+      "configured_names": [],
+      "interfaces": [],
+      "capabilities": [
+        "analog_in",
+        "capacitive_touch",
+        "digital_in",
+        "digital_out",
+        "rtc"
+      ],
+      "preferred_for": [
+        "analog_sensor"
+      ],
+      "direction": null,
+      "connected_hardware": [],
+      "used_by": [],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "unassigned_left_header",
+        "wire_bundle": null,
+        "preferred_side": "left",
+        "crossover_risk": "unknown",
+        "header_order_hint": 7
+      },
+      "risk": {
+        "level": "low",
+        "avoid_for": [],
+        "warnings": []
+      },
+      "notes": [
+        "CSV audit aliases/notes: GPIO7 = Digital IO"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO7",
+          "function_note": "Digital IO"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO15",
+      "gpio_number": 15,
+      "circuitpython_name": "board.GPIO15",
+      "board_print": "G15",
+      "board_location": "left side, pin 8 from top",
+      "header_side": "left",
+      "header_position": 8,
+      "exposed": true,
+      "primary_function": "GPIO / RTC",
+      "alternate_functions": [
+        "ADC2_4",
+        "U0RTS",
+        "XTAL_32K_P"
+      ],
+      "assigned": false,
+      "available": true,
+      "available_for_new_assignment": true,
+      "assignment_status": "unassigned",
+      "configured_names": [],
+      "interfaces": [],
+      "capabilities": [
+        "analog_in",
+        "digital_in",
+        "digital_out",
+        "rtc",
+        "uart_rts"
+      ],
+      "preferred_for": [
+        "analog_sensor"
+      ],
+      "direction": null,
+      "connected_hardware": [],
+      "used_by": [],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "unassigned_left_header",
+        "wire_bundle": null,
+        "preferred_side": "left",
+        "crossover_risk": "unknown",
+        "header_order_hint": 8
+      },
+      "risk": {
+        "level": "low",
+        "avoid_for": [],
+        "warnings": []
+      },
+      "notes": [
+        "CSV audit aliases/notes: GPIO15 = Digital IO"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO15",
+          "function_note": "Digital IO"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO16",
+      "gpio_number": 16,
+      "circuitpython_name": "board.GPIO16",
+      "board_print": "G16",
+      "board_location": "left side, pin 9 from top",
+      "header_side": "left",
+      "header_position": 9,
+      "exposed": true,
+      "primary_function": "GPIO / RTC",
+      "alternate_functions": [
+        "ADC2_5",
+        "U0CTS",
+        "XTAL_32K_N"
+      ],
+      "assigned": false,
+      "available": true,
+      "available_for_new_assignment": true,
+      "assignment_status": "unassigned",
+      "configured_names": [],
+      "interfaces": [],
+      "capabilities": [
+        "analog_in",
+        "digital_in",
+        "digital_out",
+        "rtc",
+        "uart_cts"
+      ],
+      "preferred_for": [
+        "analog_sensor"
+      ],
+      "direction": null,
+      "connected_hardware": [],
+      "used_by": [],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "unassigned_left_header",
+        "wire_bundle": null,
+        "preferred_side": "left",
+        "crossover_risk": "unknown",
+        "header_order_hint": 9
+      },
+      "risk": {
+        "level": "low",
+        "avoid_for": [],
+        "warnings": []
+      },
+      "notes": [
+        "CSV audit aliases/notes: GPIO16 = Digital IO"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO16",
+          "function_note": "Digital IO"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO17",
+      "gpio_number": 17,
+      "circuitpython_name": "board.GPIO17",
+      "board_print": "G17",
+      "board_location": "left side, pin 10 from top",
+      "header_side": "left",
+      "header_position": 10,
+      "exposed": true,
+      "primary_function": "GPIO / RTC",
+      "alternate_functions": [
+        "ADC2_6",
+        "U1TXD"
+      ],
+      "assigned": true,
+      "available": false,
+      "available_for_new_assignment": false,
+      "assignment_status": "proven_isolated",
+      "configured_names": [
+        "AUDIO_UART_TX"
+      ],
+      "interfaces": [
+        "UART TX"
+      ],
+      "capabilities": [
+        "analog_in",
+        "digital_in",
+        "digital_out",
+        "rtc",
+        "uart_tx"
+      ],
+      "preferred_for": [
+        "analog_sensor",
+        "uart_tx"
+      ],
+      "direction": "output",
+      "connected_hardware": [
+        "Tsunami RXI"
+      ],
+      "used_by": [
+        "hardware/audio.py",
+        "code.py",
+        "code copy.py",
+        "code_GoodSoundTest.py",
+        "code_GoodVolumeTest.py"
+      ],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "config.py",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "audio",
+        "wire_bundle": "tsunami_uart",
+        "preferred_side": "left",
+        "crossover_risk": "unknown",
+        "header_order_hint": 10
+      },
+      "risk": {
+        "level": "low",
+        "avoid_for": [
+          "new_assignment"
+        ],
+        "warnings": [
+          "Currently assigned in HobbitTown; do not reassign unless intentionally migrating the hardware and code."
+        ]
+      },
+      "notes": [
+        "Board reference use case: Audio UART TX (Tsunami).",
+        "ESP32 TX connects to Tsunami RXI.",
+        "CSV audit aliases/notes: GPIO17 = Digital IO"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO17",
+          "function_note": "Digital IO"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO18",
+      "gpio_number": 18,
+      "circuitpython_name": "board.GPIO18",
+      "board_print": "G18",
+      "board_location": "left side, pin 11 from top",
+      "header_side": "left",
+      "header_position": 11,
+      "exposed": true,
+      "primary_function": "GPIO / RTC",
+      "alternate_functions": [
+        "ADC2_7",
+        "U1RXD",
+        "CLK_OUT3"
+      ],
+      "assigned": true,
+      "available": false,
+      "available_for_new_assignment": false,
+      "assignment_status": "proven_isolated",
+      "configured_names": [
+        "AUDIO_UART_RX"
+      ],
+      "interfaces": [
+        "UART RX"
+      ],
+      "capabilities": [
+        "analog_in",
+        "clock_out",
+        "digital_in",
+        "digital_out",
+        "rtc",
+        "uart_rx"
+      ],
+      "preferred_for": [
+        "analog_sensor",
+        "uart_rx"
+      ],
+      "direction": "input",
+      "connected_hardware": [
+        "Tsunami TXO"
+      ],
+      "used_by": [
+        "hardware/audio.py",
+        "code.py",
+        "code copy.py",
+        "code_GoodSoundTest.py",
+        "code_GoodVolumeTest.py"
+      ],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "config.py",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "audio",
+        "wire_bundle": "tsunami_uart",
+        "preferred_side": "left",
+        "crossover_risk": "unknown",
+        "header_order_hint": 11
+      },
+      "risk": {
+        "level": "low",
+        "avoid_for": [
+          "new_assignment"
+        ],
+        "warnings": [
+          "Currently assigned in HobbitTown; do not reassign unless intentionally migrating the hardware and code."
+        ]
+      },
+      "notes": [
+        "Board reference use case: Audio UART RX (Tsunami).",
+        "ESP32 RX connects to Tsunami TXO.",
+        "CSV audit aliases/notes: GPIO18 = Digital IO"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO18",
+          "function_note": "Digital IO"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO8",
+      "gpio_number": 8,
+      "circuitpython_name": "board.GPIO8",
+      "board_print": "G8",
+      "board_location": "left side, pin 12 from top",
+      "header_side": "left",
+      "header_position": 12,
+      "exposed": true,
+      "primary_function": "GPIO / RTC",
+      "alternate_functions": [
+        "ADC1_7",
+        "TOUCH8"
+      ],
+      "assigned": true,
+      "available": false,
+      "available_for_new_assignment": false,
+      "assignment_status": "proven_isolated",
+      "configured_names": [
+        "I2C_SDA"
+      ],
+      "interfaces": [
+        "I2C SDA"
+      ],
+      "capabilities": [
+        "analog_in",
+        "capacitive_touch",
+        "digital_in",
+        "digital_out",
+        "i2c_sda",
+        "rtc"
+      ],
+      "preferred_for": [
+        "analog_sensor",
+        "i2c_sda"
+      ],
+      "direction": "bidirectional",
+      "connected_hardware": [
+        "PCA9685 bus"
+      ],
+      "used_by": [
+        "hardware/motion.py"
+      ],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "config.py",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "i2c_bus",
+        "wire_bundle": "i2c",
+        "preferred_side": "left",
+        "crossover_risk": "unknown",
+        "header_order_hint": 12
+      },
+      "risk": {
+        "level": "low",
+        "avoid_for": [
+          "new_assignment"
+        ],
+        "warnings": [
+          "Currently assigned in HobbitTown; do not reassign unless intentionally migrating the hardware and code."
+        ]
+      },
+      "notes": [
+        "Board reference use case: I2C SDA (Motion/Audio).",
+        "Shared I2C bus. Do not reuse as an audio trigger output unless the I2C design changes.",
+        "CSV audit aliases/notes: GPIO8 = I2C SDA (Qwiic Data)"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO8",
+          "function_note": "I2C SDA (Qwiic Data)"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO19",
+      "gpio_number": 19,
+      "circuitpython_name": "board.GPIO19",
+      "board_print": "G19",
+      "board_location": "left side, pin 13 from top",
+      "header_side": "left",
+      "header_position": 13,
+      "exposed": true,
+      "primary_function": "GPIO / RTC",
+      "alternate_functions": [
+        "ADC2_8",
+        "USB_D-",
+        "CLK_OUT2",
+        "U1RTS"
+      ],
+      "assigned": false,
+      "available": false,
+      "available_for_new_assignment": false,
+      "assignment_status": "unassigned",
+      "configured_names": [],
+      "interfaces": [],
+      "capabilities": [
+        "analog_in",
+        "clock_out",
+        "digital_in",
+        "digital_out",
+        "native_usb_dm",
+        "rtc",
+        "uart_rts"
+      ],
+      "preferred_for": [
+        "analog_sensor"
+      ],
+      "direction": null,
+      "connected_hardware": [],
+      "used_by": [],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md"
+      ],
+      "routing": {
+        "zone": "unassigned_left_header",
+        "wire_bundle": null,
+        "preferred_side": "left",
+        "crossover_risk": "unknown",
+        "header_order_hint": 13
+      },
+      "risk": {
+        "level": "high",
+        "avoid_for": [
+          "new_assignment",
+          "normal_gpio"
+        ],
+        "warnings": [
+          "Marked previously failed in the board reference; do not recommend until retested.",
+          "Native USB data pin on this board reference; avoid unless the design intentionally uses native USB."
+        ]
+      },
+      "notes": [
+        "Board reference use case: Unassigned (Previously failed)."
+      ],
+      "csv_audit": []
+    },
+    {
+      "pin": "GPIO20",
+      "gpio_number": 20,
+      "circuitpython_name": "board.GPIO20",
+      "board_print": "G20",
+      "board_location": "left side, pin 14 from top",
+      "header_side": "left",
+      "header_position": 14,
+      "exposed": true,
+      "primary_function": "GPIO / RTC",
+      "alternate_functions": [
+        "ADC2_9",
+        "USB_D+",
+        "U1CTS",
+        "CLK_OUT1"
+      ],
+      "assigned": false,
+      "available": false,
+      "available_for_new_assignment": false,
+      "assignment_status": "unassigned",
+      "configured_names": [],
+      "interfaces": [],
+      "capabilities": [
+        "analog_in",
+        "clock_out",
+        "digital_in",
+        "digital_out",
+        "native_usb_dp",
+        "rtc",
+        "uart_cts"
+      ],
+      "preferred_for": [
+        "analog_sensor"
+      ],
+      "direction": null,
+      "connected_hardware": [],
+      "used_by": [],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md"
+      ],
+      "routing": {
+        "zone": "unassigned_left_header",
+        "wire_bundle": null,
+        "preferred_side": "left",
+        "crossover_risk": "unknown",
+        "header_order_hint": 14
+      },
+      "risk": {
+        "level": "medium",
+        "avoid_for": [
+          "normal_gpio"
+        ],
+        "warnings": [
+          "Native USB data pin on this board reference; avoid unless the design intentionally uses native USB."
+        ]
+      },
+      "notes": [],
+      "csv_audit": []
+    },
+    {
+      "pin": "GPIO3",
+      "gpio_number": 3,
+      "circuitpython_name": "board.GPIO3",
+      "board_print": "G3",
+      "board_location": "left side, pin 15 from top",
+      "header_side": "left",
+      "header_position": 15,
+      "exposed": true,
+      "primary_function": "GPIO",
+      "alternate_functions": [
+        "ADC1_2",
+        "TOUCH3",
+        "JTAG"
+      ],
+      "assigned": false,
+      "available": true,
+      "available_for_new_assignment": true,
+      "assignment_status": "unassigned",
+      "configured_names": [],
+      "interfaces": [],
+      "capabilities": [
+        "analog_in",
+        "capacitive_touch",
+        "digital_in",
+        "digital_out"
+      ],
+      "preferred_for": [
+        "analog_sensor"
+      ],
+      "direction": null,
+      "connected_hardware": [],
+      "used_by": [],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "unassigned_left_header",
+        "wire_bundle": null,
+        "preferred_side": "left",
+        "crossover_risk": "unknown",
+        "header_order_hint": 15
+      },
+      "risk": {
+        "level": "low",
+        "avoid_for": [],
+        "warnings": []
+      },
+      "notes": [
+        "CSV audit aliases/notes: GPIO3 = Digital IO"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO3",
+          "function_note": "Digital IO"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO46",
+      "gpio_number": 46,
+      "circuitpython_name": "board.GPIO46",
+      "board_print": "G46",
+      "board_location": "left side, pin 16 from top",
+      "header_side": "left",
+      "header_position": 16,
+      "exposed": true,
+      "primary_function": "GPIO",
+      "alternate_functions": [
+        "LOG"
+      ],
+      "assigned": false,
+      "available": true,
+      "available_for_new_assignment": true,
+      "assignment_status": "unassigned",
+      "configured_names": [],
+      "interfaces": [],
+      "capabilities": [
+        "digital_in",
+        "digital_out"
+      ],
+      "preferred_for": [],
+      "direction": null,
+      "connected_hardware": [],
+      "used_by": [],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "unassigned_left_header",
+        "wire_bundle": null,
+        "preferred_side": "left",
+        "crossover_risk": "unknown",
+        "header_order_hint": 16
+      },
+      "risk": {
+        "level": "medium",
+        "avoid_for": [],
+        "warnings": [
+          "Use cautiously; verify boot behavior and board-specific constraints before assignment."
+        ]
+      },
+      "notes": [
+        "CSV audit aliases/notes: GPIO46 = Digital IO"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO46",
+          "function_note": "Digital IO"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO9",
+      "gpio_number": 9,
+      "circuitpython_name": "board.GPIO9",
+      "board_print": "G9",
+      "board_location": "left side, pin 17 from top",
+      "header_side": "left",
+      "header_position": 17,
+      "exposed": true,
+      "primary_function": "GPIO / RTC",
+      "alternate_functions": [
+        "ADC1_8",
+        "TOUCH9",
+        "FSPIHD",
+        "SUBSPIHD"
+      ],
+      "assigned": true,
+      "available": false,
+      "available_for_new_assignment": false,
+      "assignment_status": "proven_isolated",
+      "configured_names": [
+        "I2C_SCL"
+      ],
+      "interfaces": [
+        "I2C SCL"
+      ],
+      "capabilities": [
+        "analog_in",
+        "capacitive_touch",
+        "digital_in",
+        "digital_out",
+        "i2c_scl",
+        "rtc",
+        "spi_related"
+      ],
+      "preferred_for": [
+        "analog_sensor",
+        "i2c_scl"
+      ],
+      "direction": "output",
+      "connected_hardware": [
+        "PCA9685 bus"
+      ],
+      "used_by": [
+        "hardware/motion.py"
+      ],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "config.py",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "i2c_bus",
+        "wire_bundle": "i2c",
+        "preferred_side": "left",
+        "crossover_risk": "unknown",
+        "header_order_hint": 17
+      },
+      "risk": {
+        "level": "medium",
+        "avoid_for": [
+          "new_assignment"
+        ],
+        "warnings": [
+          "Currently assigned in HobbitTown; do not reassign unless intentionally migrating the hardware and code.",
+          "Has flash/sub-SPI-related alternate functions; prefer simpler GPIOs when available."
+        ]
+      },
+      "notes": [
+        "Board reference use case: I2C SCL (Motion/Audio).",
+        "Shared I2C bus clock. Do not reuse as a non-I2C output.",
+        "CSV audit aliases/notes: GPIO9 = I2C SCL (Qwiic Clock)"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO9",
+          "function_note": "I2C SCL (Qwiic Clock)"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO10",
+      "gpio_number": 10,
+      "circuitpython_name": "board.GPIO10",
+      "board_print": "G10",
+      "board_location": "left side, pin 18 from top",
+      "header_side": "left",
+      "header_position": 18,
+      "exposed": true,
+      "primary_function": "GPIO / RTC",
+      "alternate_functions": [
+        "ADC1_9",
+        "TOUCH10",
+        "FSPICS0",
+        "SUBSPICSO"
+      ],
+      "assigned": false,
+      "available": true,
+      "available_for_new_assignment": true,
+      "assignment_status": "unassigned",
+      "configured_names": [],
+      "interfaces": [],
+      "capabilities": [
+        "analog_in",
+        "capacitive_touch",
+        "digital_in",
+        "digital_out",
+        "rtc",
+        "spi_related"
+      ],
+      "preferred_for": [
+        "analog_sensor"
+      ],
+      "direction": null,
+      "connected_hardware": [],
+      "used_by": [],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "unassigned_left_header",
+        "wire_bundle": null,
+        "preferred_side": "left",
+        "crossover_risk": "unknown",
+        "header_order_hint": 18
+      },
+      "risk": {
+        "level": "medium",
+        "avoid_for": [],
+        "warnings": [
+          "Has flash/sub-SPI-related alternate functions; prefer simpler GPIOs when available."
+        ]
+      },
+      "notes": [
+        "CSV audit aliases/notes: GPIO10 = Digital IO"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO10",
+          "function_note": "Digital IO"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO11",
+      "gpio_number": 11,
+      "circuitpython_name": "board.GPIO11",
+      "board_print": "G11",
+      "board_location": "left side, pin 19 from top",
+      "header_side": "left",
+      "header_position": 19,
+      "exposed": true,
+      "primary_function": "GPIO / RTC",
+      "alternate_functions": [
+        "ADC2_0",
+        "TOUCH11",
+        "FSPID",
+        "SUBSPID"
+      ],
+      "assigned": false,
+      "available": true,
+      "available_for_new_assignment": true,
+      "assignment_status": "unassigned",
+      "configured_names": [],
+      "interfaces": [],
+      "capabilities": [
+        "analog_in",
+        "capacitive_touch",
+        "digital_in",
+        "digital_out",
+        "rtc",
+        "spi_related"
+      ],
+      "preferred_for": [
+        "analog_sensor"
+      ],
+      "direction": null,
+      "connected_hardware": [],
+      "used_by": [],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "unassigned_left_header",
+        "wire_bundle": null,
+        "preferred_side": "left",
+        "crossover_risk": "unknown",
+        "header_order_hint": 19
+      },
+      "risk": {
+        "level": "medium",
+        "avoid_for": [],
+        "warnings": [
+          "Has flash/sub-SPI-related alternate functions; prefer simpler GPIOs when available."
+        ]
+      },
+      "notes": [
+        "CSV audit aliases/notes: GPIO11 = Digital IO"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO11",
+          "function_note": "Digital IO"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO12",
+      "gpio_number": 12,
+      "circuitpython_name": "board.GPIO12",
+      "board_print": "G12",
+      "board_location": "left side, pin 20 from top",
+      "header_side": "left",
+      "header_position": 20,
+      "exposed": true,
+      "primary_function": "GPIO / RTC",
+      "alternate_functions": [
+        "ADC2_1",
+        "TOUCH12",
+        "FSPICLK",
+        "SUBSPICLK"
+      ],
+      "assigned": false,
+      "available": true,
+      "available_for_new_assignment": true,
+      "assignment_status": "unassigned",
+      "configured_names": [],
+      "interfaces": [],
+      "capabilities": [
+        "analog_in",
+        "capacitive_touch",
+        "digital_in",
+        "digital_out",
+        "rtc",
+        "spi_related"
+      ],
+      "preferred_for": [
+        "analog_sensor"
+      ],
+      "direction": null,
+      "connected_hardware": [],
+      "used_by": [],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "unassigned_left_header",
+        "wire_bundle": null,
+        "preferred_side": "left",
+        "crossover_risk": "unknown",
+        "header_order_hint": 20
+      },
+      "risk": {
+        "level": "medium",
+        "avoid_for": [],
+        "warnings": [
+          "Has flash/sub-SPI-related alternate functions; prefer simpler GPIOs when available."
+        ]
+      },
+      "notes": [
+        "CSV audit aliases/notes: GPIO12 = Digital IO"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO12",
+          "function_note": "Digital IO"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO1",
+      "gpio_number": 1,
+      "circuitpython_name": "board.GPIO1",
+      "board_print": "G1",
+      "board_location": "right side, pin 2 from top",
+      "header_side": "right",
+      "header_position": 2,
+      "exposed": true,
+      "primary_function": "GPIO / RTC",
+      "alternate_functions": [
+        "ADC1_0",
+        "TOUCH1"
+      ],
+      "assigned": false,
+      "available": true,
+      "available_for_new_assignment": true,
+      "assignment_status": "unassigned",
+      "configured_names": [],
+      "interfaces": [],
+      "capabilities": [
+        "analog_in",
+        "capacitive_touch",
+        "digital_in",
+        "digital_out",
+        "rtc"
+      ],
+      "preferred_for": [
+        "analog_sensor"
+      ],
+      "direction": null,
+      "connected_hardware": [],
+      "used_by": [],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "unassigned_right_header",
+        "wire_bundle": null,
+        "preferred_side": "right",
+        "crossover_risk": "unknown",
+        "header_order_hint": 2
+      },
+      "risk": {
+        "level": "low",
+        "avoid_for": [],
+        "warnings": []
+      },
+      "notes": [
+        "CSV audit aliases/notes: GPIO1 = Digital IO"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO1",
+          "function_note": "Digital IO"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO2",
+      "gpio_number": 2,
+      "circuitpython_name": "board.GPIO2",
+      "board_print": "G2",
+      "board_location": "right side, pin 3 from top",
+      "header_side": "right",
+      "header_position": 3,
+      "exposed": true,
+      "primary_function": "GPIO / RTC",
+      "alternate_functions": [
+        "ADC1_1",
+        "TOUCH2"
+      ],
+      "assigned": false,
+      "available": true,
+      "available_for_new_assignment": true,
+      "assignment_status": "unassigned",
+      "configured_names": [],
+      "interfaces": [],
+      "capabilities": [
+        "analog_in",
+        "capacitive_touch",
+        "digital_in",
+        "digital_out",
+        "rtc"
+      ],
+      "preferred_for": [
+        "addressable_led_data",
+        "analog_sensor"
+      ],
+      "direction": null,
+      "connected_hardware": [],
+      "used_by": [],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "unassigned_right_header",
+        "wire_bundle": null,
+        "preferred_side": "right",
+        "crossover_risk": "unknown",
+        "header_order_hint": 3
+      },
+      "risk": {
+        "level": "low",
+        "avoid_for": [],
+        "warnings": []
+      },
+      "notes": [
+        "Freed: was NEOPIXEL_GROUND_PIN, migrated to GPIO6 for left-side NeoPixel grouping.",
+        "CSV audit aliases/notes: GPIO2 = Diagnostic Beacon LED Location"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO2",
+          "function_note": "Diagnostic Beacon LED Location"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO43",
+      "gpio_number": 43,
+      "circuitpython_name": "board.GPIO43",
+      "board_print": "G43",
+      "board_location": "right side, pin 4 from top",
+      "header_side": "right",
+      "header_position": 4,
+      "exposed": true,
+      "primary_function": "GPIO",
+      "alternate_functions": [
+        "U0TXD",
+        "SERIAL_TX",
+        "CLK_OUT1"
+      ],
+      "assigned": false,
+      "available": false,
+      "available_for_new_assignment": false,
+      "assignment_status": "unassigned",
+      "configured_names": [],
+      "interfaces": [],
+      "capabilities": [
+        "clock_out",
+        "digital_in",
+        "digital_out",
+        "uart_tx"
+      ],
+      "preferred_for": [],
+      "direction": null,
+      "connected_hardware": [],
+      "used_by": [],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "unassigned_right_header",
+        "wire_bundle": null,
+        "preferred_side": "right",
+        "crossover_risk": "unknown",
+        "header_order_hint": 4
+      },
+      "risk": {
+        "level": "high",
+        "avoid_for": [
+          "neopixel_data",
+          "normal_gpio",
+          "relay_control"
+        ],
+        "warnings": [
+          "USB serial console pin; avoid for general peripherals to preserve console/programming access."
+        ]
+      },
+      "notes": [
+        "Board reference use case: USB Serial TX.",
+        "CSV audit aliases/notes: GPIO43 = UART0 TX (Hardwired to USB Bridge); TX = Serial Console Transmit"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO43",
+          "function_note": "UART0 TX (Hardwired to USB Bridge)"
+        },
+        {
+          "board_label": "TX",
+          "function_note": "Serial Console Transmit"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO44",
+      "gpio_number": 44,
+      "circuitpython_name": "board.GPIO44",
+      "board_print": "G44",
+      "board_location": "right side, pin 5 from top",
+      "header_side": "right",
+      "header_position": 5,
+      "exposed": true,
+      "primary_function": "GPIO",
+      "alternate_functions": [
+        "U0RXD",
+        "SERIAL_RX",
+        "CLK_OUT2"
+      ],
+      "assigned": false,
+      "available": false,
+      "available_for_new_assignment": false,
+      "assignment_status": "unassigned",
+      "configured_names": [],
+      "interfaces": [],
+      "capabilities": [
+        "clock_out",
+        "digital_in",
+        "digital_out",
+        "uart_rx"
+      ],
+      "preferred_for": [],
+      "direction": null,
+      "connected_hardware": [],
+      "used_by": [],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "unassigned_right_header",
+        "wire_bundle": null,
+        "preferred_side": "right",
+        "crossover_risk": "unknown",
+        "header_order_hint": 5
+      },
+      "risk": {
+        "level": "high",
+        "avoid_for": [
+          "neopixel_data",
+          "normal_gpio",
+          "relay_control"
+        ],
+        "warnings": [
+          "USB serial console pin; avoid for general peripherals to preserve console/programming access."
+        ]
+      },
+      "notes": [
+        "Board reference use case: USB Serial RX.",
+        "CSV audit aliases/notes: GPIO44 = UART0 RX (Hardwired to USB Bridge); RX = Serial Console Receive"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO44",
+          "function_note": "UART0 RX (Hardwired to USB Bridge)"
+        },
+        {
+          "board_label": "RX",
+          "function_note": "Serial Console Receive"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO42",
+      "gpio_number": 42,
+      "circuitpython_name": "board.GPIO42",
+      "board_print": "G42",
+      "board_location": "right side, pin 6 from top",
+      "header_side": "right",
+      "header_position": 6,
+      "exposed": true,
+      "primary_function": "GPIO",
+      "alternate_functions": [
+        "MTMS"
+      ],
+      "assigned": true,
+      "available": false,
+      "available_for_new_assignment": false,
+      "assignment_status": "proposed",
+      "configured_names": [
+        "CHIMNEY_RELAY_PIN1"
+      ],
+      "interfaces": [
+        "Digital relay control"
+      ],
+      "capabilities": [
+        "digital_in",
+        "digital_out"
+      ],
+      "preferred_for": [
+        "relay_control"
+      ],
+      "direction": "output",
+      "connected_hardware": [
+        "Smial 1 chimney relay"
+      ],
+      "used_by": [
+        "code.py"
+      ],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "config.py",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "chimney_relays",
+        "wire_bundle": "relay_control",
+        "preferred_side": "right",
+        "crossover_risk": "low",
+        "header_order_hint": 6
+      },
+      "risk": {
+        "level": "low",
+        "avoid_for": [
+          "new_assignment"
+        ],
+        "warnings": [
+          "Migrated from GPIO21; requires isolated test before promotion to proven_isolated."
+        ]
+      },
+      "notes": [
+        "Migrated from GPIO21 to group chimney relays consecutively (GPIO42/41/40 at right positions 6/7/8).",
+        "CSV audit aliases/notes: GPIO42 = Digital IO"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO42",
+          "function_note": "Digital IO"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO41",
+      "gpio_number": 41,
+      "circuitpython_name": "board.GPIO41",
+      "board_print": "G41",
+      "board_location": "right side, pin 7 from top",
+      "header_side": "right",
+      "header_position": 7,
+      "exposed": true,
+      "primary_function": "GPIO",
+      "alternate_functions": [
+        "MTDI",
+        "CLK_OUT1"
+      ],
+      "assigned": true,
+      "available": false,
+      "available_for_new_assignment": false,
+      "assignment_status": "proven_isolated",
+      "configured_names": [
+        "CHIMNEY_RELAY_PIN2"
+      ],
+      "interfaces": [
+        "Digital relay control"
+      ],
+      "capabilities": [
+        "clock_out",
+        "digital_in",
+        "digital_out"
+      ],
+      "preferred_for": [
+        "relay_control"
+      ],
+      "direction": "output",
+      "connected_hardware": [
+        "Smial 2 chimney relay"
+      ],
+      "used_by": [
+        "code.py"
+      ],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "config.py",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "chimney_relays",
+        "wire_bundle": "relay_control",
+        "preferred_side": "right",
+        "crossover_risk": "unknown",
+        "header_order_hint": 7
+      },
+      "risk": {
+        "level": "low",
+        "avoid_for": [
+          "new_assignment"
+        ],
+        "warnings": [
+          "Currently assigned in HobbitTown; do not reassign unless intentionally migrating the hardware and code."
+        ]
+      },
+      "notes": [
+        "Board reference use case: Chimney Relay 2 (was Relay 3, renumbered for physical top-to-bottom order).",
+        "CSV audit aliases/notes: GPIO41 = Digital IO"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO41",
+          "function_note": "Digital IO"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO40",
+      "gpio_number": 40,
+      "circuitpython_name": "board.GPIO40",
+      "board_print": "G40",
+      "board_location": "right side, pin 8 from top",
+      "header_side": "right",
+      "header_position": 8,
+      "exposed": true,
+      "primary_function": "GPIO",
+      "alternate_functions": [
+        "MTDO",
+        "CLK_OUT2"
+      ],
+      "assigned": true,
+      "available": false,
+      "available_for_new_assignment": false,
+      "assignment_status": "proven_isolated",
+      "configured_names": [
+        "CHIMNEY_RELAY_PIN3"
+      ],
+      "interfaces": [
+        "Digital relay control"
+      ],
+      "capabilities": [
+        "clock_out",
+        "digital_in",
+        "digital_out"
+      ],
+      "preferred_for": [
+        "relay_control"
+      ],
+      "direction": "output",
+      "connected_hardware": [
+        "Smial 3 chimney relay"
+      ],
+      "used_by": [
+        "code.py"
+      ],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "config.py",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "chimney_relays",
+        "wire_bundle": "relay_control",
+        "preferred_side": "right",
+        "crossover_risk": "unknown",
+        "header_order_hint": 8
+      },
+      "risk": {
+        "level": "low",
+        "avoid_for": [
+          "new_assignment"
+        ],
+        "warnings": [
+          "Currently assigned in HobbitTown; do not reassign unless intentionally migrating the hardware and code."
+        ]
+      },
+      "notes": [
+        "Board reference use case: Chimney Relay 3 (was Relay 2, renumbered for physical top-to-bottom order).",
+        "CSV audit aliases/notes: GPIO40 = Digital IO"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO40",
+          "function_note": "Digital IO"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO39",
+      "gpio_number": 39,
+      "circuitpython_name": "board.GPIO39",
+      "board_print": "G39",
+      "board_location": "right side, pin 9 from top",
+      "header_side": "right",
+      "header_position": 9,
+      "exposed": true,
+      "primary_function": "GPIO",
+      "alternate_functions": [
+        "MTCK",
+        "SUBSPICSI",
+        "CLK_OUT3"
+      ],
+      "assigned": true,
+      "available": false,
+      "available_for_new_assignment": false,
+      "assignment_status": "proposed",
+      "configured_names": [
+        "FOGGER_RELAY_PIN"
+      ],
+      "interfaces": [
+        "Digital relay control"
+      ],
+      "capabilities": [
+        "clock_out",
+        "digital_in",
+        "digital_out",
+        "spi_related"
+      ],
+      "preferred_for": [
+        "relay_control"
+      ],
+      "direction": "output",
+      "connected_hardware": [
+        "Fogger relay"
+      ],
+      "used_by": [
+        "hardware/atmosphere.py"
+      ],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "config.py",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "relay_control",
+        "wire_bundle": "relay_control",
+        "preferred_side": "right",
+        "crossover_risk": "low",
+        "header_order_hint": 9
+      },
+      "risk": {
+        "level": "medium",
+        "avoid_for": [
+          "new_assignment"
+        ],
+        "warnings": [
+          "Has flash/sub-SPI-related alternate functions; safe for digital_out relay control.",
+          "Backup pin: GPIO47 (right-17) if boot issues arise."
+        ]
+      },
+      "notes": [
+        "New assignment: fogger relay, adjacent to chimney relay block (GPIO42/41/40 at positions 6-8).",
+        "CSV audit aliases/notes: GPIO39 = Digital IO"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO39",
+          "function_note": "Digital IO"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO38",
+      "gpio_number": 38,
+      "circuitpython_name": "board.GPIO38",
+      "board_print": "G38",
+      "board_location": "right side, pin 10 from top",
+      "header_side": "right",
+      "header_position": 10,
+      "exposed": true,
+      "primary_function": "GPIO",
+      "alternate_functions": [
+        "FSPIWP",
+        "SUBSPIWP"
+      ],
+      "assigned": false,
+      "available": true,
+      "available_for_new_assignment": true,
+      "assignment_status": "unassigned",
+      "configured_names": [],
+      "interfaces": [],
+      "capabilities": [
+        "digital_in",
+        "digital_out",
+        "spi_related"
+      ],
+      "preferred_for": [],
+      "direction": null,
+      "connected_hardware": [],
+      "used_by": [],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "unassigned_right_header",
+        "wire_bundle": null,
+        "preferred_side": "right",
+        "crossover_risk": "unknown",
+        "header_order_hint": 10
+      },
+      "risk": {
+        "level": "medium",
+        "avoid_for": [],
+        "warnings": [
+          "Has flash/sub-SPI-related alternate functions; prefer simpler GPIOs when available."
+        ]
+      },
+      "notes": [
+        "CSV audit aliases/notes: GPIO38 = Digital IO"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO38",
+          "function_note": "Digital IO"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO37",
+      "gpio_number": 37,
+      "circuitpython_name": "board.GPIO37",
+      "board_print": "G37",
+      "board_location": "right side, pin 11 from top",
+      "header_side": "right",
+      "header_position": 11,
+      "exposed": true,
+      "primary_function": "GPIO",
+      "alternate_functions": [
+        "SPIDQS",
+        "FSPIQ",
+        "SUBSPIQ"
+      ],
+      "assigned": false,
+      "available": true,
+      "available_for_new_assignment": true,
+      "assignment_status": "unassigned",
+      "configured_names": [],
+      "interfaces": [],
+      "capabilities": [
+        "digital_in",
+        "digital_out",
+        "spi_related"
+      ],
+      "preferred_for": [],
+      "direction": null,
+      "connected_hardware": [],
+      "used_by": [],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "unassigned_right_header",
+        "wire_bundle": null,
+        "preferred_side": "right",
+        "crossover_risk": "unknown",
+        "header_order_hint": 11
+      },
+      "risk": {
+        "level": "medium",
+        "avoid_for": [],
+        "warnings": [
+          "Has flash/sub-SPI-related alternate functions; prefer simpler GPIOs when available."
+        ]
+      },
+      "notes": [
+        "CSV audit aliases/notes: GPIO37 = Digital IO"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO37",
+          "function_note": "Digital IO"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO36",
+      "gpio_number": 36,
+      "circuitpython_name": "board.GPIO36",
+      "board_print": "G36",
+      "board_location": "right side, pin 12 from top",
+      "header_side": "right",
+      "header_position": 12,
+      "exposed": true,
+      "primary_function": "GPIO",
+      "alternate_functions": [
+        "SPIIO7",
+        "FSPICLK",
+        "SUBSPICLK"
+      ],
+      "assigned": false,
+      "available": true,
+      "available_for_new_assignment": true,
+      "assignment_status": "unassigned",
+      "configured_names": [],
+      "interfaces": [],
+      "capabilities": [
+        "digital_in",
+        "digital_out",
+        "spi_related"
+      ],
+      "preferred_for": [],
+      "direction": null,
+      "connected_hardware": [],
+      "used_by": [],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "unassigned_right_header",
+        "wire_bundle": null,
+        "preferred_side": "right",
+        "crossover_risk": "unknown",
+        "header_order_hint": 12
+      },
+      "risk": {
+        "level": "medium",
+        "avoid_for": [],
+        "warnings": [
+          "Has flash/sub-SPI-related alternate functions; prefer simpler GPIOs when available."
+        ]
+      },
+      "notes": [
+        "CSV audit aliases/notes: GPIO36 = Digital IO"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO36",
+          "function_note": "Digital IO"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO35",
+      "gpio_number": 35,
+      "circuitpython_name": "board.GPIO35",
+      "board_print": "G35",
+      "board_location": "right side, pin 13 from top",
+      "header_side": "right",
+      "header_position": 13,
+      "exposed": true,
+      "primary_function": "GPIO",
+      "alternate_functions": [
+        "SPIIO6",
+        "FSPID",
+        "SUBSPID"
+      ],
+      "assigned": false,
+      "available": false,
+      "available_for_new_assignment": false,
+      "assignment_status": "unassigned",
+      "configured_names": [],
+      "interfaces": [],
+      "capabilities": [
+        "digital_in",
+        "digital_out",
+        "spi_related"
+      ],
+      "preferred_for": [],
+      "direction": null,
+      "connected_hardware": [],
+      "used_by": [],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "unassigned_right_header",
+        "wire_bundle": null,
+        "preferred_side": "right",
+        "crossover_risk": "unknown",
+        "header_order_hint": 13
+      },
+      "risk": {
+        "level": "high",
+        "avoid_for": [
+          "new_assignment"
+        ],
+        "warnings": [
+          "Has flash/sub-SPI-related alternate functions; prefer simpler GPIOs when available.",
+          "Marked reserved in the board reference; do not recommend for new assignment."
+        ]
+      },
+      "notes": [
+        "Board reference use case: Unassigned (Reserved).",
+        "CSV audit aliases/notes: GPIO35 = Digital IO"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO35",
+          "function_note": "Digital IO"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO0",
+      "gpio_number": 0,
+      "circuitpython_name": "board.GPIO0",
+      "board_print": "G0",
+      "board_location": "right side, pin 14 from top",
+      "header_side": "right",
+      "header_position": 14,
+      "exposed": true,
+      "primary_function": "GPIO / BOOT",
+      "alternate_functions": [
+        "Boot Mode Selection"
+      ],
+      "assigned": false,
+      "available": false,
+      "available_for_new_assignment": false,
+      "assignment_status": "unassigned",
+      "configured_names": [],
+      "interfaces": [],
+      "capabilities": [
+        "digital_in",
+        "digital_out"
+      ],
+      "preferred_for": [],
+      "direction": null,
+      "connected_hardware": [],
+      "used_by": [],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "unassigned_right_header",
+        "wire_bundle": null,
+        "preferred_side": "right",
+        "crossover_risk": "unknown",
+        "header_order_hint": 14
+      },
+      "risk": {
+        "level": "high",
+        "avoid_for": [
+          "neopixel_data",
+          "normal_gpio",
+          "relay_control",
+          "uart"
+        ],
+        "warnings": [
+          "Boot mode / strapping pin; do not use for normal peripherals unless explicitly overridden."
+        ]
+      },
+      "notes": [
+        "Board reference use case: Boot Mode.",
+        "CSV audit aliases/notes: BOOT = System Boot Button; GPIO0 = Digital IO"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "BOOT",
+          "function_note": "System Boot Button"
+        },
+        {
+          "board_label": "GPIO0",
+          "function_note": "Digital IO"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO45",
+      "gpio_number": 45,
+      "circuitpython_name": "board.GPIO45",
+      "board_print": "G45",
+      "board_location": "right side, pin 15 from top",
+      "header_side": "right",
+      "header_position": 15,
+      "exposed": true,
+      "primary_function": "GPIO",
+      "alternate_functions": [
+        "VSPI"
+      ],
+      "assigned": false,
+      "available": true,
+      "available_for_new_assignment": true,
+      "assignment_status": "unassigned",
+      "configured_names": [],
+      "interfaces": [],
+      "capabilities": [
+        "digital_in",
+        "digital_out"
+      ],
+      "preferred_for": [],
+      "direction": null,
+      "connected_hardware": [],
+      "used_by": [],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "unassigned_right_header",
+        "wire_bundle": null,
+        "preferred_side": "right",
+        "crossover_risk": "unknown",
+        "header_order_hint": 15
+      },
+      "risk": {
+        "level": "medium",
+        "avoid_for": [],
+        "warnings": [
+          "Use cautiously; verify boot behavior and board-specific constraints before assignment."
+        ]
+      },
+      "notes": [
+        "CSV audit aliases/notes: GPIO45 = Digital IO"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO45",
+          "function_note": "Digital IO"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO48",
+      "gpio_number": 48,
+      "circuitpython_name": "board.GPIO48",
+      "board_print": "G48",
+      "board_location": "right side, pin 16 from top",
+      "header_side": "right",
+      "header_position": 16,
+      "exposed": true,
+      "primary_function": "GPIO",
+      "alternate_functions": [
+        "SPICLK_N",
+        "RGB_LED (Addressable)"
+      ],
+      "assigned": false,
+      "available": false,
+      "available_for_new_assignment": false,
+      "assignment_status": "unassigned",
+      "configured_names": [],
+      "interfaces": [],
+      "capabilities": [
+        "digital_in",
+        "digital_out",
+        "onboard_neopixel",
+        "spi_related"
+      ],
+      "preferred_for": [],
+      "direction": null,
+      "connected_hardware": [],
+      "used_by": [],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "unassigned_right_header",
+        "wire_bundle": null,
+        "preferred_side": "right",
+        "crossover_risk": "unknown",
+        "header_order_hint": 16
+      },
+      "risk": {
+        "level": "medium",
+        "avoid_for": [
+          "external_peripheral"
+        ],
+        "warnings": [
+          "Onboard RGB/NeoPixel status LED; avoid for external peripherals unless intentionally controlling the onboard LED."
+        ]
+      },
+      "notes": [
+        "Board reference use case: RGB LED (onboard).",
+        "CSV audit aliases/notes: GPIO48 = Onboard NeoPixel Status Light; NEOPIXEL = Onboard Status LED"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO48",
+          "function_note": "Onboard NeoPixel Status Light"
+        },
+        {
+          "board_label": "NEOPIXEL",
+          "function_note": "Onboard Status LED"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO47",
+      "gpio_number": 47,
+      "circuitpython_name": "board.GPIO47",
+      "board_print": "G47",
+      "board_location": "right side, pin 17 from top",
+      "header_side": "right",
+      "header_position": 17,
+      "exposed": true,
+      "primary_function": "GPIO",
+      "alternate_functions": [
+        "SPICLK_P"
+      ],
+      "assigned": false,
+      "available": true,
+      "available_for_new_assignment": true,
+      "assignment_status": "unassigned",
+      "configured_names": [],
+      "interfaces": [],
+      "capabilities": [
+        "digital_in",
+        "digital_out",
+        "spi_related"
+      ],
+      "preferred_for": [],
+      "direction": null,
+      "connected_hardware": [],
+      "used_by": [],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "unassigned_right_header",
+        "wire_bundle": null,
+        "preferred_side": "right",
+        "crossover_risk": "unknown",
+        "header_order_hint": 17
+      },
+      "risk": {
+        "level": "low",
+        "avoid_for": [],
+        "warnings": []
+      },
+      "notes": [
+        "CSV audit aliases/notes: GPIO47 = Digital IO"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO47",
+          "function_note": "Digital IO"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO21",
+      "gpio_number": 21,
+      "circuitpython_name": "board.GPIO21",
+      "board_print": "G21",
+      "board_location": "right side, pin 18 from top",
+      "header_side": "right",
+      "header_position": 18,
+      "exposed": true,
+      "primary_function": "GPIO / RTC",
+      "alternate_functions": [],
+      "assigned": false,
+      "available": true,
+      "available_for_new_assignment": true,
+      "assignment_status": "unassigned",
+      "configured_names": [],
+      "interfaces": [],
+      "capabilities": [
+        "digital_in",
+        "digital_out",
+        "rtc"
+      ],
+      "preferred_for": [
+        "relay_control"
+      ],
+      "direction": null,
+      "connected_hardware": [],
+      "used_by": [],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "unassigned_right_header",
+        "wire_bundle": null,
+        "preferred_side": "right",
+        "crossover_risk": "unknown",
+        "header_order_hint": 18
+      },
+      "risk": {
+        "level": "low",
+        "avoid_for": [],
+        "warnings": []
+      },
+      "notes": [
+        "Freed: was CHIMNEY_RELAY_PIN1, migrated to GPIO42 for consecutive relay grouping.",
+        "CSV audit aliases/notes: GPIO21 = Digital IO"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO21",
+          "function_note": "Digital IO"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO14",
+      "gpio_number": 14,
+      "circuitpython_name": "board.GPIO14",
+      "board_print": "G14",
+      "board_location": "right side, pin 19 from top",
+      "header_side": "right",
+      "header_position": 19,
+      "exposed": true,
+      "primary_function": "GPIO / RTC",
+      "alternate_functions": [
+        "ADC2_3",
+        "TOUCH14",
+        "FSPIWP",
+        "FSPIDQS",
+        "SUBSPIWP"
+      ],
+      "assigned": false,
+      "available": true,
+      "available_for_new_assignment": true,
+      "assignment_status": "unassigned",
+      "configured_names": [],
+      "interfaces": [],
+      "capabilities": [
+        "analog_in",
+        "capacitive_touch",
+        "digital_in",
+        "digital_out",
+        "rtc",
+        "spi_related"
+      ],
+      "preferred_for": [
+        "analog_sensor"
+      ],
+      "direction": null,
+      "connected_hardware": [],
+      "used_by": [],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "unassigned_right_header",
+        "wire_bundle": null,
+        "preferred_side": "right",
+        "crossover_risk": "unknown",
+        "header_order_hint": 19
+      },
+      "risk": {
+        "level": "medium",
+        "avoid_for": [],
+        "warnings": [
+          "Has flash/sub-SPI-related alternate functions; prefer simpler GPIOs when available."
+        ]
+      },
+      "notes": [
+        "CSV audit aliases/notes: GPIO14 = Digital IO"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO14",
+          "function_note": "Digital IO"
+        }
+      ]
+    },
+    {
+      "pin": "GPIO13",
+      "gpio_number": 13,
+      "circuitpython_name": "board.GPIO13",
+      "board_print": "G13",
+      "board_location": "right side, pin 20 from top",
+      "header_side": "right",
+      "header_position": 20,
+      "exposed": true,
+      "primary_function": "GPIO / RTC",
+      "alternate_functions": [
+        "ADC2_2",
+        "TOUCH13",
+        "FSPIQ",
+        "FSPIIO7",
+        "SUBSPIQ"
+      ],
+      "assigned": false,
+      "available": true,
+      "available_for_new_assignment": true,
+      "assignment_status": "unassigned",
+      "configured_names": [],
+      "interfaces": [],
+      "capabilities": [
+        "analog_in",
+        "capacitive_touch",
+        "digital_in",
+        "digital_out",
+        "rtc",
+        "spi_related"
+      ],
+      "preferred_for": [
+        "analog_sensor"
+      ],
+      "direction": null,
+      "connected_hardware": [],
+      "used_by": [],
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md",
+        "shire_s3_pin_audit_v1.csv"
+      ],
+      "routing": {
+        "zone": "unassigned_right_header",
+        "wire_bundle": null,
+        "preferred_side": "right",
+        "crossover_risk": "unknown",
+        "header_order_hint": 20
+      },
+      "risk": {
+        "level": "medium",
+        "avoid_for": [],
+        "warnings": [
+          "Has flash/sub-SPI-related alternate functions; prefer simpler GPIOs when available."
+        ]
+      },
+      "notes": [
+        "CSV audit aliases/notes: GPIO13 = Digital IO"
+      ],
+      "csv_audit": [
+        {
+          "board_label": "GPIO13",
+          "function_note": "Digital IO"
+        }
+      ]
+    }
+  ],
+  "header_pins": [
+    {
+      "label": "GND",
+      "header_side": "left",
+      "header_position": 1,
+      "board_location": "left side, pin 1 from top",
+      "use_case": "Ground",
+      "primary_function": "Ground",
+      "alternate_functions": [],
+      "pin_type": "power_or_support",
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md"
+      ]
+    },
+    {
+      "label": "3V3",
+      "header_side": "left",
+      "header_position": 2,
+      "board_location": "left side, pin 2 from top",
+      "use_case": "Power",
+      "primary_function": "Power Out (3.3V)",
+      "alternate_functions": [],
+      "pin_type": "power_or_support",
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md"
+      ]
+    },
+    {
+      "label": "RST",
+      "header_side": "left",
+      "header_position": 3,
+      "board_location": "left side, pin 3 from top",
+      "use_case": "Reset",
+      "primary_function": "Reset / Enable",
+      "alternate_functions": [],
+      "pin_type": "power_or_support",
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md"
+      ]
+    },
+    {
+      "label": "3V3",
+      "header_side": "left",
+      "header_position": 21,
+      "board_location": "left side, pin 21 from top",
+      "use_case": "Power",
+      "primary_function": "Power Out (3.3V)",
+      "alternate_functions": [],
+      "pin_type": "power_or_support",
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md"
+      ]
+    },
+    {
+      "label": "GND",
+      "header_side": "right",
+      "header_position": 1,
+      "board_location": "right side, pin 1 from top",
+      "use_case": "Ground",
+      "primary_function": "Ground",
+      "alternate_functions": [],
+      "pin_type": "power_or_support",
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md"
+      ]
+    },
+    {
+      "label": "5V0",
+      "header_side": "right",
+      "header_position": 21,
+      "board_location": "right side, pin 21 from top",
+      "use_case": "Power",
+      "primary_function": "Power In (USB)",
+      "alternate_functions": [
+        "5V Bus Voltage"
+      ],
+      "pin_type": "power_or_support",
+      "source_refs": [
+        "ESP32_S3_Pinout_Reference.md"
+      ]
+    }
+  ],
+  "project_assignments": {
+    "sky_lighting_neopixel": "board.GPIO4",
+    "stream_bead_lighting_neopixel": "board.GPIO5",
+    "ground_lighting_neopixel": "board.GPIO6",
+    "tsunami_uart_tx": "board.GPIO17",
+    "tsunami_uart_rx": "board.GPIO18",
+    "i2c_sda": "board.GPIO8",
+    "i2c_scl": "board.GPIO9",
+    "chimney_relay_1": "board.GPIO42",
+    "chimney_relay_2": "board.GPIO41",
+    "chimney_relay_3": "board.GPIO40",
+    "fogger_relay": "board.GPIO39"
+  },
+  "unassigned_or_dynamic_pins": [],
+  "i2c_devices": [
+    {
+      "address": "0x40",
+      "device": "PCA9685 #1",
+      "bus": "primary_i2c"
+    },
+    {
+      "address": "0x41",
+      "device": "PCA9685 #2",
+      "bus": "primary_i2c"
+    },
+    {
+      "address": "0x13",
+      "device": "WAV Trigger Pro (optional)",
+      "bus": "primary_i2c",
+      "status": "optional"
+    }
+  ],
+  "routing_groups": {
+    "audio": {
+      "pins": [
+        "GPIO17",
+        "GPIO18"
+      ],
+      "notes": [
+        "Tsunami UART pair; keep TX/RX together if possible."
+      ]
+    },
+    "i2c_bus": {
+      "pins": [
+        "GPIO8",
+        "GPIO9"
+      ],
+      "notes": [
+        "Shared I2C bus for PCA9685 devices; do not reuse as non-I2C outputs."
+      ]
+    },
+    "neopixel_data": {
+      "pins": [
+        "GPIO4",
+        "GPIO5",
+        "GPIO6"
+      ],
+      "notes": [
+        "All NeoPixel data on left header, consecutive positions 4-5-6. Single SN74AHCT125N level shifter covers all three."
+      ]
+    },
+    "relay_control": {
+      "pins": [
+        "GPIO42",
+        "GPIO41",
+        "GPIO40",
+        "GPIO39"
+      ],
+      "notes": [
+        "Relay zone on right header, consecutive positions 6-7-8-9. Chimney 1/2/3 + fogger."
+      ]
+    }
+  },
+  "available_pin_candidates": [
+    {
+      "pin": "GPIO2",
+      "circuitpython_name": "board.GPIO2",
+      "header_side": "right",
+      "header_position": 3,
+      "capabilities": [
+        "analog_in",
+        "capacitive_touch",
+        "digital_in",
+        "digital_out",
+        "rtc"
+      ],
+      "preferred_for": [
+        "addressable_led_data",
+        "analog_sensor"
+      ],
+      "risk_level": "low",
+      "notes": [
+        "Freed from NEOPIXEL_GROUND_PIN; migrated to GPIO6."
+      ]
+    },
+    {
+      "pin": "GPIO7",
+      "circuitpython_name": "board.GPIO7",
+      "header_side": "left",
+      "header_position": 7,
+      "capabilities": [
+        "analog_in",
+        "capacitive_touch",
+        "digital_in",
+        "digital_out",
+        "rtc"
+      ],
+      "preferred_for": [
+        "analog_sensor"
+      ],
+      "risk_level": "low",
+      "notes": [
+        "CSV audit aliases/notes: GPIO7 = Digital IO"
+      ]
+    },
+    {
+      "pin": "GPIO15",
+      "circuitpython_name": "board.GPIO15",
+      "header_side": "left",
+      "header_position": 8,
+      "capabilities": [
+        "analog_in",
+        "digital_in",
+        "digital_out",
+        "rtc",
+        "uart_rts"
+      ],
+      "preferred_for": [
+        "analog_sensor"
+      ],
+      "risk_level": "low",
+      "notes": [
+        "CSV audit aliases/notes: GPIO15 = Digital IO"
+      ]
+    },
+    {
+      "pin": "GPIO16",
+      "circuitpython_name": "board.GPIO16",
+      "header_side": "left",
+      "header_position": 9,
+      "capabilities": [
+        "analog_in",
+        "digital_in",
+        "digital_out",
+        "rtc",
+        "uart_cts"
+      ],
+      "preferred_for": [
+        "analog_sensor"
+      ],
+      "risk_level": "low",
+      "notes": [
+        "CSV audit aliases/notes: GPIO16 = Digital IO"
+      ]
+    },
+    {
+      "pin": "GPIO3",
+      "circuitpython_name": "board.GPIO3",
+      "header_side": "left",
+      "header_position": 15,
+      "capabilities": [
+        "analog_in",
+        "capacitive_touch",
+        "digital_in",
+        "digital_out"
+      ],
+      "preferred_for": [
+        "analog_sensor"
+      ],
+      "risk_level": "low",
+      "notes": [
+        "CSV audit aliases/notes: GPIO3 = Digital IO"
+      ]
+    },
+    {
+      "pin": "GPIO46",
+      "circuitpython_name": "board.GPIO46",
+      "header_side": "left",
+      "header_position": 16,
+      "capabilities": [
+        "digital_in",
+        "digital_out"
+      ],
+      "preferred_for": [],
+      "risk_level": "medium",
+      "notes": [
+        "CSV audit aliases/notes: GPIO46 = Digital IO"
+      ]
+    },
+    {
+      "pin": "GPIO10",
+      "circuitpython_name": "board.GPIO10",
+      "header_side": "left",
+      "header_position": 18,
+      "capabilities": [
+        "analog_in",
+        "capacitive_touch",
+        "digital_in",
+        "digital_out",
+        "rtc",
+        "spi_related"
+      ],
+      "preferred_for": [
+        "analog_sensor"
+      ],
+      "risk_level": "medium",
+      "notes": [
+        "CSV audit aliases/notes: GPIO10 = Digital IO"
+      ]
+    },
+    {
+      "pin": "GPIO11",
+      "circuitpython_name": "board.GPIO11",
+      "header_side": "left",
+      "header_position": 19,
+      "capabilities": [
+        "analog_in",
+        "capacitive_touch",
+        "digital_in",
+        "digital_out",
+        "rtc",
+        "spi_related"
+      ],
+      "preferred_for": [
+        "analog_sensor"
+      ],
+      "risk_level": "medium",
+      "notes": [
+        "CSV audit aliases/notes: GPIO11 = Digital IO"
+      ]
+    },
+    {
+      "pin": "GPIO12",
+      "circuitpython_name": "board.GPIO12",
+      "header_side": "left",
+      "header_position": 20,
+      "capabilities": [
+        "analog_in",
+        "capacitive_touch",
+        "digital_in",
+        "digital_out",
+        "rtc",
+        "spi_related"
+      ],
+      "preferred_for": [
+        "analog_sensor"
+      ],
+      "risk_level": "medium",
+      "notes": [
+        "CSV audit aliases/notes: GPIO12 = Digital IO"
+      ]
+    },
+    {
+      "pin": "GPIO1",
+      "circuitpython_name": "board.GPIO1",
+      "header_side": "right",
+      "header_position": 2,
+      "capabilities": [
+        "analog_in",
+        "capacitive_touch",
+        "digital_in",
+        "digital_out",
+        "rtc"
+      ],
+      "preferred_for": [
+        "analog_sensor"
+      ],
+      "risk_level": "low",
+      "notes": [
+        "CSV audit aliases/notes: GPIO1 = Digital IO"
+      ]
+    },
+    {
+      "pin": "GPIO21",
+      "circuitpython_name": "board.GPIO21",
+      "header_side": "right",
+      "header_position": 18,
+      "capabilities": [
+        "digital_in",
+        "digital_out",
+        "rtc"
+      ],
+      "preferred_for": [
+        "relay_control"
+      ],
+      "risk_level": "low",
+      "notes": [
+        "Freed from CHIMNEY_RELAY_PIN1; migrated to GPIO42."
+      ]
+    },
+    {
+      "pin": "GPIO38",
+      "circuitpython_name": "board.GPIO38",
+      "header_side": "right",
+      "header_position": 10,
+      "capabilities": [
+        "digital_in",
+        "digital_out",
+        "spi_related"
+      ],
+      "preferred_for": [],
+      "risk_level": "medium",
+      "notes": [
+        "CSV audit aliases/notes: GPIO38 = Digital IO"
+      ]
+    },
+    {
+      "pin": "GPIO37",
+      "circuitpython_name": "board.GPIO37",
+      "header_side": "right",
+      "header_position": 11,
+      "capabilities": [
+        "digital_in",
+        "digital_out",
+        "spi_related"
+      ],
+      "preferred_for": [],
+      "risk_level": "medium",
+      "notes": [
+        "CSV audit aliases/notes: GPIO37 = Digital IO"
+      ]
+    },
+    {
+      "pin": "GPIO36",
+      "circuitpython_name": "board.GPIO36",
+      "header_side": "right",
+      "header_position": 12,
+      "capabilities": [
+        "digital_in",
+        "digital_out",
+        "spi_related"
+      ],
+      "preferred_for": [],
+      "risk_level": "medium",
+      "notes": [
+        "CSV audit aliases/notes: GPIO36 = Digital IO"
+      ]
+    },
+    {
+      "pin": "GPIO45",
+      "circuitpython_name": "board.GPIO45",
+      "header_side": "right",
+      "header_position": 15,
+      "capabilities": [
+        "digital_in",
+        "digital_out"
+      ],
+      "preferred_for": [],
+      "risk_level": "medium",
+      "notes": [
+        "CSV audit aliases/notes: GPIO45 = Digital IO"
+      ]
+    },
+    {
+      "pin": "GPIO47",
+      "circuitpython_name": "board.GPIO47",
+      "header_side": "right",
+      "header_position": 17,
+      "capabilities": [
+        "digital_in",
+        "digital_out",
+        "spi_related"
+      ],
+      "preferred_for": [],
+      "risk_level": "low",
+      "notes": [
+        "CSV audit aliases/notes: GPIO47 = Digital IO"
+      ]
+    },
+    {
+      "pin": "GPIO14",
+      "circuitpython_name": "board.GPIO14",
+      "header_side": "right",
+      "header_position": 19,
+      "capabilities": [
+        "analog_in",
+        "capacitive_touch",
+        "digital_in",
+        "digital_out",
+        "rtc",
+        "spi_related"
+      ],
+      "preferred_for": [
+        "analog_sensor"
+      ],
+      "risk_level": "medium",
+      "notes": [
+        "CSV audit aliases/notes: GPIO14 = Digital IO"
+      ]
+    },
+    {
+      "pin": "GPIO13",
+      "circuitpython_name": "board.GPIO13",
+      "header_side": "right",
+      "header_position": 20,
+      "capabilities": [
+        "analog_in",
+        "capacitive_touch",
+        "digital_in",
+        "digital_out",
+        "rtc",
+        "spi_related"
+      ],
+      "preferred_for": [
+        "analog_sensor"
+      ],
+      "risk_level": "medium",
+      "notes": [
+        "CSV audit aliases/notes: GPIO13 = Digital IO"
+      ]
+    }
+  ],
+  "warnings": [
+    "GPIO6, GPIO42, and GPIO39 are newly assigned (proposed status). Test each in isolation before promoting to proven_isolated.",
+    "GPIO2 and GPIO21 are now freed and available for future assignment.",
+    "GPIO8 and GPIO9 are active I2C pins. They may be shared with I2C devices only, not reused as audio trigger outputs.",
+    "Direct board.GPIO17/GPIO18 usage exists in code.py and test copies per the project audit; consider routing all runtime pin access through config.py constants only.",
+    "GPIO4/GPIO5 appear in the CSV audit as recommended UART TX/RX, but they are already assigned to NeoPixel lighting in the project. This profile preserves GPIO17/GPIO18 for Tsunami UART.",
+    "GPIO19 is marked previously failed in the board reference and is unavailable for new assignment until retested.",
+    "GPIO0, GPIO35, GPIO43, GPIO44, and GPIO48 are deliberately blocked for normal new assignments because of boot/reserved/USB/onboard-LED concerns.",
+    "GPIO39 has SUBSPICSI alternate function. If boot issues arise, fall back to GPIO47 (right-17) for fogger relay."
+  ],
+  "validation_checks_for_skills": [
+    "Reject generated code using board.IOx, board.Dx, or raw integer pins.",
+    "Reject new pin assignment if available_for_new_assignment is false.",
+    "Require capability match: e.g., digital_out for relay/NeoPixel, i2c_sda/i2c_scl for I2C, uart_tx/uart_rx for UART.",
+    "Warn before changing any proven_isolated or proven_full_system pin.",
+    "Require config.py update plus board_profile.json update for any accepted new assignment."
+  ]
+}

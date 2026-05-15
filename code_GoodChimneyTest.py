@@ -1,6 +1,6 @@
 """Chimney Relay Test for Hobbit Town.
 
-This script tests the chimney relays on GPIO21, GPIO40, GPIO41 for smials 1-3.
+This script tests the chimney relays on GPIO42, GPIO41, GPIO40 for smials 1-3.
 Connect the MT3608 outputs to the relay COMs, and power the relays.
 The script will move each relay on and off slowly so you can hear the clicks.
 """
@@ -33,13 +33,13 @@ def countdown(seconds):
 
 def test_chimney_relay():
     """Test the chimney relays with clear on/off steps."""
-    print("Starting chimney relay test on GPIO21, GPIO35, GPIO36.")
+    print("Starting chimney relay test on GPIO42, GPIO41, GPIO40.")
     print("If the relay is active-low, the printed ON/OFF labels may be reversed.")
 
     pins = [
-        (CHIMNEY_PIN1, "Chimney 1 (GPIO21)"),
-        (CHIMNEY_PIN2, "Chimney 2 (GPIO40)"),
-        (CHIMNEY_PIN3, "Chimney 3 (GPIO41)"),
+        (CHIMNEY_PIN1, "Chimney 1 (GPIO42)"),
+        (CHIMNEY_PIN2, "Chimney 2 (GPIO41)"),
+        (CHIMNEY_PIN3, "Chimney 3 (GPIO40)"),
     ]
 
     for pin_obj, label in pins:
