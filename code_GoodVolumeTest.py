@@ -23,123 +23,39 @@ class Tsunami:
             if not data:
                 break
     
-    def set_output_gain(self, output_channel, gain_db):
+    def set_output_gain(self, output_channel, gain_value):
         """
         Set output gain for a specific Tsunami output channel.
         
         Args:
-            output_channel: Output 0-7 (e.g., 0 for 1L left channel)
-            gain_db: Gain level in dB (-70 to +10)
+            output_channel: Output 0-7 (e.g., 6 for 1L left channel)
+            gain_value: Gain level 0-255 (0 = silent, 255 = max)
         """
-        # Constrain gain to allowed dB range
-        gain_db = max(-70, min(10, int(gain_db)))
+        # Tsunami gain command format (UART binary):
+        # [0xF0, 0xAA, length, 0x0D, output, gain_LSB, gain_MSB, 0x55]
+        # where 0x0D is CMD_SET_OUTPUT_GAIN (13)
         
-        # Convert to signed 16-bit integer for little-endian transmission
-        gain_val = gain_db & 0xFFFF
-        gain_lsb = gain_val & 0xFF
-        gain_msb = (gain_val >> 8) & 0xFF
+        gain_lsb = gain_value & 0xFF
+        gain_msb = (gain_value >> 8) & 0xFF
         
         packet = bytearray([
-            0xF0,            # Start of Message 1
-            0xAA,            # Start of Message 2
-            0x08,            # Length of message (8 bytes)
-            0x05,            # Command: Output Volume (5)
-            output_channel,  # Output channel (0-7)
-            gain_lsb,        # Gain value LSB
-            gain_msb,        # Gain value MSB
-            0x55             # End of Message
+            0xF0,                    # Start of Message 1
+            0xAA,                    # Start of Message 2
+            0x05,                    # Length of message (cmd + output + gain_LSB + gain_MSB + end)
+            0x0D,                    # Command: Set Output Gain (13)
+            output_channel,          # Output channel (0-7)
+            gain_lsb,                # Gain value LSB
+            gain_msb,                # Gain value MSB
+            0x55                     # End of Message
         ])
         
         try:
             self.uart.write(packet)
             return True
         except Exception as e:
-            print(f"Error sending output gain command: {e}")
+            print(f"Error sending gain command: {e}")
             return False
-
-    def track_volume(self, track_num, gain_db):
-        """
-        Set the volume (gain) for a specific track.
-        
-        Args:
-            track_num: Track number (0-4095)
-            gain_db: Gain in dB (-70 to +10)
-        """
-        gain_db = max(-70, min(10, int(gain_db)))
-        
-        gain_val = gain_db & 0xFFFF
-        gain_lsb = gain_val & 0xFF
-        gain_msb = (gain_val >> 8) & 0xFF
-        
-        track_lsb = track_num & 0xFF
-        track_msb = (track_num >> 8) & 0xFF
-        
-        packet = bytearray([
-            0xF0,        # Start of Message 1
-            0xAA,        # Start of Message 2
-            0x09,        # Length (9 bytes)
-            0x08,        # Command: Track Volume (8)
-            track_lsb,   # Track LSB
-            track_msb,   # Track MSB
-            gain_lsb,    # Gain LSB
-            gain_msb,    # Gain MSB
-            0x55         # End of Message
-        ])
-        
-        try:
-            self.uart.write(packet)
-            return True
-        except Exception as e:
-            print(f"Error sending track volume command: {e}")
-            return False
-
-    def track_fade(self, track_num, target_gain_db, milliseconds, stop_flag=False):
-        """
-        Fade a track to a target volume over time.
-        
-        Args:
-            track_num: Track number (0-4095)
-            target_gain_db: Target gain in dB (-70 to +10)
-            milliseconds: Duration of fade in milliseconds
-            stop_flag: True to stop track at end of fade, False to keep playing
-        """
-        target_gain_db = max(-70, min(10, int(target_gain_db)))
-        
-        gain_val = target_gain_db & 0xFFFF
-        gain_lsb = gain_val & 0xFF
-        gain_msb = (gain_val >> 8) & 0xFF
-        
-        track_lsb = track_num & 0xFF
-        track_msb = (track_num >> 8) & 0xFF
-        
-        ms_val = int(milliseconds) & 0xFFFF
-        ms_lsb = ms_val & 0xFF
-        ms_msb = (ms_val >> 8) & 0xFF
-        
-        stop_val = 1 if stop_flag else 0
-        
-        packet = bytearray([
-            0xF0,        # Start of Message 1
-            0xAA,        # Start of Message 2
-            0x0C,        # Length (12 bytes)
-            0x0A,        # Command: Track Fade (10)
-            track_lsb,   # Track LSB
-            track_msb,   # Track MSB
-            gain_lsb,    # Target Gain LSB
-            gain_msb,    # Target Gain MSB
-            ms_lsb,      # Milliseconds LSB
-            ms_msb,      # Milliseconds MSB
-            stop_val,    # Stop Flag (0 or 1)
-            0x55         # End of Message
-        ])
-        
-        try:
-            self.uart.write(packet)
-            return True
-        except Exception as e:
-            print(f"Error sending track fade command: {e}")
-            return False
-
+    
     def track_play_routed(self, track_num, output):
         """
         Plays a track on a specific output.
@@ -207,18 +123,17 @@ def setup():
 def test_gradual_volume_ramp():
     """
     Phase 1: Gradual volume ramp
-    Linearly increase volume from -70dB to +10dB over ~30 seconds.
+    Linearly increase volume from 0 to 255 over ~30 seconds.
     """
     print("-" * 60)
     print("PHASE 1: GRADUAL VOLUME RAMP (30 seconds)")
     print("-" * 60)
     print()
     
-    track_id = 22
-    output_channel = 0  # 1L left channel
-    
-    # Pre-set output to silent (-70dB) before starting playback
-    tsunami.set_output_gain(output_channel, -70)
+    # Start audio playback on 1L output (output 6)
+    # Using track 500 (first track in output 5 range per config)
+    track_id = 500
+    output_channel = 6  # 1L left channel
     
     print(f"Starting track {track_id} on output {output_channel} (1L)...")
     if not tsunami.track_play_routed(track_id, output_channel):
@@ -227,25 +142,28 @@ def test_gradual_volume_ramp():
     
     time.sleep(0.5)  # Allow track to start
     
-    print("Ramping volume from -70dB to +10dB...")
+    print("Ramping volume from 0 to 255...")
     print()
     
-    # Ramp volume in 5dB steps over ~30 seconds
-    # Total steps: 17 (-70 to +10 by 5)
-    # Time per step: 30 sec / 16 jumps ≈ 1.875 sec
+    # Ramp volume in steps over ~30 seconds
+    # Total steps: 51 (0 to 255 by 5) = 51 iterations
+    # Time per step: 30 sec / 51 ≈ 588 ms
     step_size = 5
-    delay_per_step = 1.875  # seconds
+    delay_per_step = 0.588  # seconds
     
-    for gain in range(-70, 11, step_size):
+    for gain in range(0, 256, step_size):
         if tsunami.set_output_gain(output_channel, gain):
-            # Calculate a rough percentage mapped from the -70 to +10 range
-            percent = ((gain + 70) / 80.0) * 100
-            print(f"Volume: {gain:3d} dB ({percent:5.1f}%)")
+            percent = (gain / 255.0) * 100
+            print(f"Volume: {gain:3d}/255 ({percent:5.1f}%)")
             time.sleep(delay_per_step)
         else:
-            print(f"✗ Failed to set gain to {gain} dB")
+            print(f"✗ Failed to set gain to {gain}")
             break
-            
+    
+    # Ensure we reach maximum
+    if tsunami.set_output_gain(output_channel, 255):
+        print(f"Volume: 255/255 (100.0%)")
+    
     print()
     print("✓ Phase 1 complete")
     print()
@@ -254,7 +172,8 @@ def test_gradual_volume_ramp():
 def test_stepwise_volume_levels():
     """
     Phase 2: Stepwise volume levels
-    Hold at 5 discrete levels. Each level held for 2 seconds.
+    Hold at 5 discrete levels: 0%, 25%, 50%, 75%, 100%.
+    Each level held for 2 seconds.
     """
     print("-" * 60)
     print("PHASE 2: STEPWISE VOLUME LEVELS (5 steps × 2 sec = 10 seconds)")
@@ -263,20 +182,20 @@ def test_stepwise_volume_levels():
     
     output_channel = 0  # 1L left channel
     
-    # Define 5 step levels using the dB scale
+    # Define 5 step levels
     steps = [
-        (-70, "0%   (Silent)"),
-        (-35, "25%  (Quiet)"),
-        (-15, "50%  (Medium)"),
-        (0,   "75%  (Reference)"),
-        (10,  "100% (Maximum)")
+        (0,   "0%   (Silent)"),
+        (64,  "25%  (Quiet)"),
+        (128, "50%  (Medium)"),
+        (192, "75%  (Loud)"),
+        (255, "100% (Maximum)")
     ]
     
     hold_time = 2.0  # seconds per step
     
     for gain_value, label in steps:
         if tsunami.set_output_gain(output_channel, gain_value):
-            print(f"Step: {label} (gain={gain_value:3d} dB)")
+            print(f"Step: {label} (gain={gain_value:3d})")
             time.sleep(hold_time)
         else:
             print(f"✗ Failed to set step {label}")
@@ -294,10 +213,10 @@ def cleanup():
     print("-" * 60)
     print()
     
-    # Set volume back to silent before stopping
-    output_channel = 0
-    print("Stopping audio and resetting gain to -70dB...")
-    tsunami.set_output_gain(output_channel, -70)
+    # Set volume to 0 before stopping
+    output_channel = 6
+    print("Stopping audio and resetting gain...")
+    tsunami.set_output_gain(output_channel, 0)
     time.sleep(0.2)
     
     # Stop all playback
