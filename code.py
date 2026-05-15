@@ -1,11 +1,6 @@
 """
-HobbitTown ESP32-S3 Main Entry Point
-
-Orchestrates all hardware modules (lighting, motion, audio, atmosphere) and
-the web server. Runs a non-blocking main loop with optional hardware validation.
-
-Hardware modules are fully independent and can be enabled/disabled via config.py.
-See config.py for all pin assignments and hardware settings.
+Tsunami Volume Control Test (1L Output)
+Tests master volume ramping on output channel 1L with gradual and stepwise phases.
 """
 
 import time
@@ -33,7 +28,7 @@ def validate_hardware():
     print("\n[LIGHTING PINS]")
     print(f"  Sky Arc        (GPIO4):  {config.NUM_PIXELS_SKY} pixels @ {config.BRIGHTNESS:.2f} brightness")
     print(f"  Ground Effects (GPIO2):  {config.NUM_PIXELS_GROUND} pixels @ {config.BRIGHTNESS:.2f} brightness")
-    print(f"  Stream Beads   (GPIO5):  {config.NUM_PIXELS_STREAM} pixels @ {config.BRIGHTNESS:.2f} brightness")
+    print(f"  Stream Beads   (GPIO5):  {config.NUM_PIXELS_STREAM_BEAD} pixels @ {config.BRIGHTNESS:.2f} brightness")
 
     print("\n[I2C BUS]")
     print(f"  SDA: GPIO8")
@@ -72,93 +67,149 @@ def validate_hardware():
 # ============================================================================
 
 def setup():
-    """Initialize all hardware modules."""
-    print("\n[INIT] Starting HobbitTown ESP32-S3...")
-    print(f"[INIT] Main loop delay: {config.LOOP_DELAY}s")
-
-    validate_hardware()
-
-    # Initialize web server (if enabled)
-    if config.ENABLE_WEB:
-        web_logic.setup_web()
-
-    # Initialize lighting modules (fully independent)
-    if config.ENABLE_LIGHTING:
-        lighting_sky.setup_lighting_sky()
-        lighting_ground.setup_lighting_ground()
-        lighting_stream.setup_lighting_stream()
-    else:
-        print("[INIT] Lighting: disabled")
-
-    # Initialize motion (PCA9685 servos/blowers)
-    if config.ENABLE_MOTION:
-        motion.setup_hardware()
-    else:
-        print("[INIT] Motion: disabled")
-
-    # Initialize audio (Tsunami WAV Trigger)
-    if config.ENABLE_AUDIO:
-        audio.setup_audio()
-    else:
-        print("[INIT] Audio: disabled")
-
-    # Initialize atmosphere (fogger relay)
-    if config.ENABLE_ATMOSPHERE:
-        atmosphere.setup_atmosphere()
-    else:
-        print("[INIT] Atmosphere: disabled")
-
-    print("[INIT] All hardware initialized. Entering main loop...\n")
+    """Initialize and prepare for testing."""
+    global tsunami
+    
+    print("=" * 60)
+    print("Tsunami Volume Control Test (1L Output)")
+    print("=" * 60)
+    print()
+    
+    # Initialize Tsunami UART
+    try:
+        tsunami = Tsunami(board.GPIO17, board.GPIO18, baudrate=57600)
+        print("✓ Tsunami UART initialized (GPIO17 TX, GPIO18 RX, 57600 baud)")
+        print()
+    except Exception as e:
+        print(f"✗ Failed to initialize Tsunami: {e}")
+        return False
+    
+    return True
 
 
-# ============================================================================
-# MAIN LOOP
-# ============================================================================
-
-def main_loop():
+def test_gradual_volume_ramp():
     """
-    Non-blocking main loop. Yields time and updates all active hardware modules.
-    Call this function repeatedly in your code.py or let it run as the main loop.
+    Phase 1: Gradual volume ramp
+    Linearly increase volume from -70dB to +10dB over ~30 seconds.
     """
-    # Optional: yield to other tasks
-    time.sleep(config.LOOP_DELAY)
-
-    # Update web server (accepts one pending request per loop iteration)
-    if config.ENABLE_WEB:
-        web_logic.run_web_sync()
-
-    # Update lighting animations
-    if config.ENABLE_LIGHTING:
-        lighting_sky.run_lighting_cycle_sky()
-        lighting_ground.run_lighting_cycle_ground()
-        lighting_stream.run_lighting_cycle_stream()
-
-    # Update atmosphere (fogger cycles)
-    if config.ENABLE_ATMOSPHERE:
-        atmosphere.run_atmosphere_cycle()
-
-    # Motion and audio modules do not require per-loop updates
-    # (they manage their own state or are purely command-based)
-
-
-# ============================================================================
-# ENTRY POINT
-# ============================================================================
-
-if __name__ == "__main__":
-    setup()
-
-    # Main loop – run forever
-    while True:
-        try:
-            main_loop()
-        except KeyboardInterrupt:
-            print("\n[EXIT] Keyboard interrupt. Cleaning up...")
-            lighting_sky.set_all_lights_off_sky()
-            lighting_ground.set_all_lights_off_ground()
-            lighting_stream.set_all_lights_off_stream()
+    print("-" * 60)
+    print("PHASE 1: GRADUAL VOLUME RAMP (30 seconds)")
+    print("-" * 60)
+    print()
+    
+    track_id = 22
+    output_channel = 0  # 1L left channel
+    
+    # Pre-set output to silent (-70dB) before starting playback
+    tsunami.set_output_gain(output_channel, -70)
+    
+    print(f"Starting track {track_id} on output {output_channel} (1L)...")
+    if not tsunami.track_play_routed(track_id, output_channel):
+        print("✗ Failed to start playback")
+        return False
+    
+    time.sleep(0.5)  # Allow track to start
+    
+    print("Ramping volume from -70dB to +10dB...")
+    print()
+    
+    # Ramp volume in 5dB steps over ~30 seconds
+    # Total steps: 17 (-70 to +10 by 5)
+    # Time per step: 30 sec / 16 jumps ≈ 1.875 sec
+    step_size = 5
+    delay_per_step = 1.875  # seconds
+    
+    for gain in range(-70, 11, step_size):
+        if tsunami.set_output_gain(output_channel, gain):
+            # Calculate a rough percentage mapped from the -70 to +10 range
+            percent = ((gain + 70) / 80.0) * 100
+            print(f"Volume: {gain:3d} dB ({percent:5.1f}%)")
+            time.sleep(delay_per_step)
+        else:
+            print(f"✗ Failed to set gain to {gain} dB")
             break
-        except Exception as exc:
-            print(f"\n[ERROR] Main loop exception: {exc}")
-            print("[ERROR] Restarting in 5 seconds...")
-            time.sleep(5)
+            
+    print()
+    print("✓ Phase 1 complete")
+    print()
+
+
+def test_stepwise_volume_levels():
+    """
+    Phase 2: Stepwise volume levels
+    Hold at 5 discrete levels. Each level held for 2 seconds.
+    """
+    print("-" * 60)
+    print("PHASE 2: STEPWISE VOLUME LEVELS (5 steps × 2 sec = 10 seconds)")
+    print("-" * 60)
+    print()
+    
+    output_channel = 0  # 1L left channel
+    
+    # Define 5 step levels using the dB scale
+    steps = [
+        (-70, "0%   (Silent)"),
+        (-35, "25%  (Quiet)"),
+        (-15, "50%  (Medium)"),
+        (0,   "75%  (Reference)"),
+        (10,  "100% (Maximum)")
+    ]
+    
+    hold_time = 2.0  # seconds per step
+    
+    for gain_value, label in steps:
+        if tsunami.set_output_gain(output_channel, gain_value):
+            print(f"Step: {label} (gain={gain_value:3d} dB)")
+            time.sleep(hold_time)
+        else:
+            print(f"✗ Failed to set step {label}")
+            break
+    
+    print()
+    print("✓ Phase 2 complete")
+    print()
+
+
+def cleanup():
+    """Stop playback and reset to safe state."""
+    print("-" * 60)
+    print("CLEANUP")
+    print("-" * 60)
+    print()
+    
+    # Set volume back to silent before stopping
+    output_channel = 0
+    print("Stopping audio and resetting gain to -70dB...")
+    tsunami.set_output_gain(output_channel, -70)
+    time.sleep(0.2)
+    
+    # Stop all playback
+    tsunami.stop_all()
+    print("✓ All tracks stopped")
+    print()
+
+
+def run_test():
+    """Run complete volume control test."""
+    if not setup():
+        print("Setup failed. Exiting.")
+        return
+    
+    try:
+        test_gradual_volume_ramp()
+        time.sleep(2)  # Pause between phases
+        test_stepwise_volume_levels()
+    except KeyboardInterrupt:
+        print("\n✗ Test interrupted by user")
+    except Exception as e:
+        print(f"\n✗ Test failed with error: {e}")
+    finally:
+        cleanup()
+        print("=" * 60)
+        print("Test complete")
+        print("=" * 60)
+
+
+# Entry point
+if __name__ == "__main__":
+    run_test()

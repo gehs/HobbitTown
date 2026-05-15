@@ -389,3 +389,89 @@ def play_dragon_event():
 
 def play_party_music():
     _play_named_track("Party music", config.AUDIO_TRACK_PARTY_MUSIC)
+
+
+def _set_output_gain_uart(output_channel, gain_value):
+    """
+    Send gain control command via UART to Tsunami.
+    
+    Args:
+        output_channel: Output 0-7
+        gain_value: Gain level 0-255
+    """
+    if uart is None:
+        return False
+    
+    gain_lsb = gain_value & 0xFF
+    gain_msb = (gain_value >> 8) & 0xFF
+    
+    packet = bytearray([
+        0xF0,                    # Start of Message 1
+        0xAA,                    # Start of Message 2
+        0x05,                    # Length of message
+        0x0D,                    # Command: Set Output Gain (13)
+        output_channel,          # Output channel (0-7)
+        gain_lsb,                # Gain value LSB
+        gain_msb,                # Gain value MSB
+        0x55                     # End of Message
+    ])
+    
+    return _send_uart_command(packet)
+
+
+def _set_output_gain_i2c(output_channel, gain_value):
+    """
+    Send gain control command via I2C to WAV Trigger Pro.
+    
+    Args:
+        output_channel: Output channel
+        gain_value: Gain level 0-255
+    """
+    if i2c is None:
+        return False
+    
+    txbuf = bytearray(3)
+    txbuf[0] = CMD_SET_OUTPUT_GAIN
+    txbuf[1] = output_channel & 0xFF
+    txbuf[2] = gain_value & 0xFF
+    
+    return _send_i2c_command(txbuf)
+
+
+def set_output_gain(output_channel, gain_value):
+    """
+    Set output volume gain for a specific Tsunami/WAV Trigger output.
+    
+    Args:
+        output_channel: Output number (0-7)
+        gain_value: Gain level (0-255, where 0=silent, 255=max)
+    
+    Returns:
+        True if command sent successfully, False otherwise
+    """
+    if not (0 <= output_channel <= 7):
+        print(f"Audio: Invalid output channel {output_channel}")
+        return False
+    
+    if not (0 <= gain_value <= 255):
+        print(f"Audio: Invalid gain value {gain_value} (must be 0-255)")
+        return False
+    
+    if i2c_ready:
+        if _set_output_gain_i2c(output_channel, gain_value):
+            print(f"Audio: I2C gain set to {gain_value} on output {output_channel}")
+            return True
+        else:
+            print(f"Audio: Failed to set I2C gain on output {output_channel}")
+            return False
+    
+    if uart_ready:
+        if _set_output_gain_uart(output_channel, gain_value):
+            print(f"Audio: UART gain set to {gain_value} on output {output_channel}")
+            return True
+        else:
+            print(f"Audio: Failed to set UART gain on output {output_channel}")
+            return False
+    
+    print("Audio: No audio device ready for gain control")
+    return False

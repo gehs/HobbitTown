@@ -62,20 +62,20 @@ def setup():
         output_4L = 6
         output_4R = 7
         
-        print("\nSending Track 001 to 1L using 10-byte command...")
-        tsunami.track_play_routed(1, output_1L)
+        print("\nSending Track 311 to 1L using 10-byte command...")
+        tsunami.track_play_routed(311, output_1L)
         time.sleep(3)
         
-        print("Sending Track 001 to 2L using 10-byte command...")
-        tsunami.track_play_routed(1, output_2L)
+        print("Sending Track 312 to 2L using 10-byte command...")
+        tsunami.track_play_routed(312, output_2L)
         time.sleep(3)
         
-        print("Sending Track 002 to 1R using 10-byte command...")
-        tsunami.track_play_routed(2, output_1R)
+        print("Sending Track 313 to 1R using 10-byte command...")
+        tsunami.track_play_routed(313, output_1R)
         time.sleep(3)
         
-        print("Sending Track 002 to 2R using 10-byte command...")
-        tsunami.track_play_routed(2, output_2R)
+        print("Sending Track 314 to 2R using 10-byte command...")
+        tsunami.track_play_routed(314, output_2R)
         time.sleep(3)
         
         print("\nStopping all tracks...")
