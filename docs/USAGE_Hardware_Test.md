@@ -4,8 +4,13 @@
 
 ### Manual Trigger (Python)
 ```python
-from code import trigger_hardware_test
-trigger_hardware_test()
+from logic.dry_run_scene import run_comprehensive_dry_run
+run_comprehensive_dry_run(smial_tracks=(310, 312, 314), exciter_tracks=(1, 2))
+```
+
+Or run the launcher script directly:
+```python
+import test_comprehensive_dry_run
 ```
 
 ### Web API Trigger
@@ -20,46 +25,53 @@ GET /test
 
 The **Smial Inspection Test** validates all hardware components across three hobbit holes (smials) in sequence:
 
-### Timeline (2 minutes total)
+### Timeline (~60-70 seconds total)
 
-**Smial 1 (Bag End): 0-40 seconds**
-- Audio narration + bell tone announces test
-- Door 1 opens and closes smoothly
-- Lights fade in (warm white) then out
-- Chimney fogger activates, hisses, then stops
+**Smial 1 (Bag End): first stage block**
+- Door 1 open/close test
+- Chimney relay 1 on/off test
+- Spot speaker track 310
+- Smial 1 light fade in/out
 
-**Smial 2: 40-80 seconds**
-- Repeats test sequence for Smial 2
+**Smial 2: second stage block**
+- Door 2 open/close test
+- Chimney relay 2 on/off test
+- Spot speaker track 312
+- Smial 2 light fade in/out
 
-**Smial 3 (The Great Smial): 80-120 seconds**
-- Repeats test sequence for Smial 3
+**Smial 3 (The Great Smial): third stage block**
+- Door 3 open/close test
+- Chimney relay 3 on/off test
+- Spot speaker track 314
+- Smial 3 grouped light fade in/out (`smial_3_lower`, `smial_3_main`, `smial_3_upper`)
 
 Each test verifies:
 - ✓ Speaker audio output
 - ✓ Servo door movement (open/close)
 - ✓ LED lighting control (fade in/out)
-- ✓ Fogger relay (on/off)
+- ✓ Chimney relay (per-smial on/off)
+
+After the three smial checks, the comprehensive run also verifies:
+- ✓ Fogger relay cycle (shared)
+- ✓ Exciter track 1 and 2 playback checks
+- ✓ Stream strip animation check
+- ✓ Sky strip animation check
 
 ---
 
 ## Audio Files Needed
 
-Place these files in `/audio/test_scene/`:
+Ensure these Tsunami track numbers exist on SD:
 
-| File | Purpose | Duration |
-|------|---------|----------|
-| `test_bell.wav` | Bell tone to announce test | 2 sec |
-| `test_narration_bagend.wav` | "Testing Bag End" | 2 sec |
-| `test_narration_smial2.wav` | "Testing Smial 2" | 2 sec |
-| `test_narration_smial3.wav` | "Testing Smial 3" | 2 sec |
-| `door_open.wav` | Door creak/squeak | 1 sec |
-| `door_close.wav` | Door close (quiet) | 1 sec |
-| `lights_on.wav` | Confirmation beep | 0.5 sec |
-| `lights_off.wav` | Lower beep | 0.5 sec |
-| `fogger_hiss.wav` | Fogger activation | 1 sec |
-| `fogger_stop.wav` | Fogger shutoff click | 0.5 sec |
+| Track | Purpose |
+|------|---------|
+| `310` | Smial 1 spot speaker check |
+| `312` | Smial 2 spot speaker check |
+| `314` | Smial 3 spot speaker check |
+| `001` | Exciter 1 check |
+| `002` | Exciter 2 check |
 
-**Note:** If audio files are missing, the test will still run but without narration. Visual and mechanical tests will complete normally.
+**Note:** If tracks are missing, the sequence still runs but you should mark the relevant audio check as failed.
 
 ---
 
@@ -78,15 +90,15 @@ Place these files in `/audio/test_scene/`:
 | Door doesn't move | Servo not responding | Check PCA9685 I2C connection |
 | Lights don't change | Incorrect segment ID | Verify `lights.json` segment ranges |
 | No audio | Audio stubs active or Tsunami UART miswired | Check `ENABLE_AUDIO_UART`, UART pin wiring on GPIO17/18, and `tsunami.ini` on the Tsunami SD card |
-| Fogger doesn't spray | Relay stuck or unplugged | Inspect GPIO 18 relay wiring |
+| Fogger doesn't spray | Relay stuck or unplugged | Inspect GPIO39 relay wiring (or GPIO47 fallback if remapped) |
 
 ---
 
 ## Repeating the Test
 
-The test is a one-shot sequence that runs for ~2 minutes and then stops automatically. To repeat:
+The test is a one-shot sequence and then stops automatically. To repeat:
 1. Wait for previous test to complete
-2. Call `trigger_hardware_test()` again
+2. Run `test_comprehensive_dry_run.py` again
 
 Alternatively, integrate into a continuous loop for stress testing.
 
@@ -94,10 +106,10 @@ Alternatively, integrate into a continuous loop for stress testing.
 
 ## Advanced: Custom Test Sequence
 
-To modify the test flow, edit `logic/test_scene.py`:
-- Adjust timings in `_run_smial_test()` function
-- Add/remove test steps
-- Change lighting colors or fog duration
-- Customize audio track numbers
+To modify the comprehensive dry-run flow, edit `logic/dry_run_scene.py`:
+- Adjust stage timing in `_build_stage_plan()`
+- Add/remove stage checks
+- Change Smial track mapping in `ComprehensiveDryRunScene.__init__()`
+- Change light behavior in `_mk_smial_light_tick()`
 
 Remember to use `time.monotonic()` for non-blocking timing!

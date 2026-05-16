@@ -347,7 +347,7 @@ Wire and test each subsystem in this order. **Do not proceed** to the next step 
    ```python
    from hardware import audio
    audio.setup_audio()
-   audio.play_track(1)
+   audio.play_audio(1, 310)
    ```
 
 ### Step 4: I2C / PCA9685
@@ -366,7 +366,7 @@ Wire and test each subsystem in this order. **Do not proceed** to the next step 
 
 1. Wire GPIO42 → Relay 1 IN, GPIO41 → Relay 2 IN, GPIO40 → Relay 3 IN.
 2. Power relay modules (5V + GND from bus).
-3. Test with `code_GoodChimneyTest.py` — listen for relay clicks.
+3. Run `test_comprehensive_dry_run.py` — the sequence includes one chimney relay check per smial.
 
 ### Step 6: Fogger Relay
 
@@ -383,7 +383,7 @@ Wire and test each subsystem in this order. **Do not proceed** to the next step 
 ### Step 7: Full System Test
 
 1. Enable all modules in config.py.
-2. Run `code.py` — all subsystems should initialize without errors.
+2. Run `test_comprehensive_dry_run.py` — verifies each smial door, chimney relay, spot track, and smial light, then verifies fogger, exciters, stream, and sky.
 3. After successful full-system test, update `board_profile_hybrid.json` to promote all `proposed` pins to `proven_full_system`.
 
 ---
