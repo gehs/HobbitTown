@@ -40,7 +40,6 @@ def validate_hardware():
     print(f"  SCL: GPIO9")
     if config.ENABLE_MOTION:
         print(f"  PCA9685 #1 (Motion):     0x{config.PCA9685_ADDR1:02X}")
-        print(f"  PCA9685 #2 (Vapor/PWM):  0x{config.PCA9685_ADDR2:02X}")
 
     print("\n[AUDIO]")
     if config.ENABLE_AUDIO_UART:
