@@ -7,19 +7,24 @@ from tests.modular_dry_run import common
 class Smial2ModuleTest:
     """Dry-run module for Smial 2: door, chimney relay, speaker, and lights."""
 
-    def __init__(self, track=312):
+    def __init__(self, track=312, output_number=2, end_track=314):
         self.name = "Smial2"
         self.track = int(track)
+        self.output_number = int(output_number)
+        self.end_track = int(end_track)
         self.duration_s = 9.0
         self._start = None
         self._done = False
         self._played = False
+        self._end_played = False
         self._relay = None
         self._segment_map = {}
+        self._segments = ("smial_2", "chimney_smial_2")
 
     def start(self):
         self._done = False
         self._played = False
+        self._end_played = False
         self._start = common.monotonic_now()
         self._segment_map = common.load_segment_map()
         self._relay = digitalio.DigitalInOut(config.CHIMNEY_RELAY_PIN2)
@@ -45,22 +50,25 @@ class Smial2ModuleTest:
 
         if not self._played and elapsed >= 5.0:
             self._played = True
-            common.play_track_checked(2, self.track, loop=False)
+            common.play_track_checked(self.output_number, self.track, loop=False)
 
         if elapsed < 7.5:
             level = min(1.0, max(0.0, (elapsed - 4.0) / 3.5))
-            common.set_ground_segments(self._segment_map, ("smial_2",), (int(255 * level), int(170 * level), int(40 * level)))
+            common.set_ground_segments(self._segment_map, self._segments, (int(255 * level), int(170 * level), int(40 * level)))
         else:
-            common.set_ground_segments(self._segment_map, ("smial_2",), (0, 0, 0))
+            common.set_ground_segments(self._segment_map, self._segments, (0, 0, 0))
 
         if elapsed >= self.duration_s:
             self.stop()
 
     def stop(self):
+        if not self._end_played:
+            self._end_played = True
+            common.play_track_checked(self.output_number, self.end_track, loop=False)
         if self._relay is not None:
             self._relay.value = True
         common.motion.set_door(2, 90)
-        common.set_ground_segments(self._segment_map, ("smial_2",), (0, 0, 0))
+        common.set_ground_segments(self._segment_map, self._segments, (0, 0, 0))
         self._done = True
         print("[TEST:smial2] done")
 

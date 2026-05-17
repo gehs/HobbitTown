@@ -8,6 +8,26 @@ from hardware import lighting_ground
 from hardware import lighting_sky
 from hardware import lighting_stream
 from hardware import motion
+from tests.modular_dry_run import Convert_for_Tsunami as cft
+
+
+MIN_TSUNAMI_TRACK = 1
+MAX_TSUNAMI_TRACK = 4096
+
+
+def tsunami_control_track_poly(track_number, output_number=1, lock_voice=False):
+    """Compatibility wrapper around centralized Tsunami converter."""
+    return cft.build_control_track(
+        track_number=track_number,
+        output_number=output_number,
+        control_code=cft.PLAY_POLY,
+        lock_voice=lock_voice,
+    )
+
+
+def tsunami_stop_all():
+    """Compatibility wrapper around centralized Tsunami converter."""
+    return cft.build_stop_all()
 
 
 def setup_shared_hardware():
@@ -29,8 +49,12 @@ def safe_shutdown():
     if atmosphere.fogger_relay is not None:
         atmosphere.fogger_relay.value = True
 
-    for channel in (12, 13):
-        motion.set_speaker(channel, 0)
+    # Stop Tsunami playback as part of safe shutdown for audio-routed exciters.
+    try:
+        if audio.uart is not None:
+            audio.uart.write(tsunami_stop_all())
+    except Exception as exc:
+        print("[TEST:audio] failed to send STOP_ALL during shutdown: %s" % exc)
 
     lighting_ground.set_all_lights_off_ground()
     lighting_stream.set_all_lights_off_stream()
@@ -69,50 +93,62 @@ def set_ground_segments(segment_map, segment_ids, rgb):
 
 
 def validate_track_for_output(output_number, track_number):
-    """Check Tsunami output-to-track-range rules from config.py."""
+    """Validate output number and track ID for modular dry-run tests.
+
+    Any track 1..4096 can route to any mono output 1..8.
+    """
     if output_number < 1 or output_number > config.AUDIO_OUTPUT_COUNT:
         return False, "invalid output number"
 
-    if not getattr(config, "ENFORCE_AUDIO_OUTPUT_TRACK_RANGES", False):
-        return True, "range enforcement disabled"
-
     track = int(track_number)
-    low, high = config.AUDIO_TRACK_RANGES_BY_OUTPUT[output_number - 1]
-    if low <= track <= high:
+    if MIN_TSUNAMI_TRACK <= track <= MAX_TSUNAMI_TRACK:
         return True, "ok"
-    return False, "track outside output range"
+    return False, "track outside allowed modular-test range 1..4096"
 
 
 def play_track_checked(output_number, track_number, loop=False):
+    """Send Tsunami CONTROL_TRACK command with binary frame encoding.
+    
+    Args:
+        output_number: 1-8 (user-facing; converted to 0-7 index internally)
+        track_number: 1-4096
+        loop: ignored in this implementation (uses PLAY_POLY)
+    
+    Returns:
+        bool: True if command sent, False if validation failed
+    """
     ok, reason = validate_track_for_output(output_number, track_number)
     if not ok:
-        print(
-            "[TEST:audio] SKIP output",
-            output_number,
-            "track",
-            track_number,
-            "reason:",
-            reason,
-        )
+        print("[TEST:audio] SKIP output %d track %d reason: %s" % (output_number, track_number, reason))
         return False
-
-    # Current audio module sends play command by track; output-number verification
-    # is enforced here to keep test assignments aligned with Tsunami planning.
-    audio.play_audio(output_number, int(track_number), loop=loop)
-    return True
-
-
-def pulse_exciter_channels(elapsed_s):
-    """Simple non-blocking pulse pattern for PCA9685 exciter channels 12 and 13."""
-    if elapsed_s < 1.0:
-        motion.set_speaker(12, 255)
-        motion.set_speaker(13, 0)
-    elif elapsed_s < 2.0:
-        motion.set_speaker(12, 0)
-        motion.set_speaker(13, 255)
-    else:
-        motion.set_speaker(12, 0)
-        motion.set_speaker(13, 0)
+    
+    try:
+        # Build binary Tsunami frame with proper little-endian encoding.
+        cmd = tsunami_control_track_poly(track_number, output_number=output_number, lock_voice=False)
+        info = cft.describe_control_track(track_number, output_number)
+        
+        # Send via UART if available.
+        if audio.uart is not None:
+            audio.uart.write(cmd)
+            print(
+                "[TEST:audio] sent CONTROL_TRACK output %d (index %d) track %d "
+                "(LE %02X %02X) frame: %s"
+                % (
+                    info["output_number"],
+                    info["output_index"],
+                    info["track_number"],
+                    info["track_lsb"],
+                    info["track_msb"],
+                    cmd.hex(),
+                )
+            )
+            return True
+        else:
+            print("[TEST:audio] UART not initialized; cannot send command")
+            return False
+    except Exception as exc:
+        print("[TEST:audio] failed to send command for output %d track %d: %s" % (output_number, track_number, exc))
+        return False
 
 
 def monotonic_now():

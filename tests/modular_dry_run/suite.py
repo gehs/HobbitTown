@@ -1,11 +1,19 @@
 import time
 
+from tests.modular_dry_run import Convert_for_Tsunami as cft
 from tests.modular_dry_run import common
 from tests.modular_dry_run.sky_test import SkyModuleTest
 from tests.modular_dry_run.smial1_test import Smial1ModuleTest
 from tests.modular_dry_run.smial2_test import Smial2ModuleTest
 from tests.modular_dry_run.smial3_test import Smial3ModuleTest
 from tests.modular_dry_run.stream_test import StreamModuleTest
+
+
+# Exciters are wired to Tsunami physical labels 4L and 4R.
+# These labels are NOT command bytes; convert them to mono output numbers:
+# 4L -> output 7, 4R -> output 8.
+EXCITER1_OUTPUT = cft.physical_label_to_output_number("4L")
+EXCITER2_OUTPUT = cft.physical_label_to_output_number("4R")
 
 
 class ModularDryRunSuite:
@@ -17,7 +25,13 @@ class ModularDryRunSuite:
             Smial2ModuleTest(track=112),
             Smial3ModuleTest(track=213),
             StreamModuleTest(spot_speaker4_track=314),
-            SkyModuleTest(exciter_track_left=401, exciter_track_right=502),
+            # Exciter routing uses physical labels 4L/4R -> outputs 7/8.
+            SkyModuleTest(
+                exciter_track_left=401,
+                exciter_track_right=402,
+                exciter_output_left=EXCITER1_OUTPUT,
+                exciter_output_right=EXCITER2_OUTPUT,
+            ),
         ]
         self.current_index = -1
         self.started = False

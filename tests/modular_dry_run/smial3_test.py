@@ -7,20 +7,24 @@ from tests.modular_dry_run import common
 class Smial3ModuleTest:
     """Dry-run module for Smial 3: door, chimney relay, speaker, and grouped lights."""
 
-    def __init__(self, track=314):
+    def __init__(self, track=314, output_number=3, end_track=316):
         self.name = "Smial3"
         self.track = int(track)
+        self.output_number = int(output_number)
+        self.end_track = int(end_track)
         self.duration_s = 9.0
         self._start = None
         self._done = False
         self._played = False
+        self._end_played = False
         self._relay = None
         self._segment_map = {}
-        self._segments = ("smial_3_lower", "smial_3_main", "smial_3_upper")
+        self._segments = ("smial_3_lower", "smial_3_main", "smial_3_upper", "chimney_smial_3")
 
     def start(self):
         self._done = False
         self._played = False
+        self._end_played = False
         self._start = common.monotonic_now()
         self._segment_map = common.load_segment_map()
         self._relay = digitalio.DigitalInOut(config.CHIMNEY_RELAY_PIN3)
@@ -46,7 +50,7 @@ class Smial3ModuleTest:
 
         if not self._played and elapsed >= 5.0:
             self._played = True
-            common.play_track_checked(3, self.track, loop=False)
+            common.play_track_checked(self.output_number, self.track, loop=False)
 
         if elapsed < 7.5:
             level = min(1.0, max(0.0, (elapsed - 4.0) / 3.5))
@@ -58,6 +62,9 @@ class Smial3ModuleTest:
             self.stop()
 
     def stop(self):
+        if not self._end_played:
+            self._end_played = True
+            common.play_track_checked(self.output_number, self.end_track, loop=False)
         if self._relay is not None:
             self._relay.value = True
         common.motion.set_door(3, 90)

@@ -26,7 +26,6 @@ class StreamModuleTest:
 
         if not self._played and elapsed >= 0.2:
             self._played = True
-            # Stream module reserves output 4 range (300-399).
             common.play_track_checked(4, self.track, loop=False)
 
         if elapsed < 0.2:
