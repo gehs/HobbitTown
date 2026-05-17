@@ -28,6 +28,8 @@ Inspect existing files:
 7. Coordinate with secondary skills when needed:
    - `lighting-management` for LED effects and presets.
    - `music-scape` for audio files and trigger timing.
+   - `tsunami-audio-control` for Tsunami-specific audio control.
+   - `board-pinout` for safe pin assignments, especially if new hardware is needed.
    - `new-hardware` for missing hardware modules.
    - `ui` for controls or status display.
 

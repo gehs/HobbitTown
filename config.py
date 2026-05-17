@@ -18,6 +18,8 @@ ENABLE_LIGHTING = True    # True when lighting strips are connected
 ENABLE_MOTION = True      # True when PCA9685 + servos/blowers/vapor channels are connected
 ENABLE_ATMOSPHERE = False  # True when the fogger relay is connected
 ENABLE_AUDIO = True        # Set True after wiring the WAV Trigger and validating audio control mode
+ENABLE_AUDIO_UART = True    # Enable UART mode for Tsunami audio control
+AUDIO_OUTPUT_COUNT = 8      # Tsunami mono firmware exposes 8 outputs
 ENABLE_WEB = False          # Safe to leave enabled for browser-based testing
 
 # ============================================================================
@@ -42,21 +44,21 @@ NUM_PIXELS_STREAM = 85
 BRIGHTNESS = 0.25
 
 # ============================================================================
-# HARDWARE: I2C BUS (Shared by Motion and Audio)
+# HARDWARE: I2C BUS (Motion)
 # ============================================================================
 # Note: This YD ESP32-S3 board does not expose GPIO22 in CircuitPython.
-# I2C is used for PCA9685 PWM drivers (motion) and optional WAV Trigger Pro (audio).
+# I2C is used for PCA9685 PWM drivers (motion).
 
 I2C_SDA = board.GPIO8
 I2C_SCL = board.GPIO9
 
 # ============================================================================
-# HARDWARE: MOTION (PCA9685 PWM Drivers, Servos, Blowers, Vapor Channels)
+# HARDWARE: MOTION (PCA9685 drives Servos, Blowers, Vapor Channels)
 # ============================================================================
-# Controlled via two PCA9685 boards on the shared I2C bus.
+# Controlled via PCA9685 on I2C bus.
 
 PCA9685_ADDR1 = 0x40  # Primary PCA9685 (servos)
-# Not in use PCA9685_ADDR2 = 0x41  # Secondary PCA9685 (vapor/blowers)
+PCA9685_ADDR2 = 0x41  # Secondary PCA9685 (NOT IN USE)
 
 # Servo pulse limits (used by set_servo_channel)
 SERVO_MIN_PULSE = 150
@@ -73,10 +75,6 @@ DOOR_CLOSED_ANGLE = 0
 
 ENABLE_AUDIO_I2C = False  # Enable Qwiic/I2C command mode for WAV Trigger Pro
 ENABLE_AUDIO_UART = True  # Enable UART command mode for WAV Trigger
-ENABLE_AUDIO_TRIGGERS = False  # Optional direct GPIO trigger outputs
-
-# I2C mode (WAV Trigger Pro)
-AUDIO_I2C_ADDR = 0x13  # Default 7-bit Qwiic address
 
 # UART mode (WAV Trigger)
 AUDIO_UART_TX = board.GPIO17  # UART1 TX (U1TXD) → Tsunami RXI
@@ -84,33 +82,6 @@ AUDIO_UART_RX = board.GPIO18  # UART1 RX (U1RXD) → Tsunami TXO
 AUDIO_UART_BAUDRATE = 57600
 AUDIO_UART_TIMEOUT = 0.1  # Timeout limit for UART read operations
 
-# Direct trigger outputs (optional)
-AUDIO_TRIGGER_1_PIN = board.GPIO8
-AUDIO_TRIGGER_2_PIN = board.GPIO9
-AUDIO_TRIGGER_ACTIVE_LOW = True
-AUDIO_TRIGGER_PULSE_MS = 100
-
-# Track assignment conventions
-AUDIO_TRIGGER_1_TRACK = 1
-AUDIO_TRIGGER_2_TRACK = 2
-AUDIO_TRACK_DAYTIME = 1
-AUDIO_TRACK_SUNSET = 2
-AUDIO_TRACK_NIGHTTIME = 3
-AUDIO_TRACK_DRAGON_EVENT = 4
-AUDIO_TRACK_PARTY_MUSIC = 5
-
-# Output count and track ranges
-AUDIO_OUTPUT_COUNT = 8
-AUDIO_TRACK_RANGES_BY_OUTPUT = (
-	(1, 99),
-	(100, 199),
-	(200, 299),
-	(300, 399),
-	(400, 499),
-	(500, 599),
-	(600, 699),
-	(700, 799),
-)
 
 # If True, scene code must use track IDs within AUDIO_TRACK_RANGES_BY_OUTPUT.
 # If False, any valid Tsunami track ID may be used.
@@ -130,7 +101,7 @@ FOG_INTERVAL = 300  # seconds (5 minutes) between fog cycles
 # ============================================================================
 # Three independent relay controls for chimney smoke/fog effects.
 
-CHIMNEY_RELAY_PIN1 = board.GPIO42  # Smial 1 (right-side pos 6, top of relay block)
+CHIMNEY_RELAY_PIN1 = board.GPIO42  # Smial 1 (right-side pos 6)
 CHIMNEY_RELAY_PIN2 = board.GPIO41  # Smial 2 (right-side pos 7)
 CHIMNEY_RELAY_PIN3 = board.GPIO40  # Smial 3 (right-side pos 8)
 

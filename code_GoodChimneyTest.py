@@ -1,0 +1,66 @@
+"""Chimney Relay Test for Hobbit Town.
+
+This script tests the chimney relays on GPIO42, GPIO41, GPIO40 for smials 1-3.
+Connect the MT3608 outputs to the relay COMs, and power the relays.
+The script will move each relay on and off slowly so you can hear the clicks.
+"""
+
+import time
+import digitalio
+import config
+
+# Chimney relay pins
+CHIMNEY_PIN1 = config.CHIMNEY_RELAY_PIN1
+CHIMNEY_PIN2 = config.CHIMNEY_RELAY_PIN2
+CHIMNEY_PIN3 = config.CHIMNEY_RELAY_PIN3
+
+# Seconds to wait for each relay state change
+STATE_WAIT_SECONDS = 5
+
+
+def set_relay(pin, state, label):
+    """Set relay state and print a user-friendly message."""
+    pin.value = state
+    print(f"{label}: {'ON' if state else 'OFF'} (listen for the relay click)")
+
+
+def countdown(seconds,label):
+    """Countdown to give you time to hear the relay."""
+    for remaining in range(seconds, 0, -1):
+        print(f" {label}: waiting {remaining}...")
+        time.sleep(1)
+
+
+def test_chimney_relay():
+    """Test the chimney relays with clear on/off steps."""
+    print("Starting chimney relay test on GPIO42, GPIO41, GPIO40.")
+    print("If the relay is active-low, the printed ON/OFF labels may be reversed.")
+
+    pins = [
+        (CHIMNEY_PIN1, "Chimney 1 (GPIO42)"),
+        (CHIMNEY_PIN2, "Chimney 2 (GPIO41)"),
+        (CHIMNEY_PIN3, "Chimney 3 (GPIO40)"),
+    ]
+
+    for pin_obj, label in pins:
+        print(f"\nTesting {label}")
+        pin = digitalio.DigitalInOut(pin_obj)
+        pin.direction = digitalio.Direction.OUTPUT
+
+        print("Initial state: OFF")
+        set_relay(pin, False, "Initial state")
+        countdown(STATE_WAIT_SECONDS,label)
+
+        print("Switching ON")
+        set_relay(pin, True, "Relay state")
+        countdown(STATE_WAIT_SECONDS,label)
+
+        print("Switching OFF")
+        set_relay(pin, False, "Relay state")
+        countdown(STATE_WAIT_SECONDS,label)
+
+    print("\nAll chimney tests complete. If relays stay active, check wiring and active-low setting.")
+
+
+if __name__ == "__main__":
+    test_chimney_relay()

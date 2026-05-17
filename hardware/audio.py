@@ -1,6 +1,7 @@
 """
 Audio hardware support for the WAV Trigger.
-Supports Qwiic/I2C command mode, UART command mode, and optional direct trigger outputs.
+UART control is the preferred mode. I2C and optional direct triggers are supported only
+when explicitly enabled in config and available on the board.
 """
 
 import time
@@ -34,6 +35,19 @@ CMD_LOAD_PRESET = 12
 CMD_SET_OUTPUT_GAIN = 13
 RESPONSE_DELAY_SEC = 0.002
 
+AUDIO_I2C_ADDR = getattr(config, "AUDIO_I2C_ADDR", 0x34)
+AUDIO_TRIGGER_1_PIN = getattr(config, "AUDIO_TRIGGER_1_PIN", None)
+AUDIO_TRIGGER_2_PIN = getattr(config, "AUDIO_TRIGGER_2_PIN", None)
+AUDIO_TRIGGER_ACTIVE_LOW = getattr(config, "AUDIO_TRIGGER_ACTIVE_LOW", False)
+AUDIO_TRIGGER_PULSE_MS = getattr(config, "AUDIO_TRIGGER_PULSE_MS", 50)
+AUDIO_TRIGGER_1_TRACK = getattr(config, "AUDIO_TRIGGER_1_TRACK", 1)
+AUDIO_TRIGGER_2_TRACK = getattr(config, "AUDIO_TRIGGER_2_TRACK", 2)
+AUDIO_TRACK_DAYTIME = getattr(config, "AUDIO_TRACK_DAYTIME", None)
+AUDIO_TRACK_SUNSET = getattr(config, "AUDIO_TRACK_SUNSET", None)
+AUDIO_TRACK_NIGHTTIME = getattr(config, "AUDIO_TRACK_NIGHTTIME", None)
+AUDIO_TRACK_DRAGON_EVENT = getattr(config, "AUDIO_TRACK_DRAGON_EVENT", None)
+AUDIO_TRACK_PARTY_MUSIC = getattr(config, "AUDIO_TRACK_PARTY_MUSIC", None)
+
 
 def setup_audio():
     """Initialize audio hardware support."""
@@ -57,7 +71,7 @@ def setup_audio():
             i2c_ready = _i2c_device_present()
             audio_ready = i2c_ready
             if i2c_ready:
-                print(f"Audio: I2C initialized for WAV Trigger Pro at 0x{config.AUDIO_I2C_ADDR:02X}")
+                print(f"Audio: I2C initialized for WAV Trigger Pro at 0x{AUDIO_I2C_ADDR:02X}")
             else:
                 raise RuntimeError("WAV Trigger Pro not found on I2C bus")
         except Exception as exc:
@@ -95,13 +109,16 @@ def setup_audio():
 
     if getattr(config, "ENABLE_AUDIO_TRIGGERS", False):
         try:
-            trigger_1 = digitalio.DigitalInOut(config.AUDIO_TRIGGER_1_PIN)
-            trigger_1.direction = digitalio.Direction.OUTPUT
-            trigger_1.value = not config.AUDIO_TRIGGER_ACTIVE_LOW
+            if AUDIO_TRIGGER_1_PIN is None or AUDIO_TRIGGER_2_PIN is None:
+                raise RuntimeError("Audio trigger pins not configured")
 
-            trigger_2 = digitalio.DigitalInOut(config.AUDIO_TRIGGER_2_PIN)
+            trigger_1 = digitalio.DigitalInOut(AUDIO_TRIGGER_1_PIN)
+            trigger_1.direction = digitalio.Direction.OUTPUT
+            trigger_1.value = not AUDIO_TRIGGER_ACTIVE_LOW
+
+            trigger_2 = digitalio.DigitalInOut(AUDIO_TRIGGER_2_PIN)
             trigger_2.direction = digitalio.Direction.OUTPUT
-            trigger_2.value = not config.AUDIO_TRIGGER_ACTIVE_LOW
+            trigger_2.value = not AUDIO_TRIGGER_ACTIVE_LOW
 
             trigger_ready = True
             print("Audio: direct trigger pins initialized for WAV Trigger")
@@ -126,7 +143,7 @@ def _i2c_device_present():
     try:
         if i2c.try_lock():
             try:
-                return config.AUDIO_I2C_ADDR in i2c.scan()
+                return AUDIO_I2C_ADDR in i2c.scan()
             finally:
                 i2c.unlock()
         return False
@@ -179,10 +196,10 @@ def _query_i2c_bytes(command_bytes, length):
     try:
         if i2c.try_lock():
             try:
-                i2c.writeto(config.AUDIO_I2C_ADDR, command_bytes)
+                i2c.writeto(AUDIO_I2C_ADDR, command_bytes)
                 time.sleep(RESPONSE_DELAY_SEC)
                 response = bytearray(length)
-                i2c.readfrom_into(config.AUDIO_I2C_ADDR, response)
+                i2c.readfrom_into(AUDIO_I2C_ADDR, response)
             finally:
                 i2c.unlock()
         else:
@@ -265,10 +282,10 @@ def _try_trigger_play(track):
     if not trigger_ready:
         return False
 
-    if int(track) == getattr(config, "AUDIO_TRIGGER_1_TRACK", 1):
+    if int(track) == AUDIO_TRIGGER_1_TRACK:
         _pulse_trigger(trigger_1)
         return True
-    if int(track) == getattr(config, "AUDIO_TRIGGER_2_TRACK", 2):
+    if int(track) == AUDIO_TRIGGER_2_TRACK:
         _pulse_trigger(trigger_2)
         return True
     return False
@@ -279,13 +296,13 @@ def _pulse_trigger(pin):
     if pin is None:
         return
 
-    active_value = not config.AUDIO_TRIGGER_ACTIVE_LOW
-    idle_value = config.AUDIO_TRIGGER_ACTIVE_LOW
+    active_value = not AUDIO_TRIGGER_ACTIVE_LOW
+    idle_value = AUDIO_TRIGGER_ACTIVE_LOW
     pin.value = active_value
     _trigger_pulse_state = {
         "pin": pin,
         "idle_value": idle_value,
-        "release_at": time.monotonic() + (config.AUDIO_TRIGGER_PULSE_MS / 1000.0),
+        "release_at": time.monotonic() + (AUDIO_TRIGGER_PULSE_MS / 1000.0),
     }
     print("Audio: trigger pin pulsed for WAV Trigger")
 
@@ -301,12 +318,12 @@ def _update_trigger_pulse():
 
 
 def play_audio(player, track, loop=False):
-    if i2c_ready:
-        _play_track_i2c(track, loop=loop)
-        return
-
     if uart_ready:
         _play_track_uart(track, loop=loop)
+        return
+
+    if i2c_ready:
+        _play_track_i2c(track, loop=loop)
         return
 
     if _try_trigger_play(track):
@@ -325,12 +342,12 @@ def _play_named_track(name, track_number):
         print(f"Audio: {name} track not configured")
         return
 
-    if i2c_ready:
-        _play_track_i2c(track_number)
-        return
-
     if uart_ready:
         _play_track_uart(track_number)
+        return
+
+    if i2c_ready:
+        _play_track_i2c(track_number)
         return
 
     if _try_trigger_play(track_number):
@@ -344,19 +361,19 @@ def get_status():
         "enabled": getattr(config, "ENABLE_AUDIO", False),
         "i2c_enabled": getattr(config, "ENABLE_AUDIO_I2C", False),
         "i2c_ready": i2c_ready,
-        "i2c_addr": hex(config.AUDIO_I2C_ADDR),
-        "i2c_sda": str(config.I2C_SDA),
-        "i2c_scl": str(config.I2C_SCL),
+        "i2c_addr": hex(AUDIO_I2C_ADDR),
+        "i2c_sda": str(getattr(config, "I2C_SDA", None)),
+        "i2c_scl": str(getattr(config, "I2C_SCL", None)),
         "uart_enabled": getattr(config, "ENABLE_AUDIO_UART", False),
         "uart_ready": uart_ready,
         "trigger_enabled": getattr(config, "ENABLE_AUDIO_TRIGGERS", False),
         "trigger_ready": trigger_ready,
-        "uart_tx": str(config.AUDIO_UART_TX),
-        "uart_rx": str(config.AUDIO_UART_RX),
-        "trigger_1_pin": str(config.AUDIO_TRIGGER_1_PIN),
-        "trigger_2_pin": str(config.AUDIO_TRIGGER_2_PIN),
-        "trigger_1_track": config.AUDIO_TRIGGER_1_TRACK,
-        "trigger_2_track": config.AUDIO_TRIGGER_2_TRACK,
+        "uart_tx": str(getattr(config, "AUDIO_UART_TX", None)),
+        "uart_rx": str(getattr(config, "AUDIO_UART_RX", None)),
+        "trigger_1_pin": str(AUDIO_TRIGGER_1_PIN),
+        "trigger_2_pin": str(AUDIO_TRIGGER_2_PIN),
+        "trigger_1_track": AUDIO_TRIGGER_1_TRACK,
+        "trigger_2_track": AUDIO_TRIGGER_2_TRACK,
     }
     if i2c_ready:
         version_bytes = _query_i2c_bytes(bytearray([CMD_GET_VERSION]), 12)
@@ -372,23 +389,23 @@ def get_status():
 
 
 def play_daytime():
-    _play_named_track("Daytime ambience", config.AUDIO_TRACK_DAYTIME)
+    _play_named_track("Daytime ambience", AUDIO_TRACK_DAYTIME)
 
 
 def play_sunset_sfx():
-    _play_named_track("Sunset SFX", config.AUDIO_TRACK_SUNSET)
+    _play_named_track("Sunset SFX", AUDIO_TRACK_SUNSET)
 
 
 def play_nighttime():
-    _play_named_track("Nighttime ambience", config.AUDIO_TRACK_NIGHTTIME)
+    _play_named_track("Nighttime ambience", AUDIO_TRACK_NIGHTTIME)
 
 
 def play_dragon_event():
-    _play_named_track("Dragon event", config.AUDIO_TRACK_DRAGON_EVENT)
+    _play_named_track("Dragon event", AUDIO_TRACK_DRAGON_EVENT)
 
 
 def play_party_music():
-    _play_named_track("Party music", config.AUDIO_TRACK_PARTY_MUSIC)
+    _play_named_track("Party music", AUDIO_TRACK_PARTY_MUSIC)
 
 
 def _set_output_gain_uart(output_channel, gain_value):

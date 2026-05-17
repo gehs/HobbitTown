@@ -1,0 +1,1376 @@
+{
+  "settings": {
+    "master_volume_db": 0,
+    "description": "Generated configuration for Tsunami Super WAV Trigger"
+  },
+  "tracks": {
+    "amfarm": {
+      "track_number": 1,
+      "file": "001_AMFarm.wav",
+      "length_seconds": 267.92,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "bell3": {
+      "track_number": 2,
+      "file": "002_Bell3.wav",
+      "length_seconds": 2.04,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "belljin1": {
+      "track_number": 3,
+      "file": "003_BellJin1.wav",
+      "length_seconds": 3.89,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "bells8": {
+      "track_number": 4,
+      "file": "004_Bells8.wav",
+      "length_seconds": 45.01,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "chants1": {
+      "track_number": 5,
+      "file": "005_Chants1.wav",
+      "length_seconds": 62.96,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "crowdin": {
+      "track_number": 6,
+      "file": "006_CrowdIn.wav",
+      "length_seconds": 388.17,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "dragatt": {
+      "track_number": 7,
+      "file": "007_DragAtt.wav",
+      "length_seconds": 600.0,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "inncrowd": {
+      "track_number": 8,
+      "file": "008_InnCrowd.wav",
+      "length_seconds": 388.17,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "insects": {
+      "track_number": 9,
+      "file": "009_Insects.wav",
+      "length_seconds": 165.1,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "manyroosters": {
+      "track_number": 10,
+      "file": "010_ManyRoosters.wav",
+      "length_seconds": 186.0,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "nearsnort": {
+      "track_number": 11,
+      "file": "011_NearSnort.wav",
+      "length_seconds": 5.73,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "neigh2": {
+      "track_number": 12,
+      "file": "012_Neigh2.wav",
+      "length_seconds": 7.3,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "noonstorm_roosters": {
+      "track_number": 13,
+      "file": "013_NoonStorm_roosters.wav",
+      "length_seconds": 107.29,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "pmbees": {
+      "track_number": 14,
+      "file": "014_PMBees.wav",
+      "length_seconds": 306.96,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "pmbirds1": {
+      "track_number": 15,
+      "file": "015_PMBirds1.wav",
+      "length_seconds": 130.87,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "pigs": {
+      "track_number": 16,
+      "file": "016_Pigs.wav",
+      "length_seconds": 45.99,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "ribbon_dance_and_ribbon_bright": {
+      "track_number": 17,
+      "file": "017_Ribbon_dance_and_Ribbon_bright.wav",
+      "length_seconds": 148.24,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "roar2": {
+      "track_number": 18,
+      "file": "018_Roar2.wav",
+      "length_seconds": 49.46,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "rooster": {
+      "track_number": 19,
+      "file": "019_Rooster.wav",
+      "length_seconds": 59.9,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "spbbird": {
+      "track_number": 20,
+      "file": "020_SPbbird.wav",
+      "length_seconds": 52.56,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "slamdoor": {
+      "track_number": 21,
+      "file": "021_SlamDoor.wav",
+      "length_seconds": 2.53,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "the_hearth_where_shadows_go": {
+      "track_number": 22,
+      "file": "022_The_Hearth_Where_Shadows_Go.wav",
+      "length_seconds": 172.98,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunder1": {
+      "track_number": 23,
+      "file": "023_Thunder1.wav",
+      "length_seconds": 7.0,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "village": {
+      "track_number": 24,
+      "file": "024_Village.wav",
+      "length_seconds": 164.12,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "wagon1": {
+      "track_number": 25,
+      "file": "025_Wagon1.wav",
+      "length_seconds": 600.0,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "anklebellswalking": {
+      "track_number": 26,
+      "file": "026_anklebellswalking.wav",
+      "length_seconds": 68.13,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "asiamusic": {
+      "track_number": 27,
+      "file": "027_asiamusic.wav",
+      "length_seconds": 186.61,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "bells2": {
+      "track_number": 28,
+      "file": "028_bells2.wav",
+      "length_seconds": 2.46,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "birddogs": {
+      "track_number": 29,
+      "file": "029_birdDogs.wav",
+      "length_seconds": 249.63,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "birdssheep": {
+      "track_number": 30,
+      "file": "030_birdsSheep.wav",
+      "length_seconds": 334.78,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "bobwhite": {
+      "track_number": 31,
+      "file": "031_bobwhite.wav",
+      "length_seconds": 107.76,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "carriage": {
+      "track_number": 32,
+      "file": "032_carriage.wav",
+      "length_seconds": 75.0,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "cowsbkg": {
+      "track_number": 33,
+      "file": "033_cowsbkg.wav",
+      "length_seconds": 106.47,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "crowplus": {
+      "track_number": 34,
+      "file": "034_crowPlus.wav",
+      "length_seconds": 274.39,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "dhorse": {
+      "track_number": 35,
+      "file": "035_dHorse.wav",
+      "length_seconds": 600.0,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "fallfest2": {
+      "track_number": 36,
+      "file": "036_fallFest2.wav",
+      "length_seconds": 600.0,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "fallmusicfestival": {
+      "track_number": 37,
+      "file": "037_fallMusicFestival.wav",
+      "length_seconds": 600.0,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "fallnight": {
+      "track_number": 38,
+      "file": "038_fallNight.wav",
+      "length_seconds": 100.79,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "farstorm": {
+      "track_number": 39,
+      "file": "039_farStorm.wav",
+      "length_seconds": 273.36,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "farmrainarrival": {
+      "track_number": 40,
+      "file": "040_farmrainarrival.wav",
+      "length_seconds": 130.84,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "farmsumm": {
+      "track_number": 41,
+      "file": "041_farmsumm.wav",
+      "length_seconds": 221.96,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "fasthors": {
+      "track_number": 42,
+      "file": "042_fastHors.wav",
+      "length_seconds": 600.0,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "firecrackes": {
+      "track_number": 43,
+      "file": "043_firecrackes.wav",
+      "length_seconds": 43.65,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "fireplace": {
+      "track_number": 44,
+      "file": "044_fireplace.wav",
+      "length_seconds": 148.88,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "firepopp": {
+      "track_number": 45,
+      "file": "045_firepopp.wav",
+      "length_seconds": 171.11,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "fworks": {
+      "track_number": 46,
+      "file": "046_fworks.wav",
+      "length_seconds": 104.32,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "hencluck": {
+      "track_number": 47,
+      "file": "047_henCluck.wav",
+      "length_seconds": 17.57,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "horse1": {
+      "track_number": 48,
+      "file": "048_horse1.wav",
+      "length_seconds": 1.92,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "horse2": {
+      "track_number": 49,
+      "file": "049_horse2.wav",
+      "length_seconds": 3.16,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "horse3": {
+      "track_number": 50,
+      "file": "050_horse3.wav",
+      "length_seconds": 3.26,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "latesummerbirds": {
+      "track_number": 51,
+      "file": "051_lateSummerBirds.wav",
+      "length_seconds": 473.31,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "nightanim": {
+      "track_number": 52,
+      "file": "052_nightanim.wav",
+      "length_seconds": 62.22,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "nightbugf": {
+      "track_number": 53,
+      "file": "053_nightbugf.wav",
+      "length_seconds": 107.45,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "nightfrog": {
+      "track_number": 54,
+      "file": "054_nightfrog.wav",
+      "length_seconds": 107.21,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "pipesdrum": {
+      "track_number": 55,
+      "file": "055_pipesdrum.wav",
+      "length_seconds": 221.9,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "pmbirdscow": {
+      "track_number": 56,
+      "file": "056_pmbirdscow.wav",
+      "length_seconds": 118.2,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "ponytslks": {
+      "track_number": 57,
+      "file": "057_ponytslks.wav",
+      "length_seconds": 41.38,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "rain": {
+      "track_number": 58,
+      "file": "058_rain.wav",
+      "length_seconds": 266.06,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "roarfire": {
+      "track_number": 59,
+      "file": "059_roarfire.wav",
+      "length_seconds": 116.74,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "rumble": {
+      "track_number": 60,
+      "file": "060_rumble.wav",
+      "length_seconds": 5.57,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "startlechicken": {
+      "track_number": 61,
+      "file": "061_startleChicken.wav",
+      "length_seconds": 1.86,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "stream": {
+      "track_number": 62,
+      "file": "062_stream.wav",
+      "length_seconds": 30.04,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunder": {
+      "track_number": 63,
+      "file": "063_thunder.wav",
+      "length_seconds": 617.42,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "villageparty": {
+      "track_number": 64,
+      "file": "064_VillageParty.wav",
+      "length_seconds": 600.0,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "walkhorse": {
+      "track_number": 65,
+      "file": "065_walkhorse.wav",
+      "length_seconds": 62.83,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "water": {
+      "track_number": 66,
+      "file": "066_water.wav",
+      "length_seconds": 354.55,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "wintercarriage": {
+      "track_number": 67,
+      "file": "067_winterCarriage.wav",
+      "length_seconds": 600.0,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "wintercarriage2": {
+      "track_number": 68,
+      "file": "068_wintercarriage2.wav",
+      "length_seconds": 600.0,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "dragon_large_wings_flap_flying": {
+      "track_number": 69,
+      "file": "069_dragon_large_wings_flap_flying.wav",
+      "length_seconds": 3.11,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "horror_creature_eating_bones": {
+      "track_number": 70,
+      "file": "070_horror_creature_eating_bones.wav",
+      "length_seconds": 3.22,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "creature_short_grunt_growl_1": {
+      "track_number": 71,
+      "file": "071_creature_short_grunt_growl_1.wav",
+      "length_seconds": 1.08,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "creature_short_grunt_growl_2": {
+      "track_number": 72,
+      "file": "072_creature_short_grunt_growl_2.wav",
+      "length_seconds": 1.82,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "chewcrunch_01": {
+      "track_number": 73,
+      "file": "073_ChewCrunch_01.wav",
+      "length_seconds": 0.74,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "chewcrunch_02": {
+      "track_number": 74,
+      "file": "074_ChewCrunch_02.wav",
+      "length_seconds": 1.24,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "chewcrunch_03": {
+      "track_number": 75,
+      "file": "075_ChewCrunch_03.wav",
+      "length_seconds": 1.11,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "creature_deep_breathy_growl_snarl": {
+      "track_number": 76,
+      "file": "076_creature_deep_breathy_growl_snarl.wav",
+      "length_seconds": 2.35,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "creature_deep_growl_asleep_1": {
+      "track_number": 77,
+      "file": "077_creature_deep_growl_asleep_1.wav",
+      "length_seconds": 2.51,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "creature_deep_growl_asleep_2": {
+      "track_number": 78,
+      "file": "078_creature_deep_growl_asleep_2.wav",
+      "length_seconds": 5.34,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "creature_deep_growl_asleep_3": {
+      "track_number": 79,
+      "file": "079_creature_deep_growl_asleep_3.wav",
+      "length_seconds": 1.98,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "creature_deep_growl_asleep_4": {
+      "track_number": 80,
+      "file": "080_creature_deep_growl_asleep_4.wav",
+      "length_seconds": 1.76,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "creature_deep_nasal_snarl": {
+      "track_number": 81,
+      "file": "081_creature_deep_nasal_snarl.wav",
+      "length_seconds": 2.23,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "big_creepy_growl_calm_guttural_1": {
+      "track_number": 82,
+      "file": "082_big_creepy_growl_calm_guttural_1.wav",
+      "length_seconds": 1.37,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "big_creepy_growl_calm_guttural_2": {
+      "track_number": 83,
+      "file": "083_big_creepy_growl_calm_guttural_2.wav",
+      "length_seconds": 3.38,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "snarl_growl": {
+      "track_number": 84,
+      "file": "084_snarl_growl.wav",
+      "length_seconds": 2.82,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "snarl_growl_nasal_1": {
+      "track_number": 85,
+      "file": "085_snarl_growl_nasal_1.wav",
+      "length_seconds": 7.92,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "snarl_growl_nasal_2": {
+      "track_number": 86,
+      "file": "086_snarl_growl_nasal_2.wav",
+      "length_seconds": 6.82,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "snarl_growl_nasal_3": {
+      "track_number": 87,
+      "file": "087_snarl_growl_nasal_3.wav",
+      "length_seconds": 11.89,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "claws_walk_gently_on_wood_1": {
+      "track_number": 88,
+      "file": "088_claws_walk_gently_on_wood_1.wav",
+      "length_seconds": 5.08,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "claws_walk_gently_on_wood_2": {
+      "track_number": 89,
+      "file": "089_claws_walk_gently_on_wood_2.wav",
+      "length_seconds": 5.86,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "curious_panting_grunting_1": {
+      "track_number": 90,
+      "file": "090_curious_panting_grunting_1.wav",
+      "length_seconds": 5.38,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "curious_panting_grunting_2": {
+      "track_number": 91,
+      "file": "091_curious_panting_grunting_2.wav",
+      "length_seconds": 17.1,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "deep_snarl_into_grunting_growl": {
+      "track_number": 92,
+      "file": "092_deep_snarl_into_grunting_growl.wav",
+      "length_seconds": 1.75,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "demon_screech_1": {
+      "track_number": 93,
+      "file": "093_demon_screech_1.wav",
+      "length_seconds": 2.03,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "demon_screech_2": {
+      "track_number": 94,
+      "file": "094_demon_screech_2.wav",
+      "length_seconds": 1.13,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "demon_screech_3": {
+      "track_number": 95,
+      "file": "095_demon_screech_3.wav",
+      "length_seconds": 1.96,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "demon_screech_4": {
+      "track_number": 96,
+      "file": "096_demon_screech_4.wav",
+      "length_seconds": 2.28,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "footsteps_walking_dirt_slow_heavy": {
+      "track_number": 98,
+      "file": "098_footsteps_walking_dirt_slow_heavy.wav",
+      "length_seconds": 14.71,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "groan_moan_tired_or_ill_1": {
+      "track_number": 99,
+      "file": "099_groan_moan_tired_or_ill_1.wav",
+      "length_seconds": 1.86,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "groan_moan_tired_or_ill_2": {
+      "track_number": 100,
+      "file": "100_groan_moan_tired_or_ill_2.wav",
+      "length_seconds": 1.93,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "growl_drown_1": {
+      "track_number": 101,
+      "file": "101_growl_drown_1.wav",
+      "length_seconds": 3.67,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "growl_drown_2": {
+      "track_number": 102,
+      "file": "102_growl_drown_2.wav",
+      "length_seconds": 4.14,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "growl_forced_agressive": {
+      "track_number": 103,
+      "file": "103_growl_forced_agressive.wav",
+      "length_seconds": 2.8,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "growl_frustrated": {
+      "track_number": 104,
+      "file": "104_growl_frustrated.wav",
+      "length_seconds": 3.07,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "growl_grunt_fight_1": {
+      "track_number": 105,
+      "file": "105_growl_grunt_fight_1.wav",
+      "length_seconds": 3.4,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "growl_grunt_fight_2": {
+      "track_number": 106,
+      "file": "106_growl_grunt_fight_2.wav",
+      "length_seconds": 2.65,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "growl_grunt_fight_3": {
+      "track_number": 107,
+      "file": "107_growl_grunt_fight_3.wav",
+      "length_seconds": 8.61,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "growl_grunt_fight_4": {
+      "track_number": 108,
+      "file": "108_growl_grunt_fight_4.wav",
+      "length_seconds": 5.32,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "growl_lower_pitched": {
+      "track_number": 109,
+      "file": "109_growl_lower_pitched.wav",
+      "length_seconds": 3.48,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "growl_nasal_weird": {
+      "track_number": 110,
+      "file": "110_growl_nasal_weird.wav",
+      "length_seconds": 6.03,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "growl_soft_weird_1": {
+      "track_number": 111,
+      "file": "111_growl_soft_weird_1.wav",
+      "length_seconds": 4.19,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "growl_soft_weird_2": {
+      "track_number": 112,
+      "file": "112_growl_soft_weird_2.wav",
+      "length_seconds": 5.65,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "growl_weird_1": {
+      "track_number": 113,
+      "file": "113_growl_weird_1.wav",
+      "length_seconds": 2.72,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "growl_weird_2": {
+      "track_number": 114,
+      "file": "114_growl_weird_2.wav",
+      "length_seconds": 3.1,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "growl_weird_3": {
+      "track_number": 115,
+      "file": "115_growl_weird_3.wav",
+      "length_seconds": 2.72,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "growl_weird_4": {
+      "track_number": 116,
+      "file": "116_growl_weird_4.wav",
+      "length_seconds": 2.5,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "growl_weird_5": {
+      "track_number": 117,
+      "file": "117_growl_weird_5.wav",
+      "length_seconds": 2.99,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "growl_weird_6": {
+      "track_number": 118,
+      "file": "118_growl_weird_6.wav",
+      "length_seconds": 3.66,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "growl_weird_7": {
+      "track_number": 119,
+      "file": "119_growl_weird_7.wav",
+      "length_seconds": 2.76,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "grunt_growl_mouth_closed_mumble": {
+      "track_number": 120,
+      "file": "120_grunt_growl_mouth_closed_mumble.wav",
+      "length_seconds": 1.44,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "grunt_growl_nasal": {
+      "track_number": 121,
+      "file": "121_grunt_growl_nasal.wav",
+      "length_seconds": 3.06,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "grunt_growl_nasal_breathy": {
+      "track_number": 122,
+      "file": "122_grunt_growl_nasal_breathy.wav",
+      "length_seconds": 2.91,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "large_soft_throaty_growl": {
+      "track_number": 124,
+      "file": "124_large_soft_throaty_growl.wav",
+      "length_seconds": 3.53,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "nature_thunder_clap_rumble_no_rain": {
+      "track_number": 125,
+      "file": "125_nature-thunder-clap-rumble-no-rain.wav",
+      "length_seconds": 24.31,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "rain_heavy_tropical_distant_thunder_at_54_secs": {
+      "track_number": 126,
+      "file": "126_rain_heavy_tropical_distant_thunder_at_54_secs.wav",
+      "length_seconds": 82.46,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "rain_light_then_thunder_at_52s_rain_increases_to_heavy": {
+      "track_number": 127,
+      "file": "127_rain_light_then_thunder_at_52s_rain_increases_to_heavy.wav",
+      "length_seconds": 183.85,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "rain_rainfall_medium_heavy_constant_some_thunder_rumbles_1": {
+      "track_number": 128,
+      "file": "128_rain_rainfall_medium_heavy_constant_some_thunder_rumbles_1.wav",
+      "length_seconds": 197.3,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "rain_rainfall_medium_heavy_constant_some_thunder_rumbles_2": {
+      "track_number": 129,
+      "file": "129_rain_rainfall_medium_heavy_constant_some_thunder_rumbles_2.wav",
+      "length_seconds": 181.87,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "rain_thunder_crack_and_and_rumbles": {
+      "track_number": 130,
+      "file": "130_rain_thunder_crack_and_and_rumbles.wav",
+      "length_seconds": 208.6,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunder_001": {
+      "track_number": 131,
+      "file": "131_thunder_001.wav",
+      "length_seconds": 11.73,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunder_002": {
+      "track_number": 132,
+      "file": "132_thunder_002.wav",
+      "length_seconds": 18.35,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunder_003": {
+      "track_number": 133,
+      "file": "133_thunder_003.wav",
+      "length_seconds": 19.94,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunder_004": {
+      "track_number": 134,
+      "file": "134_thunder_004.wav",
+      "length_seconds": 12.31,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunder_005": {
+      "track_number": 135,
+      "file": "135_thunder_005.wav",
+      "length_seconds": 19.89,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunder_crack_1": {
+      "track_number": 136,
+      "file": "136_thunder_crack_1.wav",
+      "length_seconds": 5.23,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunder_crack_2": {
+      "track_number": 137,
+      "file": "137_thunder_crack_2.wav",
+      "length_seconds": 8.6,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunder_crack_3": {
+      "track_number": 138,
+      "file": "138_thunder_crack_3.wav",
+      "length_seconds": 10.35,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunder_crack_4": {
+      "track_number": 139,
+      "file": "139_thunder_crack_4.wav",
+      "length_seconds": 10.66,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunder_distant_rumble_light_rain_wind_1": {
+      "track_number": 140,
+      "file": "140_thunder_distant_rumble_light_rain_wind_1.wav",
+      "length_seconds": 50.0,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunder_distant_rumble_light_rain_wind_2": {
+      "track_number": 141,
+      "file": "141_thunder_distant_rumble_light_rain_wind_2.wav",
+      "length_seconds": 39.86,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunder_rumble_1": {
+      "track_number": 142,
+      "file": "142_thunder_rumble_1.wav",
+      "length_seconds": 36.74,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunder_rumble_2": {
+      "track_number": 143,
+      "file": "143_thunder_rumble_2.wav",
+      "length_seconds": 38.0,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunder_rumble_3": {
+      "track_number": 144,
+      "file": "144_thunder_rumble_3.wav",
+      "length_seconds": 20.58,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunder_strike_close_rain": {
+      "track_number": 145,
+      "file": "145_thunder_strike_close_rain.wav",
+      "length_seconds": 32.51,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunder_strike_very_close_light_rain": {
+      "track_number": 146,
+      "file": "146_thunder_strike_very_close_light_rain.wav",
+      "length_seconds": 47.65,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunder_strike_very_close_loud_med_rain": {
+      "track_number": 147,
+      "file": "147_thunder_strike_very_close_loud_med_rain.wav",
+      "length_seconds": 36.95,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunder_strikes_over_head_loud_various_light_rain": {
+      "track_number": 148,
+      "file": "148_thunder_strikes_over_head_loud_various_light_rain.wav",
+      "length_seconds": 75.58,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunderstorm_aftermath_light_rain_drips_distant_rumbles_thunder": {
+      "track_number": 149,
+      "file": "149_thunderstorm_aftermath_light_rain_drips_distant_rumbles_thunder.wav",
+      "length_seconds": 351.44,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunderstorm_close_very_light_rain_insects": {
+      "track_number": 150,
+      "file": "150_thunderstorm_close_very_light_rain_insects.wav",
+      "length_seconds": 193.36,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunderstorm_close_windy_driving_rain_thunder_rumbles": {
+      "track_number": 151,
+      "file": "151_thunderstorm_close_windy_driving_rain_thunder_rumbles.wav",
+      "length_seconds": 205.53,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunderstorm_distant_rumbles": {
+      "track_number": 152,
+      "file": "152_thunderstorm_distant_rumbles.wav",
+      "length_seconds": 159.62,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunderstorm_mostly_distant_thunder_some_closer_med_rain": {
+      "track_number": 153,
+      "file": "153_thunderstorm_mostly_distant_thunder_some_closer_med_rain.wav",
+      "length_seconds": 69.69,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunderstorm_raining_street_rumbles_of_thunder": {
+      "track_number": 154,
+      "file": "154_thunderstorm_raining_street_rumbles_of_thunder.wav",
+      "length_seconds": 112.0,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "weather_rain_thunder_rumble_backyard_93408": {
+      "track_number": 155,
+      "file": "155_weather_rain_thunder_rumble_backyard_93408.wav",
+      "length_seconds": 85.73,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "weather_rain_thunder_rumble_backyard_summer": {
+      "track_number": 156,
+      "file": "156_weather_rain_thunder_rumble_backyard_summer.wav",
+      "length_seconds": 61.8,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "weather_thunder_overhead_light_rain": {
+      "track_number": 157,
+      "file": "157_weather_thunder_overhead_light_rain.wav",
+      "length_seconds": 31.88,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunder_crack_followed_by_light_rain": {
+      "track_number": 158,
+      "file": "158_thunder_crack_followed_by_light_rain.wav",
+      "length_seconds": 63.21,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunder_distant_urban_distant_traffic_1": {
+      "track_number": 159,
+      "file": "159_thunder_distant_urban_distant_traffic_1.wav",
+      "length_seconds": 132.24,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunder_distant_urban_distant_traffic_2": {
+      "track_number": 160,
+      "file": "160_thunder_distant_urban_distant_traffic_2.wav",
+      "length_seconds": 69.59,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunder_rain_light_1": {
+      "track_number": 161,
+      "file": "161_thunder_rain_light_1.wav",
+      "length_seconds": 61.81,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunder_rain_light_2": {
+      "track_number": 162,
+      "file": "162_thunder_rain_light_2.wav",
+      "length_seconds": 122.9,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "thunder_strike_clap_slight_distance": {
+      "track_number": 163,
+      "file": "163_thunder_strike_clap_slight_distance.wav",
+      "length_seconds": 15.71,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "checkingoutsmial1": {
+      "track_number": 310,
+      "file": "310_CheckingOutSmial1.wav",
+      "length_seconds": 5.12,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "smial1_okay": {
+      "track_number": 311,
+      "file": "311_Smial1_okay.wav",
+      "length_seconds": 6.89,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "smial2_open": {
+      "track_number": 312,
+      "file": "312_Smial2_open.wav",
+      "length_seconds": 2.82,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "smial2_out": {
+      "track_number": 313,
+      "file": "313_Smial2_Out.wav",
+      "length_seconds": 5.03,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "smial3_in": {
+      "track_number": 314,
+      "file": "314_Smial3_in.wav",
+      "length_seconds": 3.02,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "smial3_out": {
+      "track_number": 315,
+      "file": "315_Smial3_out.wav",
+      "length_seconds": 3.85,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "spot4_test_in": {
+      "track_number": 316,
+      "file": "316_Spot4_Test_in.wav",
+      "length_seconds": 3.03,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "4_out": {
+      "track_number": 317,
+      "file": "317_4_out.wav",
+      "length_seconds": 2.58,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "righthandbase": {
+      "track_number": 318,
+      "file": "318_righthandbase.wav",
+      "length_seconds": 6.15,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    },
+    "left_in": {
+      "track_number": 319,
+      "file": "319_Left_In.wav",
+      "length_seconds": 4.44,
+      "loop": false,
+      "volume_db": 0,
+      "category": "effect"
+    }
+  }
+}
