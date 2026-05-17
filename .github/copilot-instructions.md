@@ -1,7 +1,7 @@
 # Copilot Instructions for HobbitTown
 
 ## Project context
-HobbitTown is an interactive physical diorama controlled by an ESP32-S3 running CircuitPython. Keep the code modular: hardware drivers live in `hardware/`, high-level orchestration lives in `logic/`, configuration lives in `config.py`, and the main loop lives in `code.py`.
+HobbitTown is an interactive physical diorama controlled by an ESP32-S3 running CircuitPython. Keep the code modular: hardware drivers live in `hardware/`, high-level orchestration lives in `logic/`, configuration lives in `config.py`, and the main loop lives in `code.py`, place modular testingig within `tests/` or root test files. The project includes a web dashboard for control and monitoring, but all core scene logic and hardware control must run on the ESP32-S3 without reliance on external servers or cloud services.
 
 The user is learning embedded hardware and software. Favor clear, safe, educational changes over clever or compact code.
 

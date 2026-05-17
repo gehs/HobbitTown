@@ -11,7 +11,7 @@ Prevent incorrect, nonexistent, unsafe, conflicting, or inefficient pin recommen
 
 Use this skill before any other skill recommends or changes pins.
 
-This skill reads `hardware/board_profile.json` as the source of truth for:
+This skill reads `hardware/board_profile_hybrid.json` as the source of truth for:
 
 - exposed board pins
 - CircuitPython pin names
@@ -60,7 +60,7 @@ TSUNAMI_RX_PIN = board.IO18
 SKY_NEOPIXEL_PIN = board.D4
 ```
 
-Generated CircuitPython code must use the exact `circuitpython_name` value from `hardware/board_profile.json`.
+Generated CircuitPython code must use the exact `circuitpython_name` value from `hardware/board_profile_hybrid.json`.
 
 Do not convert `GPIO` names into `IO`, `D`, raw integers, or Arduino-style aliases.
 
@@ -68,7 +68,7 @@ Do not convert `GPIO` names into `IO`, `D`, raw integers, or Arduino-style alias
 
 Only recommend a pin when all of the following are true:
 
-1. The pin exists in `hardware/board_profile.json`.
+1. The pin exists in `hardware/board_profile_hybrid.json`.
 2. The pin has a valid `circuitpython_name`.
 3. The pin is exposed on the dev board header.
 4. The pin is not marked `reserved`, `avoid`, `do_not_use`, or equivalent.
@@ -194,7 +194,7 @@ Common GND required
 
 When asked to review existing assignments:
 
-1. Load all current assignments from `hardware/board_profile.json`.
+1. Load all current assignments from `hardware/board_profile_hybrid.json`.
 2. Identify:
    - nonexistent pins
    - wrong CircuitPython names
@@ -248,7 +248,7 @@ Because isolated tests do not prove the full wiring set works together, recommen
 - Do not recommend `board.IO<n>` for this project.
 - Do not recommend Arduino-style `D<n>` names.
 - Do not recommend raw integer pins in CircuitPython code.
-- Do not use pins absent from `hardware/board_profile.json`.
+- Do not use pins absent from `hardware/board_profile_hybrid.json`.
 - Do not reuse a pin unless the bus or signal type is explicitly shareable.
 - Do not use boot, USB, onboard LED, reserved, or previously failed pins without a clear user override.
 - Do not optimize for neat wiring at the expense of a proven safe assignment.

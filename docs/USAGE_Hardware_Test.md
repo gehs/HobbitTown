@@ -13,6 +13,20 @@ Or run the launcher script directly:
 import test_comprehensive_dry_run
 ```
 
+### Modular Dry-Run Suite (Smial Modules)
+```python
+import test_modular_dry_run_suite
+```
+
+This modular suite runs independent modules in sequence:
+- `Smial1` module (door 1, chimney relay 1, spot speaker 1 range, Smial 1 light)
+- `Smial2` module (door 2, chimney relay 2, spot speaker 2 range, Smial 2 light)
+- `Smial3` module (door 3, chimney relay 3, spot speaker 3 range, grouped Smial 3 lights)
+- `Stream` module (spot speaker 4 range + stream lights)
+- `Sky` module (exciter checks + sky lights)
+
+Track-to-output addressing in the modular suite is validated against `AUDIO_TRACK_RANGES_BY_OUTPUT` in `config.py` before playback commands are sent.
+
 ### Web API Trigger
 Call HTTP endpoint (once web server is fully implemented):
 ```
