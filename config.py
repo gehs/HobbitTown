@@ -11,14 +11,14 @@ import board  # type: ignore
 
 # --- STARTUP / DRY-LOAD ---
 ALLOW_MISSING_HARDWARE = True  # Boot cleanly even if no external components are wired yet
-ENABLE_HARDWARE_VALIDATION = False  # Set True to run hardware diagnostics on startup
+ENABLE_HARDWARE_VALIDATION = True  # Set True to run hardware diagnostics on startup
 
 # Module enable flags - turn on as each component is actually wired
-ENABLE_LIGHTING = False    # True when lighting strips are connected
-ENABLE_MOTION = False      # True when PCA9685 + servos/blowers/vapor channels are connected
+ENABLE_LIGHTING = True    # True when lighting strips are connected
+ENABLE_MOTION = True      # True when PCA9685 + servos/blowers/vapor channels are connected
 ENABLE_ATMOSPHERE = False  # True when the fogger relay is connected
 ENABLE_AUDIO = True        # Set True after wiring the WAV Trigger and validating audio control mode
-ENABLE_WEB = True          # Safe to leave enabled for browser-based testing
+ENABLE_WEB = False          # Safe to leave enabled for browser-based testing
 
 # ============================================================================
 # HARDWARE: LIGHTING (NeoPixel LED Strips)
@@ -56,7 +56,7 @@ I2C_SCL = board.GPIO9
 # Controlled via two PCA9685 boards on the shared I2C bus.
 
 PCA9685_ADDR1 = 0x40  # Primary PCA9685 (servos)
-PCA9685_ADDR2 = 0x41  # Secondary PCA9685 (vapor/blowers)
+# Not in use PCA9685_ADDR2 = 0x41  # Secondary PCA9685 (vapor/blowers)
 
 # Servo pulse limits (used by set_servo_channel)
 SERVO_MIN_PULSE = 150
