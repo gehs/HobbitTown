@@ -20,7 +20,7 @@ class SmialTestScene:
         self.current_smial = 0  # 0=Smial1, 1=Smial2, 2=Smial3
         self.smials = [
             {
-                'name': 'Bag End',
+                'name': 'Smial 1',
                 'door_id': 1,
                 'light_segment': 'smial_1',
                 'speaker_track': 1,
