@@ -19,16 +19,16 @@ EXCITER2_OUTPUT = cft.physical_label_to_output_number("4R")
 class ModularDryRunSuite:
     """Run each modular dry-run test sequentially with shared safety handling."""
 
-    def __init__(self):
+    def __init__(self, inter_module_delay_s=5.0):
         self.modules = [
-            Smial1ModuleTest(track=11),
-            Smial2ModuleTest(track=112),
-            Smial3ModuleTest(track=213),
-            StreamModuleTest(spot_speaker4_track=314),
+            Smial1ModuleTest(track=310),
+            Smial2ModuleTest(track=312),
+            Smial3ModuleTest(track=314),
+            StreamModuleTest(spot_speaker4_track=316),
             # Exciter routing uses physical labels 4L/4R -> outputs 7/8.
             SkyModuleTest(
-                exciter_track_left=401,
-                exciter_track_right=402,
+                exciter_track_left=1,
+                exciter_track_right=2,
                 exciter_output_left=EXCITER1_OUTPUT,
                 exciter_output_right=EXCITER2_OUTPUT,
             ),
@@ -37,6 +37,8 @@ class ModularDryRunSuite:
         self.started = False
         self.done = False
         self.results = []
+        self.inter_module_delay_s = float(inter_module_delay_s)
+        self.waiting_for_next_start_time = None
 
     def start(self):
         common.setup_shared_hardware()
@@ -45,6 +47,7 @@ class ModularDryRunSuite:
         self.done = False
         self.current_index = -1
         self.results = []
+        self.waiting_for_next_start_time = None
         print("[TEST:suite] start modular dry run")
         self._start_next()
 
@@ -57,11 +60,22 @@ class ModularDryRunSuite:
             return
 
         module = self.modules[self.current_index]
-        module.update()
-
         if module.is_complete():
-            self.results.append({"module": module.name, "status": "PASS"})
-            self._start_next()
+            if self.waiting_for_next_start_time is None:
+                self.results.append({"module": module.name, "status": "PASS"})
+                self.waiting_for_next_start_time = time.monotonic()
+                print(
+                    "[TEST:suite] module '%s' complete; waiting %.1fs before next"
+                    % (module.name, self.inter_module_delay_s)
+                )
+                module.stop()
+                return
+
+            if time.monotonic() - self.waiting_for_next_start_time >= self.inter_module_delay_s:
+                self._start_next()
+            return
+
+        module.update()
 
     def is_complete(self):
         return self.done
@@ -76,6 +90,7 @@ class ModularDryRunSuite:
 
     def _start_next(self):
         self.current_index += 1
+        self.waiting_for_next_start_time = None
         if self.current_index >= len(self.modules):
             self._finish()
             return
@@ -83,6 +98,7 @@ class ModularDryRunSuite:
         self.modules[self.current_index].start()
 
     def _finish(self):
+        self.waiting_for_next_start_time = None
         common.safe_shutdown()
         self.done = True
         self.started = False
@@ -90,8 +106,8 @@ class ModularDryRunSuite:
         print("[TEST:suite] results:", self.results)
 
 
-def run_modular_dry_run_suite(tick_delay_s=0.02):
-    suite = ModularDryRunSuite()
+def run_modular_dry_run_suite(tick_delay_s=0.02, inter_module_delay_s=5.0):
+    suite = ModularDryRunSuite(inter_module_delay_s=inter_module_delay_s)
     suite.start()
     try:
         while not suite.is_complete():

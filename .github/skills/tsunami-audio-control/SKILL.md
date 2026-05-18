@@ -34,6 +34,7 @@ Unless the user states otherwise, assume:
 - Project style: non-blocking CircuitPython modules for an ESP32-S3 diorama
 - User-facing output numbers are `1` through `8`
 - Tsunami serial output indexes are `0` through `7`
+- Connection is UART, not I2C or direct trigger pins
 
 ## Source Facts to Preserve
 
@@ -721,6 +722,7 @@ When implementing a soundscape from a `music-scape` plan:
 8. Use `TRACK_FADE` for transitions instead of abrupt stops when appropriate.
 9. Print generated hex commands during development.
 10. Remind the user to reset or power-cycle Tsunami after changing SD card files.
+11. Use UART, not I2C or direct trigger pins, for control.
 
 ## Example Track Map Output
 
@@ -801,3 +803,4 @@ Before finalizing Tsunami code, verify:
 - Do not confuse user output `4` with serial output byte `0x04`; user output `4` is serial output index `0x03`.
 - Do not lower output volume and claim it fixes pre-mix clipping.
 - Do not block the main CircuitPython loop with `time.sleep()`.
+- Do not use I2C or direct trigger pins for control.

@@ -29,7 +29,7 @@ This skill reads `hardware/board_profile_hybrid.json` as the source of truth for
 Before recommending any pin, inspect:
 
 ```text
-hardware/board_profile.json
+board_profile_hybrid.json
 ```
 
 If the file is missing, ask the user to provide it or create a minimal board profile before assigning pins.
@@ -38,7 +38,7 @@ Do not recommend pins from memory.
 
 Do not invent pins.
 
-Do not use generic ESP32-S3 pinout assumptions unless the board profile explicitly marks the pin as exposed and usable.
+Do not use generic ESP32-S3 pinout assumptions unless the board profile hybrid explicitly marks the pin as exposed and usable.
 
 ## CircuitPython Naming Rule
 
@@ -60,7 +60,7 @@ TSUNAMI_RX_PIN = board.IO18
 SKY_NEOPIXEL_PIN = board.D4
 ```
 
-Generated CircuitPython code must use the exact `circuitpython_name` value from `hardware/board_profile_hybrid.json`.
+Generated CircuitPython code must use the exact `circuitpython_name` value from `board_profile_hybrid.json`.
 
 Do not convert `GPIO` names into `IO`, `D`, raw integers, or Arduino-style aliases.
 
@@ -68,7 +68,7 @@ Do not convert `GPIO` names into `IO`, `D`, raw integers, or Arduino-style alias
 
 Only recommend a pin when all of the following are true:
 
-1. The pin exists in `hardware/board_profile_hybrid.json`.
+1. The pin exists in `board_profile_hybrid.json`.
 2. The pin has a valid `circuitpython_name`.
 3. The pin is exposed on the dev board header.
 4. The pin is not marked `reserved`, `avoid`, `do_not_use`, or equivalent.
@@ -194,7 +194,7 @@ Common GND required
 
 When asked to review existing assignments:
 
-1. Load all current assignments from `hardware/board_profile_hybrid.json`.
+1. Load all current assignments from `board_profile_hybrid.json`.
 2. Identify:
    - nonexistent pins
    - wrong CircuitPython names

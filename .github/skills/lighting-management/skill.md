@@ -31,6 +31,13 @@ If one of these files is missing, state the assumption and create the smallest u
 6. Scale RGB values with `config.BRIGHTNESS` or the project brightness constant before writing to LEDs.
 7. Track strip type per segment. Use the correct color order for SK6812 versus WS2812 when the hardware/library requires it.
 8. Handle invalid preset names by logging or printing a clear warning and leaving the current state safe.
+9. Coordinate with secondary skills when needed:
+   - `new-scene` for scene-specific lighting behavior.
+   - `music-scape` for audio files and trigger timing.
+   - `tsunami-audio-control` for Tsunami-specific audio control.
+   - `board-pinout` for safe pin assignments, especially if new hardware is needed.
+   - `new-hardware` for missing hardware modules.
+   - `ui` for controls or status display.
 
 ## Preset behavior
 Implement presets as named state machines, not as blocking loops.

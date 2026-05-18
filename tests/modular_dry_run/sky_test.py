@@ -6,8 +6,8 @@ class SkyModuleTest:
 
     def __init__(
         self,
-        exciter_track_left=401,
-        exciter_track_right=402,
+        exciter_track_left=1,
+        exciter_track_right=2,
         exciter_output_left=7,
         exciter_output_right=8,
     ):

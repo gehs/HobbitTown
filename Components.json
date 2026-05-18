@@ -1,0 +1,73 @@
+{
+  "system_coordinators": {
+    "mcu_primary_s3": {
+      "hardware": "ESP32-S3-DevKitC-1 (N16R8)",
+      "role": "Main logic, system orchestration, and Wi-Fi",
+      "interfaces": {
+        "i2c_bus_1": { "sda": "IO4", "scl": "IO5", "frequency": 400000 },
+        "uart_tsunami": { "tx": "IO16", "rx": "IO17", "baudrate": 57600 }
+      }
+    },
+    "audio_hardware": {
+      "id": "audio_tsunami",
+      "hardware": "Tsunami Super WAV Trigger",
+      "controlled_by": "mcu_primary_s3",
+      "interface": "uart_tsunami",
+      "constraints": {
+        "format": "WAV only",
+        "sample_rate": "44.1kHz",
+        "bit_depth": "16-bit",
+        "channels": "Mono"
+      }
+    }
+  },
+  "i2c_devices": {
+    "pwm_driver_1": {
+      "chip": "PCA9685",
+      "address": "0x40",
+      "bus": "i2c_bus_1",
+      "power_rail": "psu_main_5v"
+    },
+    "pwm_driver_2": {
+      "chip": "PCA9685",
+      "address": "0x41",
+      "bus": "i2c_bus_1",
+      "power_rail": "psu_main_5v"
+    }
+  },
+  "peripherals": {
+    "servo_smial1_door": {
+      "type": "MG90S Servo",
+      "controlled_by": "pwm_driver_1",
+      "channel": 0,
+      "location": "Smial1 Door"
+    },
+    "smoke_chimney_smial1": {
+      "type": "Seuthe 117",
+      "controlled_by": "pwm_driver_1",
+      "channel": 8,
+      "notes": "Driven via MOSFET module from PWM channel"
+    },
+    "led_strip_sky": {
+      "type": "SK6812 (RGBW)",
+      "controlled_by": "mcu_primary_s3",
+      "pin": "IO18",
+      "pixel_count": 144,
+      "requires_level_shifter": "level_shifter_1"
+    }
+  },
+  "audio_routing": {
+    "spk_spot_smial1": {
+      "type": "1-inch Spot Speaker",
+      "impedance": "8Ω",
+      "tsunami_output_channel": 1,
+      "amplifier": "amp_spot_final (TPA2012)"
+    },
+    "exciter_ambient_L": {
+      "type": "Dayton Audio Exciter",
+      "impedance": "4Ω",
+      "tsunami_output_channel": 7,
+      "amplifier": "amp_exc_final (MAX9744)"
+    }
+  }
+}
