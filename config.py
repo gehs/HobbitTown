@@ -31,11 +31,11 @@ NEOPIXEL_SKY_PIN = board.GPIO4
 NUM_PIXELS_SKY = 129
 
 # Ground effects strip: terrain(100) + lanterns(6) + fireflies(12) + stars(10) + lightning(10) + chimneys(7) + bridge_mist(8)
-NEOPIXEL_GROUND_PIN = board.GPIO6  # Moved from GPIO2 for left-side NeoPixel grouping (GPIO4/5/6)
+NEOPIXEL_GROUND_PIN = board.GPIO5  # Moved from GPIO2 for left-side NeoPixel grouping (GPIO4/5/6)
 NUM_PIXELS_GROUND = 153
 
 # Stream bead string: independent effect lighting
-NEOPIXEL_STREAM_PIN = board.GPIO5
+NEOPIXEL_STREAM_PIN = board.GPIO6
 NUM_PIXELS_STREAM = 85
 
 # Global lighting brightness limit (0.0 to 1.0; actual pin brightness adjusted per strip)
@@ -85,36 +85,36 @@ AUDIO_UART_BAUDRATE = 57600
 AUDIO_UART_TIMEOUT = 0.1  # Timeout limit for UART read operations
 
 # Direct trigger outputs (optional)
-AUDIO_TRIGGER_1_PIN = board.GPIO8
-AUDIO_TRIGGER_2_PIN = board.GPIO9
-AUDIO_TRIGGER_ACTIVE_LOW = True
-AUDIO_TRIGGER_PULSE_MS = 100
+# AUDIO_TRIGGER_1_PIN = board.GPIO8
+# AUDIO_TRIGGER_2_PIN = board.GPIO9
+# AUDIO_TRIGGER_ACTIVE_LOW = True
+# AUDIO_TRIGGER_PULSE_MS = 100
 
 # Track assignment conventions
-AUDIO_TRIGGER_1_TRACK = 1
-AUDIO_TRIGGER_2_TRACK = 2
-AUDIO_TRACK_DAYTIME = 1
-AUDIO_TRACK_SUNSET = 2
-AUDIO_TRACK_NIGHTTIME = 3
-AUDIO_TRACK_DRAGON_EVENT = 4
-AUDIO_TRACK_PARTY_MUSIC = 5
+# AUDIO_TRIGGER_1_TRACK = 1
+# AUDIO_TRIGGER_2_TRACK = 2
+# AUDIO_TRACK_DAYTIME = 1
+# AUDIO_TRACK_SUNSET = 2
+# AUDIO_TRACK_NIGHTTIME = 3
+# AUDIO_TRACK_DRAGON_EVENT = 4
+# AUDIO_TRACK_PARTY_MUSIC = 5
 
 # Output count and track ranges
 AUDIO_OUTPUT_COUNT = 8
-AUDIO_TRACK_RANGES_BY_OUTPUT = (
-	(1, 99),
-	(100, 199),
-	(200, 299),
-	(300, 399),
-	(400, 499),
-	(500, 599),
-	(600, 699),
-	(700, 799),
-)
+#AUDIO_TRACK_RANGES_BY_OUTPUT = (
+#	(1, 99),
+#	(100, 199),
+#	(200, 299),
+#	(300, 399),
+#	(400, 499),
+#	(500, 599),
+#	(600, 699),
+#	(700, 799),
+#)
 
 # If True, scene code must use track IDs within AUDIO_TRACK_RANGES_BY_OUTPUT.
 # If False, any valid Tsunami track ID may be used.
-ENFORCE_AUDIO_OUTPUT_TRACK_RANGES = True
+ENFORCE_AUDIO_OUTPUT_TRACK_RANGES = False
 
 # ============================================================================
 # HARDWARE: ATMOSPHERE (Fogger Relay)

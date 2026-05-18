@@ -1,8 +1,8 @@
 {
   "led_controllers": {
-    "pin_sky": "GPIO 2",
-    "pin_ground": "GPIO 4",
-    "pin_stream": "GPIO 5" 
+    "pin_sky": "GPIO 4",
+    "pin_ground": "GPIO 5",
+    "pin_stream": "GPIO 6" 
   },
   "strip_sky_arc": {
     "description": "Continuous 48-inch sky arc: dawn (12\") → noon bright (24\") → dusk (12\"). Forms complete data chain for sun traversal effect.",
@@ -19,7 +19,7 @@
       },
       {
         "id": "sky_noon",
-        "name": "Noon Sky Peak",
+        "name": "Day Sky",
         "range": [19, 109],
         "length_inches": 24,
         "strip_type": "SK6812 RGBW",
