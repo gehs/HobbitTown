@@ -29,16 +29,16 @@ ENABLE_WEB = False          # Safe to leave enabled for browser-based testing
 # See lighting-sky.py, lighting-ground.py, lighting-stream.py for controllers.
 
 # Sky arc strip: dawn (WS2812B, 19px) + noon (SK6812, 91px) + dusk (WS2812B, 19px)
-NEOPIXEL_SKY_PIN = board.GPIO4
-NUM_PIXELS_SKY = 129
+NEOPIXEL_SKY_PIN = board.GPIO6
+NUM_PIXELS_SKY = 50
 
 # Ground effects strip: terrain(100) + lanterns(6) + fireflies(12) + stars(10) + lightning(10) + chimneys(7) + bridge_mist(8)
-NEOPIXEL_GROUND_PIN = board.GPIO6  # Moved from GPIO2 for left-side NeoPixel grouping (GPIO4/5/6)
-NUM_PIXELS_GROUND = 153
+NEOPIXEL_GROUND_PIN = board.GPIO5  # Moved from GPIO2 for left-side NeoPixel grouping (GPIO4/5/6)
+NUM_PIXELS_GROUND = 50
 
 # Stream bead string: independent effect lighting
-NEOPIXEL_STREAM_PIN = board.GPIO5
-NUM_PIXELS_STREAM = 85
+NEOPIXEL_STREAM_PIN = board.GPIO4
+NUM_PIXELS_STREAM = 50
 
 # Global lighting brightness limit (0.0 to 1.0; actual pin brightness adjusted per strip)
 BRIGHTNESS = 0.25
