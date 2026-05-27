@@ -20,7 +20,7 @@ class Smial1ModuleTest:
         self._end_played = False
         self._relay = None
         self._segment_map = {}
-        self._segments = ("smial_1", "chimney_bag_end")
+        self._segments = ("smial_1", "chimney_smial_1")
 
     def start(self):
         self._done = False

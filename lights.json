@@ -1,8 +1,8 @@
 {
   "led_controllers": {
-    "pin_sky": "GPIO 2",
-    "pin_ground": "GPIO 4",
-    "pin_stream": "GPIO 5" 
+    "pin_sky": "GPIO 4",
+    "pin_ground": "GPIO 5",
+    "pin_stream": "GPIO 6" 
   },
   "strip_sky_arc": {
     "description": "Continuous 48-inch sky arc: dawn (12\") → noon bright (24\") → dusk (12\"). Forms complete data chain for sun traversal effect.",
@@ -19,7 +19,7 @@
       },
       {
         "id": "sky_noon",
-        "name": "Noon Sky Peak",
+        "name": "Day Sky",
         "range": [19, 109],
         "length_inches": 24,
         "strip_type": "SK6812 RGBW",
@@ -83,7 +83,7 @@
     "segments": [
       {
         "id": "smial_1",
-        "name": "Bag End",
+        "name": "Smial 1",
         "range": [0, 2],
         "center_xy": [9, 10],
         "purpose": "3 warm pixels for hobbit hole window interior glow."
@@ -105,24 +105,24 @@
       },
       {
         "id": "smial_3_lower",
-        "name": "The Great Smial - Lower Window",
+        "name": "Smial 3 - Lower Window",
         "range": [56, 57],
         "center_xy": [42, 9],
-        "purpose": "2 warm pixels for lower window of the largest hobbit hole."
+        "purpose": "2 warm pixels for lower window of Smial 3."
       },
       {
         "id": "smial_3_main",
-        "name": "The Great Smial - Main Entrance",
+        "name": "Smial 3 - Main Entrance",
         "range": [58, 62],
         "center_xy": [36, 12],
-        "purpose": "5 warm pixels for the main entrance and interior of the largest hobbit hole."
+        "purpose": "5 warm pixels for the main entrance and interior of Smial 3."
       },
       {
         "id": "smial_3_upper",
-        "name": "The Great Smial - Upper Window",
+        "name": "Smial 3 - Upper Window",
         "range": [63, 64],
         "center_xy": [34, 19],
-        "purpose": "2 warm pixels for upper window of the largest hobbit hole."
+        "purpose": "2 warm pixels for upper window of Smial 3."
       },
       {
         "id": "party_tree",
@@ -167,8 +167,8 @@
         "purpose": "10 pixels hidden behind cloud cutout above the Party Tree. Used for rapid white strobe during storm preset instead of the full-strip flash in preset #9."
       },
       {
-        "id": "chimney_bag_end",
-        "name": "Bag End Chimney",
+        "id": "chimney_smial_1",
+        "name": "Smial 1 Chimney",
         "range": [138, 139],
         "center_xy": [9, 10],
         "mount": "upward-pointing",
@@ -184,11 +184,11 @@
       },
       {
         "id": "chimney_smial_3",
-        "name": "The Great Smial Chimney",
+        "name": "Smial 3 Chimney",
         "range": [142, 144],
         "center_xy": [36, 12],
         "mount": "upward-pointing",
-        "purpose": "3 warm flickering pixels aimed up into the chimney of the Great Smial. Activates when fogger relay is on. 3 pixels for proportionally larger structure."
+        "purpose": "3 warm flickering pixels aimed up into the chimney of Smial 3. Activates when fogger relay is on. 3 pixels for proportionally larger structure."
       },
       {
         "id": "bridge_mist",

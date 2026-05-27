@@ -34,11 +34,11 @@ NUM_PIXELS_SKY = 50
 
 # Ground effects strip: terrain(100) + lanterns(6) + fireflies(12) + stars(10) + lightning(10) + chimneys(7) + bridge_mist(8)
 NEOPIXEL_GROUND_PIN = board.GPIO5  # Moved from GPIO2 for left-side NeoPixel grouping (GPIO4/5/6)
-NUM_PIXELS_GROUND = 50
+NUM_PIXELS_GROUND = 153
 
 # Stream bead string: independent effect lighting
-NEOPIXEL_STREAM_PIN = board.GPIO4
-NUM_PIXELS_STREAM = 50
+NEOPIXEL_STREAM_PIN = board.GPIO6
+NUM_PIXELS_STREAM = 85
 
 # Global lighting brightness limit (0.0 to 1.0; actual pin brightness adjusted per strip)
 BRIGHTNESS = 0.25
@@ -85,7 +85,7 @@ AUDIO_UART_TIMEOUT = 0.1  # Timeout limit for UART read operations
 
 # If True, scene code must use track IDs within AUDIO_TRACK_RANGES_BY_OUTPUT.
 # If False, any valid Tsunami track ID may be used.
-ENFORCE_AUDIO_OUTPUT_TRACK_RANGES = True
+ENFORCE_AUDIO_OUTPUT_TRACK_RANGES = False
 
 # ============================================================================
 # HARDWARE: ATMOSPHERE (Fogger Relay)

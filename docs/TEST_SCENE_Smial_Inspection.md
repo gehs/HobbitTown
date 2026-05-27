@@ -1,11 +1,11 @@
 # Hardware Test Scene: Smial Inspection
 
-**Purpose:** Verify all three smials (Bag End, Smial 2, Smial 3) are functional by testing speaker, door servo, lighting, and chimney fogger for each unit in sequence.
+**Purpose:** Verify all three smials (Smial 1, Smial 2, Smial 3) are functional by testing speaker, door servo, lighting, and chimney fogger for each unit in sequence.
 
 **Duration:** ~2 minutes total (~40 seconds per smial)
 
 **Audio Narration:**
-- "Testing Bag End..." (speaker 1)
+- "Testing Smial 1..." (speaker 1)
 - "Door test..." (servo movement sound)
 - "Lights on." / "Lights off." (LED confirmation)
 - "Chimney test." (fogger activation sound)
@@ -15,8 +15,8 @@
 
 ## Scene Flow
 
-### Smial 1 (Bag End): 0-40 seconds
-1. **0-2s:** Play narration "Testing Bag End" with bell tone (speaker audio)
+### Smial 1: 0-40 seconds
+1. **0-2s:** Play narration "Testing Smial 1" with bell tone (speaker audio)
 2. **2-5s:** Door servo 1 opens (0° → 90°), plays door creak sound
 3. **5-8s:** Door servo 1 closes (90° → 0°), plays door close sound
 4. **8-12s:** Lights (Smial 1 segment) fade 0% → 100% (warm white), play "Lights on"

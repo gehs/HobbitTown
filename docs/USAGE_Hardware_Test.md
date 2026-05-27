@@ -18,6 +18,13 @@ import test_comprehensive_dry_run
 import test_modular_dry_run_suite
 ```
 
+Interactive bench capture launcher (records operator pass/fail):
+```python
+import test_modular_bench_capture
+```
+
+This writes a report file at `modular_dry_run_bench_results.json` with per-module audio/segment outcomes.
+
 This modular suite runs independent modules in sequence:
 - `Smial1` module (door 1, chimney relay 1, spot speaker 1 range, Smial 1 light)
 - `Smial2` module (door 2, chimney relay 2, spot speaker 2 range, Smial 2 light)
@@ -25,7 +32,13 @@ This modular suite runs independent modules in sequence:
 - `Stream` module (spot speaker 4 range + stream lights)
 - `Sky` module (exciter checks + sky lights)
 
-Track-to-output addressing in the modular suite is validated against `AUDIO_TRACK_RANGES_BY_OUTPUT` in `config.py` before playback commands are sent.
+Track-to-output addressing in the modular suite is validated as:
+- Output number must be 1..8
+- Track number must be 1..4096
+
+Exciter routing uses Tsunami physical labels as wiring labels only:
+- `4L` -> mono output `7` -> command index `6`
+- `4R` -> mono output `8` -> command index `7`
 
 ### Web API Trigger
 Call HTTP endpoint (once web server is fully implemented):
@@ -41,7 +54,7 @@ The **Smial Inspection Test** validates all hardware components across three hob
 
 ### Timeline (~60-70 seconds total)
 
-**Smial 1 (Bag End): first stage block**
+**Smial 1: first stage block**
 - Door 1 open/close test
 - Chimney relay 1 on/off test
 - Spot speaker track 310
@@ -53,7 +66,7 @@ The **Smial Inspection Test** validates all hardware components across three hob
 - Spot speaker track 312
 - Smial 2 light fade in/out
 
-**Smial 3 (The Great Smial): third stage block**
+**Smial 3: third stage block**
 - Door 3 open/close test
 - Chimney relay 3 on/off test
 - Spot speaker track 314
@@ -115,6 +128,49 @@ The test is a one-shot sequence and then stops automatically. To repeat:
 2. Run `test_comprehensive_dry_run.py` again
 
 Alternatively, integrate into a continuous loop for stress testing.
+
+---
+
+## Operator Checklist (Modular Dry Run)
+
+Use this checklist to complete audio-output and segment-coverage verification on bench.
+
+1. Run static preflight first:
+	- `python -m tests.modular_dry_run.preflight_verification`
+	- Confirm it prints `[PRECHECK] PASS`.
+
+2. Start modular suite on device:
+	- `import test_modular_dry_run_suite`
+
+	Or run guided capture (recommended for bench sign-off):
+	- `import test_modular_bench_capture`
+
+3. Verify audio output mapping during runtime (watch serial logs and listen physically):
+	- Smial1 start/end: output 4, tracks 310 and 311.
+	- Smial2 start/end: output 2, tracks 312 and 314.
+	- Smial3 start/end: output 3, tracks 314 and 316.
+	- Stream start: output 4, track 316.
+	- Sky left/right: physical labels `4L` and `4R` routed as output 7/index 6 and output 8/index 7.
+
+4. Verify segment coverage visually:
+	- Smial1 should light `smial_1` and `chimney_smial_1`.
+	- Smial2 should light `smial_2` and `chimney_smial_2`.
+	- Smial3 should light `smial_3_lower`, `smial_3_main`, `smial_3_upper`, and `chimney_smial_3`.
+	- Stream module should animate stream strip and shut it off on stop.
+	- Sky module should animate sky strip and shut it off on stop.
+
+5. Confirm safe shutdown behavior:
+	- Doors return to neutral.
+	- Relays return off-safe state.
+	- Ground, stream, and sky LEDs are off.
+	- Tsunami STOP_ALL was sent at module stop/suite finish.
+
+6. Record pass/fail notes per module:
+	- Smial1
+	- Smial2
+	- Smial3
+	- Stream
+	- Sky
 
 ---
 
