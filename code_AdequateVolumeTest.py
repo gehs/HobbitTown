@@ -2,6 +2,7 @@
 Tsunami Multi-Output Volume Cycling Test
 Corrected Packet Length and Decibel (dB) Gain Scaling.
 Cycles through Physical Outputs: 1, 2, 3, 4, 7, 8
+Does not actually adjust the volume / gain.
 """
 
 import time

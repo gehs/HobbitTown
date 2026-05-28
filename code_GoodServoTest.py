@@ -17,12 +17,13 @@ PAUSE_SECONDS = 2.0
 def print_wiring_reminder():
     print("PCA9685 bench test starting")
     print("--- Wiring reminder ---")
-    print("  GND  -> common ground with ESP32 and servos")
-    print("  VCC  -> 5V logic power for PCA9685 and I2C")
-    print("  V+   -> 5V servo power bus")
-    print("  SDA  -> GPIO21")
-    print("  SCL  -> GPIO47")
-    print("  OE   -> tie to GND on non-jumpered boards")
+    print("  GND   -> common ground with ESP32 and servos")
+    print("  VCC   -> 5V logic power for PCA9685 and I2C")
+    print("  V+    -> 5V servo power bus")
+    # Dynamically reading the board pin objects from config
+    print(f"  SDA   -> {config.I2C_SDA}")
+    print(f"  SCL   -> {config.I2C_SCL}")
+    print("  OE    -> tie to GND on non-jumpered boards")
     print("---")
 
 
