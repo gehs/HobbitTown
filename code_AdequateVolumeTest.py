@@ -1,13 +1,22 @@
 """
 Tsunami Multi-Output Volume Cycling Test
-Corrected Packet Length and Decibel (dB) Gain Scaling.
+Uses shared Tsunami protocol builders with validated frame encoding.
 Cycles through Physical Outputs: 1, 2, 3, 4, 7, 8
-Does not actually adjust the volume / gain.
 """
 
 import time
 import board
 import busio
+from hardware.tsunami_protocol import (
+    PLAY_POLY,
+    build_control_track_for_index,
+    build_output_volume_for_index,
+    build_stop_all,
+    frame_to_hex,
+)
+
+
+DEBUG_PACKET_HEX = False
 
 
 class Tsunami:
@@ -33,31 +42,18 @@ class Tsunami:
             output_channel: Output 0-7
             gain_db: Gain in dB. 0 is max volume (0dB), -70 is muted (-70dB)
         """
-        # Ensure bounds for safety (-70dB to 0dB)
-        if gain_db > 0:
-            gain_db = 0
+        # Ensure bounds for safety (-70dB to +10dB)
+        if gain_db > 10:
+            gain_db = 10
         if gain_db < -70:
             gain_db = -70
 
-        # Tsunami expects a signed 16-bit integer for dB gain.
-        # Pack negative numbers cleanly into two's complement bytes.
-        gain_val = int(gain_db) & 0xFFFF
-        gain_lsb = gain_val & 0xFF
-        gain_msb = (gain_val >> 8) & 0xFF
-        
-        packet = bytearray([
-            0xF0,                    # Start of Message 1
-            0xAA,                    # Start of Message 2
-            0x06,                    # FIXED: Length of message is 6 bytes
-            0x0D,                    # Command: Set Output Gain (13)
-            output_channel,          # Output channel (0-7)
-            gain_lsb,                # Gain value LSB (dB)
-            gain_msb,                # Gain value MSB (dB)
-            0x55                     # End of Message
-        ])
+        packet = build_output_volume_for_index(output_channel, gain_db)
         
         try:
             self.uart.write(packet)
+            if DEBUG_PACKET_HEX:
+                print("TX (OUTPUT_VOLUME): %s" % frame_to_hex(packet))
             return True
         except Exception as e:
             print(f"Error sending gain command: {e}")
@@ -71,24 +67,17 @@ class Tsunami:
             track_num: Track number (1-4095)
             output: Output route (0-7)
         """
-        track_lsb = track_num & 0xFF
-        track_msb = (track_num >> 8) & 0xFF
-        
-        packet = bytearray([
-            0xF0,              # Start of Message 1
-            0xAA,              # Start of Message 2
-            0x0A,              # Length of message (10 bytes)
-            0x03,              # Command: Track Control
-            0x01,              # Action: Play Poly
-            track_lsb,         # Track LSB
-            track_msb,         # Track MSB
-            int(output),       # Output Route
-            0x00,              # Flags (0 = normal)
-            0x55               # End of Message
-        ])
+        packet = build_control_track_for_index(
+            track_number=track_num,
+            output_index=output,
+            control_code=PLAY_POLY,
+            lock_voice=False,
+        )
         
         try:
             self.uart.write(packet)
+            if DEBUG_PACKET_HEX:
+                print("TX (CONTROL_TRACK): %s" % frame_to_hex(packet))
             return True
         except Exception as e:
             print(f"Error sending track play command: {e}")
@@ -96,10 +85,12 @@ class Tsunami:
     
     def stop_all(self):
         """Stop all tracks."""
-        packet = bytearray([0xF0, 0xAA, 0x05, 0x04, 0x55])
+        packet = build_stop_all()
         
         try:
             self.uart.write(packet)
+            if DEBUG_PACKET_HEX:
+                print("TX (STOP_ALL): %s" % frame_to_hex(packet))
             return True
         except Exception as e:
             print(f"Error sending stop command: {e}")

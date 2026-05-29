@@ -2,7 +2,8 @@
   "led_controllers": {
     "pin_sky": "GPIO 4",
     "pin_ground": "GPIO 5",
-    "pin_stream": "GPIO 6" 
+    "pin_stream": "GPIO 6",
+    "notes": "DO NOT USE PINS FROM HERE - Use Config.py for pin assignments. This section is for reference only to document the intended GPIO pins for each strip. All strips should be on separate pins to allow for independent control and animation patterns."
   },
   "strip_sky_arc": {
     "description": "Continuous 48-inch sky arc: dawn (12\") → noon bright (24\") → dusk (12\"). Forms complete data chain for sun traversal effect.",

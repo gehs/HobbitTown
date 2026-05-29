@@ -71,16 +71,17 @@ DOOR_CLOSED_ANGLE = 0
 # ============================================================================
 # HARDWARE: AUDIO (Tsunami Super WAV Trigger)
 # ============================================================================
-# Supports Qwiic/I2C command mode, UART command mode, and direct triggers.
+# UART-only transport.
 
-ENABLE_AUDIO_I2C = False  # Enable Qwiic/I2C command mode for WAV Trigger Pro
-ENABLE_AUDIO_UART = True  # Enable UART command mode for WAV Trigger
+ENABLE_AUDIO_UART = True  # Enable UART command mode for Tsunami
+ENABLE_AUDIO_I2C = False  # Legacy compatibility flag; runtime audio path is UART-only
 
 # UART mode (WAV Trigger)
 AUDIO_UART_TX = board.GPIO17  # UART1 TX (U1TXD) → Tsunami RXI
 AUDIO_UART_RX = board.GPIO18  # UART1 RX (U1RXD) → Tsunami TXO
 AUDIO_UART_BAUDRATE = 57600
 AUDIO_UART_TIMEOUT = 0.1  # Timeout limit for UART read operations
+AUDIO_DEFAULT_OUTPUT_INDEX = 0  # Tsunami mono output index (0-7) used for play_audio()
 
 
 # If True, scene code must use track IDs within AUDIO_TRACK_RANGES_BY_OUTPUT.

@@ -3,20 +3,25 @@
     {
       "id": "mcu_primary_s3",
       "type": "ESP32-S3-DevKitC-1",
+      "inuse": true,
       "quantity": 1,
       "specs": "N16R8 (16MB Flash, 8MB PSRAM)",
-      "notes": "Main logic controller; best for handling complex tasks or Wi-Fi"
+      "notes": "Main logic controller; best for handling complex tasks or Wi-Fi",
+      "shop_listing": "[AliExpress] ESP32-S3-DevKitC-1 Development Board BT 2.4G Wifi Module for Arduino 8MB PSRAM 16MB FLASH N16R8 42Pin CH340C Type-C ESP32S3"
     },
     {
       "id": "mcu_node_1",
       "type": "ESP32-WROOM-32",
+      "inuse": false,
       "quantity": 3,
       "specs": "Dual Core, USB-C",
-      "notes": "Secondary nodes for distributed control"
+      "notes": "Secondary nodes for distributed control",
+      "shop_listing": "Hosyond 3Pack ESP32 ESP-32S Development Board USB-C WiFi Bluetooth Dual Core Microcontroller for Arduino IDE, Support AP/STA/AP+STA, CP2102 Chip ESP-WROOM-32"
     },
     {
       "id": "audio_controller_main",
       "type": "Tsunami Super WAV Trigger",
+      "inuse": true,
       "quantity": 1,
       "specs": "Serial Connection TX/RX, MicroSD Slot",
       "notes": "WAV files only. 44.1kHz, 16-bit Mono. Use for high-quality audio playback."
@@ -31,13 +36,15 @@
         { "id": "servo_smial2_door", "location": "Smial2 door" },
         { "id": "servo_smial3_door", "location": "Smial3 door" },
         { "id": "servo_spare", "location": "Inventory" }
-      ]
+      ],
+      "shop_listing": "Miuzei MG90S 9G Micro Servo Motor Metal Geared Motor Kit for RC Car Robot Helicopter, Mini Servos for Arduino Project (4)"
     }
   ],
   "audio": [
     {
       "type": "Speaker",
-      "quantity": 8,
+      "quantity": 4,
+      "inuse": true,
       "assignments": [
         { "id": "spk_spot_smial1", "location": "Smial1", "type": "1-inch Spot" },
         { "id": "spk_spot_smial2", "location": "Smial2", "type": "1-inch Spot" },
@@ -45,27 +52,30 @@
         { "id": "spk_spot_bridge", "location": "Under Bridge", "type": "1-inch Spot" }
       ],
       "notes": "Limited frequency range; use for chirps, clicks, or localized speech.",
+      "ShopListing": "6pcs 28mm Iron Shell 8 Ohm 2W Mylar Horn Speaker Compact High-Performance Toy Speaker",
       "ohm_rating": "8Ω",
-      "spares": 3
+      "spares": 4
     },
     {
       "type": "Dayton Audio Exciter",
       "quantity": 2,
+      "inuse": true,
       "assignments": [
         { "id": "exciter_ambient_L", "location": "Left Chassis / Sub-floor" },
         { "id": "exciter_ambient_R", "location": "Right Chassis / Sub-floor" }
       ],
       "notes": "Use for immersive environmental background (wind, thunder, low-end rumble).",
-      "ohm_rating": "4Ω",
+      "ShopListing": "Dayton Audio DAEX25 Audio Exciter Pair - Sound Exciter Pair Audio Transducer - 5 Watts RMS, 8 Ohms Impedance - 2 Pack - Turn Any Surface into a Speaker System",
+      "ohm_rating": "8Ω",
       "spares": 0
     },
     {
       "type": "Amplifiers",
+      "inuse": true,
       "assignments": [
-        { "id": "amp_spot_temp", "type": "GF1002", "notes": "Driving spot speakers" },
-        { "id": "amp_exc_temp", "type": "GF1002", "notes": "Driving exciter speakers" },
-        { "id": "amp_spot_final", "type": "TPA2012", "notes": "Final amplifier for spot speakers" },
-        { "id": "amp_exc_final", "type": "MAX9744", "notes": "Final amplifier for exciter speakers" }
+        { "id": "amp_spot_1", "type": "GF1002", "ShopListing": "5pcs Mini PAM8403 DC 5V 2 Channel USB Digital Power Amplifier Board Module 2 * 3W Volume Control with Potentionmeter" },
+        { "id": "amp_spot_2", "type": "GF1002", "ShopListing": "5pcs Mini PAM8403 DC 5V 2 Channel USB Digital Power Amplifier Board Module 2 * 3W Volume Control with Potentionmeter" },
+        { "id": "amp_exc_1", "type": "PAM8406", "ShopListing": "DEVMO 2 PCS Audio Amplifier Board,5W+5W Mini Amplifier Board PAM8406 DC 5V Digital Stereo Power Amp 2.0 Dual Channel Class D Amplify Module for Speaker Sound System DIY" }
       ]
     }
   ],
@@ -92,17 +102,20 @@
   "smoke_generators": [
     {
       "type": "Seuthe 117",
+      "quantity": 3,
       "assignments": [
         { "id": "smoke_chimney_smial1", "location": "Smial1 Chimney" },
         { "id": "smoke_chimney_smial2", "location": "Smial2 Chimney" },
         { "id": "smoke_chimney_smial3", "location": "Smial3 Chimney" }
-      ]
+      ],
+      "notes": "Use for chimney smoke effects; ensure proper ventilation and safety precautions.",
+      "shop_listing": "[YankeeDabbler] Seuthe 117 Smoke Generator - Chimney-Ready for Model Buildings HO Scale, Shipping Protection, Seuthe 117E Smoke Generator - Chimney-Ready for Model Buildings HO Scale)"
     }
   ],
   "power_infrastructure": [
     { "id": "psu_main_5v", "type": "Mean Well LRS-100-5", "rating": "18A" },
-    { "id": "pwm_driver_1", "type": "PCA9685", "address": "0x40" },
-    { "id": "pwm_driver_2", "type": "PCA9685", "address": "0x41" }
+    { "id": "pwm_driver_1", "type": "PCA9685", "inuse": true, "address": "0x40" },
+    { "id": "pwm_driver_2", "type": "PCA9685", "inuse": false, "address": "0x41" }
   ],
   "electronic_components": {
     "logic": [
