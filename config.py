@@ -8,6 +8,7 @@ import board  # type: ignore
 # motion.py, audio.py, atmosphere.py) import these values—they do NOT define
 # pins directly.
 # ============================================================================
+# == I messed with with GitHub
 
 # --- STARTUP / DRY-LOAD ---
 ALLOW_MISSING_HARDWARE = True  # Boot cleanly even if no external components are wired yet
