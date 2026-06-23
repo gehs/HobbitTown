@@ -1,127 +1,147 @@
-"""LED Strand Connectivity Isolation Test for ESP32-S3 CircuitPython.
+"""
+HobbitTown ESP32-S3 Main Entry Point
 
-Sequentially tests Sky, Ground, and Stream strands individually for 5 seconds 
-each to isolate wiring and physical data line connections.
+Runs a full hardware run-through on startup (all 3 smials, ~2 minutes),
+then continues with the non-blocking ambient main loop.
+
+Hardware is enabled/disabled via config.py flags.
+See config.py for all pin assignments and hardware settings.
 """
 
 import time
-import board
-import neopixel
 import config
 
-# ============================================================================
-# CONFIGURATION SETUP
-# ============================================================================
+from hardware import lighting_sky, lighting_ground, lighting_stream
+from hardware import motion, audio, atmosphere
+from logic.full_run_scene import full_run
+import web_logic
 
-# Read definitions directly from config.py
-SKY_PIN = board.GPIO4 #config.NEOPIXEL_SKY_PIN
-GROUND_PIN = board.GPIO5 #config.NEOPIXEL_GROUND_PIN
-STREAM_PIN = board.GPIO6 #config.NEOPIXEL_STREAM_PIN
-
-# Calculated or direct pixel counts
-TOTAL_SKY_PIXELS = 5 #19 + 91 + 19  # 129 pixels total for the mixed sky arc
-GROUND_PIXEL_COUNT = 5 #config.NUM_PIXELS_GROUND
-STREAM_PIXEL_COUNT = 5 #config.NUM_PIXELS_STREAM
-BRIGHTNESS =  .5 #config.BRIGHTNESS
-
-print("=" * 50)
-print("STARTING ISOLATED STRAND CONNECTIVITY TEST")
-print("=" * 50)
-print(f"Strand 1 (SKY)    -> Pin: {SKY_PIN} | Pixels: {TOTAL_SKY_PIXELS}")
-print(f"Strand 2 (GROUND) -> Pin: {GROUND_PIN} | Pixels: {GROUND_PIXEL_COUNT}")
-print(f"Strand 3 (STREAM) -> Pin: {STREAM_PIN} | Pixels: {STREAM_PIXEL_COUNT}")
-print("=" * 50)
-
-# Check for pin collisions before starting
-if SKY_PIN == STREAM_PIN or SKY_PIN == GROUND_PIN or GROUND_PIN == STREAM_PIN:
-    print("\n[WARNING] PIN ASSIGNMENT OVERLAP DETECTED IN config.py!")
-    print("Ensure your pins are uniquely assigned to prevent hardware hijacking.\n")
 
 # ============================================================================
-# INITIALIZE STRIPS AS INDEPENDENT NEOPIXEL OBJECTS
-# ============================================================================
-# For a pure connectivity check, treating the Sky strip as standard GRB 
-# will still light up every pixel (even the RGBW ones will respond to the data).
-
-print("Initializing hardware channels...")
-
-sky_strip = neopixel.NeoPixel(
-    SKY_PIN, TOTAL_SKY_PIXELS, brightness=BRIGHTNESS, auto_write=False, pixel_order=neopixel.GRB
-)
-
-ground_strip = neopixel.NeoPixel(
-    GROUND_PIN, GROUND_PIXEL_COUNT, brightness=BRIGHTNESS, auto_write=False, pixel_order=neopixel.GRB
-)
-
-stream_strip = neopixel.NeoPixel(
-    STREAM_PIN, STREAM_PIXEL_COUNT, brightness=BRIGHTNESS, auto_write=False, pixel_order=neopixel.GRB
-)
-
-# Ensure everything starts dark
-sky_strip.fill((0, 0, 0))
-ground_strip.fill((0, 0, 0))
-stream_strip.fill((0, 0, 0))
-sky_strip.show()
-ground_strip.show()
-stream_strip.show()
-
-# ============================================================================
-# RUN SEQUENTIAL 30-SECOND TEST (2 CYCLES x 15 SECONDS)
+# HARDWARE VALIDATION
 # ============================================================================
 
-TEST_COLOR = (255, 255, 255) # Solid bright white for maximum visibility
-HOLD_TIME = 5.0              # Seconds per strand
+def validate_hardware():
+    """Log all active GPIO and I2C assignments for wiring verification."""
+    if not getattr(config, "ENABLE_HARDWARE_VALIDATION", False):
+        return
 
-try:
-    for cycle in range(1, 3):
-        print(f"\n--- Starting Test Cycle {cycle} of 2 ---")
-        
-        # 1. TEST SKY STRAND ONLY
-        print("  [ON]  Testing SKY Strand... (Ground & Stream should be DARK)")
-        sky_strip.fill(TEST_COLOR)
-        ground_strip.fill((0, 0, 0))
-        stream_strip.fill((0, 0, 0))
-        sky_strip.show()
-        ground_strip.show()
-        stream_strip.show()
-        time.sleep(HOLD_TIME)
-        
-        # 2. TEST GROUND STRAND ONLY
-        print("  [ON]  Testing GROUND Strand... (Sky & Stream should be DARK)")
-        sky_strip.fill((0, 0, 0))
-        ground_strip.fill(TEST_COLOR)
-        stream_strip.fill((0, 0, 0))
-        sky_strip.show()
-        ground_strip.show()
-        stream_strip.show()
-        time.sleep(HOLD_TIME)
-        
-        # 3. TEST STREAM STRAND ONLY
-        print("  [ON]  Testing STREAM Strand... (Sky & Ground should be DARK)")
-        sky_strip.fill((0, 0, 0))
-        ground_strip.fill((0, 0, 0))
-        stream_strip.fill(TEST_COLOR)
-        sky_strip.show()
-        ground_strip.show()
-        stream_strip.show()
-        time.sleep(HOLD_TIME)
+    print("\n" + "=" * 70)
+    print("HARDWARE VALIDATION REPORT")
+    print("=" * 70)
 
-    # Final Cleanup
-    print("\n30-second execution loop complete. Turning all strands off.")
-    sky_strip.fill((0, 0, 0))
-    ground_strip.fill((0, 0, 0))
-    stream_strip.fill((0, 0, 0))
-    sky_strip.show()
-    ground_strip.show()
-    stream_strip.show()
+    print("\n[LIGHTING PINS]")
+    print(f"  Sky Arc        (GPIO4):  {config.NUM_PIXELS_SKY} pixels @ {config.BRIGHTNESS:.2f} brightness")
+    print(f"  Ground Effects (GPIO5):  {config.NUM_PIXELS_GROUND} pixels @ {config.BRIGHTNESS:.2f} brightness")
+    print(f"  Stream Beads   (GPIO6):  {config.NUM_PIXELS_STREAM} pixels @ {config.BRIGHTNESS:.2f} brightness")
 
-except KeyboardInterrupt:
-    print("\nTest aborted early by user. Clearing all channels.")
-    sky_strip.fill((0, 0, 0))
-    ground_strip.fill((0, 0, 0))
-    stream_strip.fill((0, 0, 0))
-    sky_strip.show()
-    ground_strip.show()
-    stream_strip.show()
+    print("\n[I2C BUS]")
+    print(f"  SDA: GPIO8 | SCL: GPIO9")
+    if config.ENABLE_MOTION:
+        print(f"  PCA9685 #1 (Motion): 0x{config.PCA9685_ADDR1:02X}")
 
-print("Test script finished.")
+    print("\n[AUDIO]")
+    if config.ENABLE_AUDIO_UART:
+        print(f"  UART TX (GPIO17) -> Tsunami RXI | UART RX (GPIO18) -> Tsunami TXO")
+        print(f"  Baudrate: {config.AUDIO_UART_BAUDRATE} | Outputs 1-6 active")
+
+    print("\n[RELAYS]")
+    print(f"  Fogger      (GPIO39)  ENABLE_ATMOSPHERE = {config.ENABLE_ATMOSPHERE}")
+    print(f"  Chimney 1   (GPIO42)  ENABLE_CHIMNEYS   = {getattr(config, 'ENABLE_CHIMNEYS', False)}")
+    print(f"  Chimney 2   (GPIO41)")
+    print(f"  Chimney 3   (GPIO40)")
+
+    print("\n[MODULE STATUS]")
+    print(f"  ENABLE_LIGHTING:    {config.ENABLE_LIGHTING}")
+    print(f"  ENABLE_MOTION:      {config.ENABLE_MOTION}")
+    print(f"  ENABLE_AUDIO:       {config.ENABLE_AUDIO}")
+    print(f"  ENABLE_ATMOSPHERE:  {config.ENABLE_ATMOSPHERE}")
+    print(f"  ENABLE_CHIMNEYS:    {getattr(config, 'ENABLE_CHIMNEYS', False)}")
+    print(f"  ENABLE_WEB:         {config.ENABLE_WEB}")
+
+    print("\n" + "=" * 70 + "\n")
+
+
+# ============================================================================
+# SETUP
+# ============================================================================
+
+def setup():
+    """Initialize all hardware modules."""
+    print("\n[INIT] Starting HobbitTown ESP32-S3...")
+
+    validate_hardware()
+
+    if config.ENABLE_WEB:
+        web_logic.setup_web()
+
+    if config.ENABLE_LIGHTING:
+        lighting_sky.setup_lighting_sky()
+        lighting_ground.setup_lighting_ground()
+        lighting_stream.setup_lighting_stream()
+    else:
+        print("[INIT] Lighting: disabled")
+
+    if config.ENABLE_MOTION:
+        motion.setup_hardware()
+    else:
+        print("[INIT] Motion: disabled")
+
+    if config.ENABLE_AUDIO:
+        audio.setup_audio()
+    else:
+        print("[INIT] Audio: disabled")
+
+    if config.ENABLE_ATMOSPHERE:
+        atmosphere.setup_atmosphere()
+    else:
+        print("[INIT] Atmosphere (fogger): disabled")
+
+    print("[INIT] Hardware initialized. Starting full run-through...\n")
+    full_run.start()
+
+
+# ============================================================================
+# MAIN LOOP
+# ============================================================================
+
+def main_loop():
+    """Non-blocking main loop — updates all active hardware modules each tick."""
+    time.sleep(config.LOOP_DELAY)
+
+    # Run the full hardware run-through until it completes (~120 seconds)
+    if full_run.is_running:
+        full_run.update()
+
+    if config.ENABLE_WEB:
+        web_logic.run_web_sync()
+
+    if config.ENABLE_LIGHTING:
+        lighting_sky.run_lighting_cycle_sky()
+        lighting_ground.run_lighting_cycle_ground()
+        lighting_stream.run_lighting_cycle_stream()
+
+    if config.ENABLE_ATMOSPHERE:
+        atmosphere.run_atmosphere_cycle()
+
+
+# ============================================================================
+# ENTRY POINT
+# ============================================================================
+
+setup()
+
+while True:
+    try:
+        main_loop()
+    except KeyboardInterrupt:
+        print("\n[EXIT] Keyboard interrupt — cleaning up...")
+        full_run.stop()
+        lighting_sky.set_all_lights_off_sky()
+        lighting_ground.set_all_lights_off_ground()
+        lighting_stream.set_all_lights_off_stream()
+        break
+    except Exception as exc:
+        print(f"\n[ERROR] Main loop exception: {exc}")
+        print("[ERROR] Restarting in 5 seconds...")
+        time.sleep(5)

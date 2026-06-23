@@ -8,7 +8,6 @@ import board  # type: ignore
 # motion.py, audio.py, atmosphere.py) import these values—they do NOT define
 # pins directly.
 # ============================================================================
-# == I messed with with GitHub
 
 # --- STARTUP / DRY-LOAD ---
 ALLOW_MISSING_HARDWARE = True  # Boot cleanly even if no external components are wired yet
@@ -18,6 +17,7 @@ ENABLE_HARDWARE_VALIDATION = True  # Set True to run hardware diagnostics on sta
 ENABLE_LIGHTING = True    # True when lighting strips are connected
 ENABLE_MOTION = True      # True when PCA9685 + servos/blowers/vapor channels are connected
 ENABLE_ATMOSPHERE = False  # True when the fogger relay is connected
+ENABLE_CHIMNEYS = True     # True when chimney smoke relays (GPIO40/41/42) are connected
 ENABLE_AUDIO = True        # Set True after wiring the WAV Trigger and validating audio control mode
 ENABLE_AUDIO_UART = True    # Enable UART mode for Tsunami audio control
 AUDIO_OUTPUT_COUNT = 8      # Tsunami mono firmware exposes 8 outputs

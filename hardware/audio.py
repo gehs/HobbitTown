@@ -107,8 +107,9 @@ def _get_default_output_index():
         return 0
 
 
-def _play_track_uart(track, loop=False):
-    output_index = _get_default_output_index()
+def _play_track_uart(track, output_index=None, loop=False):
+    if output_index is None:
+        output_index = _get_default_output_index()
     play_command = tsunami_protocol.build_control_track_for_index(
         track_number=track,
         output_index=output_index,
@@ -135,7 +136,11 @@ def _play_track_uart(track, loop=False):
 
 def play_audio(player, track, loop=False):
     if uart_ready:
-        _play_track_uart(track, loop=loop)
+        try:
+            output_index = tsunami_protocol.output_number_to_index(player)
+        except Exception:
+            output_index = _get_default_output_index()
+        _play_track_uart(track, output_index=output_index, loop=loop)
         return
 
     mode = "looping" if loop else "one-shot"
