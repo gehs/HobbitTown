@@ -45,6 +45,7 @@ class FullRunScene:
         self._start_time = None
         # Track which smial steps have already been triggered (one-shot guards)
         self._triggered = {}
+        self._chimney_api_logged = False
 
         self._smials = [
             {
@@ -81,13 +82,32 @@ class FullRunScene:
             },
         ]
 
+    def _get_atmosphere_callable(self, func_name):
+        """Return a callable atmosphere function if present; otherwise None."""
+        candidate = getattr(atmosphere, func_name, None)
+        if callable(candidate):
+            return candidate
+        return None
+
+    def _log_chimney_api_warning(self):
+        """Log missing chimney API warning once to avoid noisy loop logs."""
+        if self._chimney_api_logged:
+            return
+        self._chimney_api_logged = True
+        print("FullRunScene: chimney controls unavailable (missing setup_chimneys/set_chimney/stop_chimneys in hardware.atmosphere)")
+
     def start(self):
         """Begin the full run-through."""
         self._start_time = time.monotonic()
         self._triggered = {}
         self.is_running = True
+        self._chimney_api_logged = False
 
-        atmosphere.setup_chimneys()
+        setup_chimneys = self._get_atmosphere_callable('setup_chimneys')
+        if setup_chimneys is not None:
+            setup_chimneys()
+        else:
+            self._log_chimney_api_warning()
 
         # Start ambient bed and exciters looping from the beginning
         audio.play_audio(4, 4, loop=True)
@@ -101,7 +121,11 @@ class FullRunScene:
         self.is_running = False
         audio.stop_all()
         motion.reset_all()
-        atmosphere.stop_chimneys()
+        stop_chimneys = self._get_atmosphere_callable('stop_chimneys')
+        if stop_chimneys is not None:
+            stop_chimneys()
+        else:
+            self._log_chimney_api_warning()
         lighting_manager.stop_lighting()
         print("FullRunScene: complete — all hardware reset")
 
@@ -153,6 +177,7 @@ class FullRunScene:
         chimney_id = smial['chimney_id']
         audio_output = smial['audio_output']
         audio_track = smial['audio_track']
+        set_chimney = self._get_atmosphere_callable('set_chimney')
 
         # t = 0s: play spot speaker once
         if elapsed < 2:
@@ -191,13 +216,19 @@ class FullRunScene:
         elif 12 <= elapsed < 20:
             if self._once(f'{name}_chimney_on'):
                 print(f"FullRunScene: {name} — chimney smoker ON")
-                atmosphere.set_chimney(chimney_id, True)
+                if set_chimney is not None:
+                    set_chimney(chimney_id, True)
+                else:
+                    self._log_chimney_api_warning()
 
         # t = 20s: chimney smoker OFF
         elif 20 <= elapsed < 25:
             if self._once(f'{name}_chimney_off'):
                 print(f"FullRunScene: {name} — chimney smoker OFF")
-                atmosphere.set_chimney(chimney_id, False)
+                if set_chimney is not None:
+                    set_chimney(chimney_id, False)
+                else:
+                    self._log_chimney_api_warning()
 
         # t = 25–26s: lights fade out over 1 second
         elif 25 <= elapsed < 26:

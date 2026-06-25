@@ -97,6 +97,14 @@ def setup():
     else:
         print("[INIT] Atmosphere (fogger): disabled")
 
+    if getattr(config, "ENABLE_CHIMNEYS", False):
+        has_setup = callable(getattr(atmosphere, "setup_chimneys", None))
+        has_set = callable(getattr(atmosphere, "set_chimney", None))
+        has_stop = callable(getattr(atmosphere, "stop_chimneys", None))
+        print(f"[INIT] Chimney API: setup={has_setup} set={has_set} stop={has_stop}")
+        if not (has_setup and has_set and has_stop):
+            print("[WARN] Chimney feature enabled, but atmosphere module is missing chimney APIs. Deploy the latest hardware/atmosphere.py.")
+
     print("[INIT] Hardware initialized. Starting full run-through...\n")
     full_run.start()
 
