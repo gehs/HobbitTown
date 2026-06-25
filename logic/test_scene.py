@@ -23,6 +23,7 @@ class SmialTestScene:
                 'name': 'Smial 1',
                 'door_id': 1,
                 'light_segment': 'smial_1',
+                'speaker_output': 1,
                 'speaker_track': 1,
                 'start_time': 0,
                 'end_time': 40,
@@ -31,6 +32,7 @@ class SmialTestScene:
                 'name': 'Smial 2',
                 'door_id': 2,
                 'light_segment': 'smial_2',
+                'speaker_output': 2,
                 'speaker_track': 2,
                 'start_time': 40,
                 'end_time': 80,
@@ -39,6 +41,7 @@ class SmialTestScene:
                 'name': 'Smial 3',
                 'door_id': 3,
                 'light_segment': 'smial_3',
+                'speaker_output': 3,
                 'speaker_track': 3,
                 'start_time': 80,
                 'end_time': 120,
@@ -96,7 +99,7 @@ class SmialTestScene:
         if elapsed < 2:
             if elapsed < 0.1:
                 print(f"SmialTestScene: Testing {smial['name']}...")
-                audio.play_audio(1, smial['speaker_track'], loop=False)
+                audio.play_audio(smial['speaker_output'], smial['speaker_track'], loop=False)
         
         # 2-5s: Door opens
         elif 2 <= elapsed < 5:

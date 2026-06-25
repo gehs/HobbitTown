@@ -38,6 +38,7 @@ class ComprehensiveDryRunScene:
                 "name": "Smial 1",
                 "door_id": 1,
                 "relay_pin": config.CHIMNEY_RELAY_PIN1,
+                "audio_output": 1,
                 "track": int(smial_tracks[0]),
                 "segments": ["smial_1"],
             },
@@ -45,6 +46,7 @@ class ComprehensiveDryRunScene:
                 "name": "Smial 2",
                 "door_id": 2,
                 "relay_pin": config.CHIMNEY_RELAY_PIN2,
+                "audio_output": 2,
                 "track": int(smial_tracks[1]),
                 "segments": ["smial_2"],
             },
@@ -52,6 +54,7 @@ class ComprehensiveDryRunScene:
                 "name": "Smial 3",
                 "door_id": 3,
                 "relay_pin": config.CHIMNEY_RELAY_PIN3,
+                "audio_output": 3,
                 "track": int(smial_tracks[2]),
                 "segments": ["smial_3_lower", "smial_3_main", "smial_3_upper"],
             },
@@ -168,7 +171,7 @@ class ComprehensiveDryRunScene:
                 {
                     "name": smial["name"] + " | spot track",
                     "duration_s": 3.0,
-                    "tick": self._mk_audio_tick(smial["track"]),
+                    "tick": self._mk_audio_tick(smial["audio_output"], smial["track"]),
                 }
             )
             self.stages.append(
@@ -189,12 +192,12 @@ class ComprehensiveDryRunScene:
                 {
                     "name": "Shared | exciter track 1",
                     "duration_s": 3.0,
-                    "tick": self._mk_audio_tick(self.exciter_tracks[0]),
+                    "tick": self._mk_audio_tick(5, self.exciter_tracks[0]),
                 },
                 {
                     "name": "Shared | exciter track 2",
                     "duration_s": 3.0,
-                    "tick": self._mk_audio_tick(self.exciter_tracks[1]),
+                    "tick": self._mk_audio_tick(6, self.exciter_tracks[1]),
                 },
                 {
                     "name": "Shared | stream lights",
@@ -232,12 +235,12 @@ class ComprehensiveDryRunScene:
 
         return tick
 
-    def _mk_audio_tick(self, track):
+    def _mk_audio_tick(self, output_number, track):
         played = {"done": False}
 
         def tick(elapsed):
             if not played["done"]:
-                audio.play_audio(1, track, loop=False)
+                audio.play_audio(output_number, track, loop=False)
                 played["done"] = True
 
         return tick

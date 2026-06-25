@@ -12,6 +12,7 @@ import time
 import config
 
 from hardware import lighting_sky, lighting_ground, lighting_stream
+from hardware import lighting_manager
 from hardware import motion, audio, atmosphere
 from logic.full_run_scene import full_run
 import web_logic
@@ -79,6 +80,7 @@ def setup():
         lighting_sky.setup_lighting_sky()
         lighting_ground.setup_lighting_ground()
         lighting_stream.setup_lighting_stream()
+        lighting_manager.ensure_segments_loaded()
     else:
         print("[INIT] Lighting: disabled")
 

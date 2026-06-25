@@ -5,6 +5,7 @@ from hardware import lighting_ground
 
 _segment_map = {}
 _next_effect = None
+_unknown_segment_warnings = set()
 
 
 def _load_segments():
@@ -40,11 +41,21 @@ def init_lighting():
     return True
 
 
+def ensure_segments_loaded():
+    """Load segment definitions from lights.json if not already loaded."""
+    if not _segment_map:
+        _load_segments()
+
+
 def set_segment_color(segment_id, rgb):
+    ensure_segments_loaded()
+
     if lighting_ground.pixels is None:
         return
     if segment_id not in _segment_map:
-        print(f'LightingManager: unknown segment "{segment_id}"')
+        if segment_id not in _unknown_segment_warnings:
+            _unknown_segment_warnings.add(segment_id)
+            print(f'LightingManager: unknown segment "{segment_id}"')
         return
     r, g, b = rgb
     r = int(r * config.BRIGHTNESS)
