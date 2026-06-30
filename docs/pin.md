@@ -14,7 +14,7 @@
 | GPIO16 | GPIO16 | |
 | GPIO17 | GPIO17 | UART1 TX (U1TXD) — preferred for Tsunami RXI in serial mode |
 | GPIO18 | GPIO18 | UART1 RX (U1RXD) — preferred for Tsunami TXO in serial mode |
-| GPIO2 | GPIO2 | Ground lights data pin — `NEOPIXEL_GROUND_PIN` |
+| GPIO2 | GPIO2 | Available (legacy ground-light pin; no longer assigned) |
 | GPIO21 | GPIO21 | Chimney Pin - Smial1 |
 | GPIO3 | GPIO3 | |
 | GPIO35 | GPIO35 | FAILED when attempting to use for Chimney Test - Possibly Reserved|
@@ -22,7 +22,7 @@
 | GPIO37 | GPIO37 | |
 | GPIO38 | GPIO38 | |
 | GPIO39 | GPIO39 | |
-| GPIO4 | GPIO4 | Sky lights data pin — `NEOPIXEL_PIN` |
+| GPIO4 | GPIO4 | Sky lights data pin — `NEOPIXEL_SKY_PIN` |
 | GPIO40 | GPIO40 | Chimney Pin - Smial2 |
 | GPIO41 | GPIO41 | Chimney Pin - Smail3 |
 | GPIO42 | GPIO42 | |
@@ -32,8 +32,8 @@
 | GPIO46 | GPIO46 | |
 | GPIO47 | GPIO47 | I2C SCL (Qwiic WAV Trigger Pro SCL) |
 | GPIO48 | GPIO48 | |
-| GPIO5 | GPIO5 | |
-| GPIO6 | GPIO6 | |
+| GPIO5 | GPIO5 | Stream lights data pin — `NEOPIXEL_STREAM_PIN` |
+| GPIO6 | GPIO6 | Ground lights data pin — `NEOPIXEL_GROUND_PIN` |
 | GPIO7 | GPIO7 | |
 | GPIO8 | GPIO8 | I2C SDA (PCA9685 SDA) |
 | GPIO9 | GPIO9 | I2C SCL (PCA9685 SCL) |

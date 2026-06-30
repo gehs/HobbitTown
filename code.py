@@ -32,9 +32,9 @@ def validate_hardware():
     print("=" * 70)
 
     print("\n[LIGHTING PINS]")
-    print(f"  Sky Arc        (GPIO4):  {config.NUM_PIXELS_SKY} pixels @ {config.BRIGHTNESS:.2f} brightness")
-    print(f"  Ground Effects (GPIO5):  {config.NUM_PIXELS_GROUND} pixels @ {config.BRIGHTNESS:.2f} brightness")
-    print(f"  Stream Beads   (GPIO6):  {config.NUM_PIXELS_STREAM} pixels @ {config.BRIGHTNESS:.2f} brightness")
+    print(f"  Sky Arc        ({config.NEOPIXEL_SKY_PIN}):  {config.NUM_PIXELS_SKY} pixels @ {config.BRIGHTNESS:.2f} brightness")
+    print(f"  Ground Effects ({config.NEOPIXEL_GROUND_PIN}):  {config.NUM_PIXELS_GROUND} pixels @ {config.BRIGHTNESS:.2f} brightness")
+    print(f"  Stream Beads   ({config.NEOPIXEL_STREAM_PIN}):  {config.NUM_PIXELS_STREAM} pixels @ {config.BRIGHTNESS:.2f} brightness")
 
     print("\n[I2C BUS]")
     print(f"  SDA: GPIO8 | SCL: GPIO9")

@@ -1,7 +1,7 @@
 """
 Ground Effects Lighting Controller for HobbitTown ESP32-S3.
 
-Controls the ground effects strip (GPIO2): terrain, lanterns, fireflies, stars, 
+Controls the ground effects strip (NEOPIXEL_GROUND_PIN): terrain, lanterns, fireflies, stars,
 lightning, chimneys, and bridge mist effects.
 """
 

@@ -1,7 +1,7 @@
 """
 Stream Bead Lighting Controller for HobbitTown ESP32-S3.
 
-Controls the stream bead string (GPIO5): 85px of independent effect lighting
+Controls the stream bead string (NEOPIXEL_STREAM_PIN): 85px of independent effect lighting
 for accent and special effects.
 """
 

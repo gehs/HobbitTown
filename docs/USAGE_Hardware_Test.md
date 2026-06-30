@@ -115,7 +115,7 @@ Ensure these Tsunami track numbers exist on SD:
 | Issue | Likely Cause | Action |
 |-------|--------------|--------|
 | Door doesn't move | Servo not responding | Check PCA9685 I2C connection |
-| Lights don't change | Incorrect segment ID | Verify `lights.json` segment ranges |
+| Lights don't change | Incorrect segment ID | Verify `ref/lights.json` segment ranges |
 | No audio | Audio stubs active or Tsunami UART miswired | Check `ENABLE_AUDIO_UART`, UART pin wiring on GPIO17/18, and `tsunami.ini` on the Tsunami SD card |
 | Fogger doesn't spray | Relay stuck or unplugged | Inspect GPIO39 relay wiring (or GPIO47 fallback if remapped) |
 

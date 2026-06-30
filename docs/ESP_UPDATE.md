@@ -2,6 +2,8 @@
 
 This document describes the safe step-by-step process for updating the ESP32-S3 CircuitPython project code on your `CIRCUITPY` drive.
 
+For a faster runtime-only copy checklist, see `docs/DEPLOY_ESP32_DRAG_DROP.md`.
+
 ## What belongs on the ESP32 device
 
 These files and folders should be copied to the device when updating the project:
@@ -13,7 +15,7 @@ These files and folders should be copied to the device when updating the project
 - `hardware/`
 - `logic/`
 - `lib/`
-- `lights.json`
+- `ref/lights.json`
 - `secrets.py` (only if you are using WiFi and have configured it)
 
 ### Why each item matters
@@ -25,7 +27,7 @@ These files and folders should be copied to the device when updating the project
 - `hardware/`: all hardware modules (lighting, motion, audio, atmosphere, etc.).
 - `logic/`: scene and test orchestration code.
 - `lib/`: CircuitPython library dependencies required by the code.
-- `lights.json`: lighting segment definitions used by `hardware/lighting_manager.py`.
+- `ref/lights.json`: lighting segment definitions used by `hardware/lighting_manager.py`.
 - `secrets.py`: WiFi credentials.
 
 ## What stays on your PC and is not required on the device
@@ -35,7 +37,7 @@ These files are useful for development and documentation, but should not be copi
 - `docs/`
 - `.github/`
 - `.git/`
-- `README.md`, `Readme_VSCODE.md`
+- `README.md`, `docs/VSCODE_SETUP.md`
 - `materials.json` (not referenced by runtime code)
 - any editor or version-control files such as `.vscode/`
 
@@ -49,7 +51,7 @@ These files are useful for development and documentation, but should not be copi
 4. If you want a fresh update, delete the old project files from `CIRCUITPY`:
    - `code.py`, `config.py`, `web_logic.py`, `time_sync.py`
    - `hardware/`, `logic/`, `lib/`
-   - `lights.json`
+   - `ref/lights.json`
    - `secrets.py` only if you are replacing it intentionally
 5. Copy the updated project files and folders from the repo to `CIRCUITPY`.
 6. Leave any device-only files or settings alone.
@@ -74,7 +76,8 @@ If you want a repeatable command instead of manual selection, use a folder sync 
 ```powershell
 $source = 'C:\hTown\HobbitTown'
 $dest = 'E:\'
-robocopy $source $dest code.py config.py web_logic.py time_sync.py lights.json secrets.py /E
+robocopy $source $dest code.py config.py web_logic.py time_sync.py secrets.py /E
+robocopy $source $dest ref\lights.json /E
 robocopy $source $dest hardware logic lib /E
 ```
 
@@ -88,7 +91,7 @@ Notes:
 
 A GUI tool such as FreeFileSync can save a profile that:
 
-- Copies `code.py`, `config.py`, `web_logic.py`, `time_sync.py`, `lights.json`, `secrets.py`
+- Copies `code.py`, `config.py`, `web_logic.py`, `time_sync.py`, `ref/lights.json`, `secrets.py`
 - Copies `hardware/`, `logic/`, and `lib/`
 - Excludes `docs/`, `.git/`, `.github/`, `README.md`, and other non-runtime paths
 - Optionally shows you a preview before syncing
@@ -115,7 +118,7 @@ However, if you are not sure which files changed, copying the full runtime set i
 - [ ] `hardware/`
 - [ ] `logic/`
 - [ ] `lib/`
-- [ ] `lights.json`
+- [ ] `ref/lights.json`
 - [ ] `secrets.py` if WiFi is used
 
 ## Troubleshooting

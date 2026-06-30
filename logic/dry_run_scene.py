@@ -141,7 +141,7 @@ class ComprehensiveDryRunScene:
     def _load_segment_map(self):
         segment_map = {}
         try:
-            with open("lights.json", "r") as f:
+            with open("ref/lights.json", "r") as f:
                 data = json.load(f)
             for strip_name in ("strip_ground_effects", "strip_standard_ws2812b"):
                 for segment in data.get(strip_name, {}).get("segments", []):

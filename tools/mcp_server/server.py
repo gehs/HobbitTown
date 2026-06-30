@@ -7,9 +7,9 @@ Provides Copilot Chat tools to validate cross-file consistency
 before flashing firmware to the device.
 
 Tools (Phase 1):
-  - validate_hardware_inventory: 5-rule cross-check across config.py, materials.json, lights.json
-  - get_segment_ids:             returns all known LED segment IDs from lights.json
-  - get_device_inventory:        returns all device IDs and types from materials.json
+    - validate_hardware_inventory: 5-rule cross-check across config.py, ref/materials.json, ref/lights.json
+    - get_segment_ids:             returns all known LED segment IDs from ref/lights.json
+    - get_device_inventory:        returns all device IDs and types from ref/materials.json
 """
 
 import json
@@ -22,12 +22,12 @@ import mcp.types as types
 from mcp.server import Server
 
 # ---------------------------------------------------------------------------
-# Resolve repo root relative to this file (mcp_server/ sits one level down)
+# Resolve repo root relative to this file (tools/mcp_server sits two levels down)
 # ---------------------------------------------------------------------------
-REPO_ROOT = Path(__file__).parent.parent
+REPO_ROOT = Path(__file__).parent.parent.parent
 CONFIG_PY   = REPO_ROOT / "config.py"
-LIGHTS_JSON = REPO_ROOT / "lights.json"
-MATERIALS_JSON = REPO_ROOT / "materials.json"
+LIGHTS_JSON = REPO_ROOT / "ref" / "lights.json"
+MATERIALS_JSON = REPO_ROOT / "ref" / "materials.json"
 
 # ---------------------------------------------------------------------------
 # Helpers

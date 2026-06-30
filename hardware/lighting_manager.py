@@ -12,7 +12,7 @@ def _load_segments():
     global _segment_map
     _segment_map = {}
     try:
-        with open('lights.json', 'r') as f:
+        with open('ref/lights.json', 'r') as f:
             data = json.load(f)
             # Load segment definitions from current and legacy strip keys.
             for strip in [
@@ -25,7 +25,7 @@ def _load_segments():
                 for segment in data.get(strip, {}).get('segments', []):
                     _segment_map[segment['id']] = segment['range']
     except Exception as e:
-        print('LightingManager: failed to load lights.json', e)
+        print('LightingManager: failed to load ref/lights.json', e)
         _segment_map = {}
 
 
@@ -42,7 +42,7 @@ def init_lighting():
 
 
 def ensure_segments_loaded():
-    """Load segment definitions from lights.json if not already loaded."""
+    """Load segment definitions from ref/lights.json if not already loaded."""
     if not _segment_map:
         _load_segments()
 

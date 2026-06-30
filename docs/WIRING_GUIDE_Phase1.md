@@ -112,18 +112,19 @@ Before connecting external hardware, verify the board boots without errors.
 - Data rate: 800 kHz
 
 **Pin Assignment (from `config.py`):**
-- Ground lights data pin: **GPIO 2** (`NEOPIXEL_GROUND_PIN`)
-- Sky lights data pin: **GPIO 4** (`NEOPIXEL_PIN`)
+- Ground lights data pin: **GPIO 6** (`NEOPIXEL_GROUND_PIN`)
+- Sky lights data pin: **GPIO 4** (`NEOPIXEL_SKY_PIN`)
+- Stream lights data pin: **GPIO 5** (`NEOPIXEL_STREAM_PIN`)
 
 **Protective Components:**
 
 1. **Data line resistor (470 Ω):**
-   - Placement: Between GPIO 2 and the LED strip's DIN (data input) line.
+   - Placement: Between the assigned NeoPixel GPIO and the LED strip's DIN (data input) line.
    - Size: 1/4W resistor.
    - Purpose: Limits signal reflections and protects ESP32 GPIO from over-current.
 
 2. **Logic level shifter (SN74AHCT125N) — Strongly recommended:**
-   - Placement: Between ESP32 GPIO 2 and the LED strip data input.
+   - Placement: Between the assigned ESP32 NeoPixel GPIO and the LED strip data input.
    - Power: SN74AHCT125N VCC -> 5V bus, GND -> common GND.
    - Purpose: Converts the ESP32's 3.3V logic output into a stronger 5V data signal for WS2812B and SK6812 strips.
    - Use this especially when the first LED is more than a few inches from the ESP32, when the data wire runs near power wiring, or when you see flicker, random colors, or startup instability.
@@ -144,7 +145,7 @@ Before connecting external hardware, verify the board boots without errors.
    - Capacitor negative → GND bus
 
 2. **Data line:**
-   - GPIO 2 → SN74AHCT125N input A
+   - Assigned NeoPixel GPIO (GPIO4/GPIO5/GPIO6) → SN74AHCT125N input A
    - Matching SN74AHCT125N output Y → 470Ω resistor → LED strip DIN
    - Tie the matching SN74AHCT125N OE pin to GND so that channel stays enabled
 
@@ -195,7 +196,7 @@ Before connecting external hardware, verify the board boots without errors.
 - Data rate: 800 kHz
 
 **Pin Assignment (from `config.py`):**
-- Data pin: **GPIO 4** (pin_high_density in lights.json)
+- Data pin: **GPIO 4** (pin_high_density in ref/lights.json)
 
 **Protective Components:**
 - Same as WS2812B: SN74AHCT125N level shifter strongly recommended, 470Ω data resistor, 1000µF capacitor, optional 1N4007 diode.
