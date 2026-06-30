@@ -1,5 +1,5 @@
 """
-test_scene.py
+certification_scene.py
 Hardware certification scene: systematically test all smials and their components.
 Non-blocking implementation using time.monotonic() for 2-minute runtime.
 """

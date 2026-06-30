@@ -4,7 +4,7 @@
 
 ### Manual Trigger (Python)
 ```python
-from logic.dry_run_scene import run_comprehensive_dry_run
+from logic.certification_dry_run_scene import run_comprehensive_dry_run
 run_comprehensive_dry_run(smial_tracks=(310, 312, 314), exciter_tracks=(1, 2))
 ```
 
@@ -176,7 +176,7 @@ Use this checklist to complete audio-output and segment-coverage verification on
 
 ## Advanced: Custom Test Sequence
 
-To modify the comprehensive dry-run flow, edit `logic/dry_run_scene.py`:
+To modify the comprehensive dry-run flow, edit `logic/certification_dry_run_scene.py`:
 - Adjust stage timing in `_build_stage_plan()`
 - Add/remove stage checks
 - Change Smial track mapping in `ComprehensiveDryRunScene.__init__()`

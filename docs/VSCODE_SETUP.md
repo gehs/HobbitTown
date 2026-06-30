@@ -7,6 +7,8 @@ It includes:
 - How each skill aligns with project-level Copilot instructions
 - The best way to use skills one at a time and in coordinated workflows
 
+For runtime folder boundaries and naming conventions, see `docs/FOLDER_STRUCTURE_AND_NAMING.md`.
+
 ## Skill Inventory Summary
 
 ### lighting-management
@@ -123,7 +125,7 @@ Use the primary skill first, then add secondary skills only when the request cro
   - hardware/ = direct device control
   - logic/ = orchestration/state machines
   - docs/ = human instructions and planning artifacts
-  - web_logic.py/UI files = operator interface
+  - logic/web_logic.py + static UI files = operator interface
 - Enforce shared invariants across all generated outputs:
   - Adafruit CircuitPython APIs only
   - Non-blocking update loops

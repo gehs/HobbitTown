@@ -14,7 +14,7 @@ import config
 # Import all hardware modules
 from hardware import lighting_sky, lighting_ground, lighting_stream
 from hardware import motion, audio, atmosphere
-import web_logic
+from logic import web_logic
 
 
 # ============================================================================

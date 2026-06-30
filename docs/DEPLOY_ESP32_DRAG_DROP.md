@@ -8,7 +8,8 @@ Use this guide when you want the simplest safe copy to CIRCUITPY and want to omi
 - config.py
 - settings.toml (if your board workflow uses it)
 - secrets.py (only when WiFi/web is enabled)
-- web_logic.py (only when web is enabled)
+- logic/web_logic.py (only when web is enabled)
+- logic/time_sync.py
 - hardware/
 - logic/
 - lib/
@@ -34,7 +35,7 @@ Use this guide when you want the simplest safe copy to CIRCUITPY and want to omi
 ## Minimal Profiles
 
 ### Profile A: Full Feature (Web On)
-Copy: required runtime list above including secrets.py, web_logic.py, and static/.
+Copy: required runtime list above including secrets.py, logic/web_logic.py, and static/.
 
 ### Profile B: Minimal Runtime (Web Off)
 Copy:
@@ -45,7 +46,7 @@ Copy:
 - lib/
 - ref/lights.json
 
-Skip: secrets.py, web_logic.py, static/.
+Skip: secrets.py, static/.
 
 ## Common Failure Symptoms
 

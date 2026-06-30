@@ -254,7 +254,7 @@ def _handle_event(client, params):
 
 def _handle_scene(client, params):
     """Start or stop a named scene."""
-    from logic.test_scene import smial_test
+    from logic.certification_scene import smial_test
     name = params.get("name", "")
     if name == "smial_test":
         smial_test.start()
@@ -384,14 +384,14 @@ def _handle_test_fog(client, params):
 
 def _handle_test_scene_start(client):
     """Start the Smial inspection test scene."""
-    from logic.test_scene import smial_test
+    from logic.certification_scene import smial_test
     smial_test.start()
     _send_response(client, 200, "Test scene started")
 
 
 def _handle_test_scene_stop(client):
     """Stop the currently running test scene."""
-    from logic.test_scene import smial_test
+    from logic.certification_scene import smial_test
     smial_test.stop()
     _send_response(client, 200, "Test scene stopped")
 

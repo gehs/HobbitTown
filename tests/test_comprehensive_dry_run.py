@@ -8,7 +8,7 @@ Per-user mapping:
 - Exciter test tracks: 001 and 002
 """
 
-from logic.dry_run_scene import run_comprehensive_dry_run
+from logic.certification_dry_run_scene import run_comprehensive_dry_run
 
 
 if __name__ == "__main__":

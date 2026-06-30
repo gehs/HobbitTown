@@ -239,7 +239,7 @@ soundscape = SoundscapeManager()
 
 ```python
 import hardware.soundscape as soundscape
-import time_sync
+from logic import time_sync
 
 def setup():
     """Initialize all hardware systems."""

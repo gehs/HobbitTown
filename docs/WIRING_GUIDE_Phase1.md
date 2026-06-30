@@ -601,7 +601,7 @@ For detailed wiring steps and testing procedures, see [WIRING_AUDIO.md](WIRING_A
 1. **Complete Phase 1–5 validation** using the REPL test commands above.
 2. **Run the full hardware test scene** via:
    ```python
-   from logic.test_scene import smial_test
+   from logic.certification_scene import smial_test
    smial_test.start()
    ```
 3. **Review [USAGE_Hardware_Test.md](USAGE_Hardware_Test.md)** for expected behavior.

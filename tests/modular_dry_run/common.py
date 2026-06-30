@@ -64,13 +64,13 @@ def safe_shutdown():
 def load_segment_map():
     segment_map = {}
     try:
-        with open("lights.json", "r") as f:
+        with open("ref/lights.json", "r") as f:
             data = json.load(f)
         for strip_name in ("strip_ground_effects", "strip_water_effects", "strip_sky_arc", "strip_standard_ws2812b"):
             for segment in data.get(strip_name, {}).get("segments", []):
                 segment_map[segment["id"]] = tuple(segment["range"])
     except Exception as exc:
-        print("[TEST:common] failed to load lights.json", exc)
+        print("[TEST:common] failed to load ref/lights.json", exc)
     return segment_map
 
 

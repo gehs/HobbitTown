@@ -10,8 +10,8 @@ These files and folders should be copied to the device when updating the project
 
 - `code.py`
 - `config.py`
-- `web_logic.py`
-- `time_sync.py`
+- `logic/web_logic.py`
+- `logic/time_sync.py`
 - `hardware/`
 - `logic/`
 - `lib/`
@@ -22,8 +22,8 @@ These files and folders should be copied to the device when updating the project
 
 - `code.py`: main CircuitPython loop and startup.
 - `config.py`: pin assignments, feature flags, hardware mappings.
-- `web_logic.py`: local web UI, audio test endpoints, WiFi setup.
-- `time_sync.py`: clock/time helper used by scenes.
+- `logic/web_logic.py`: local web UI, audio test endpoints, WiFi setup.
+- `logic/time_sync.py`: clock/time helper used by scenes.
 - `hardware/`: all hardware modules (lighting, motion, audio, atmosphere, etc.).
 - `logic/`: scene and test orchestration code.
 - `lib/`: CircuitPython library dependencies required by the code.
@@ -49,7 +49,7 @@ These files are useful for development and documentation, but should not be copi
    - Copy the existing `CIRCUITPY` contents to a local backup folder.
    - If you are using `secrets.py`, make sure to keep that backup.
 4. If you want a fresh update, delete the old project files from `CIRCUITPY`:
-   - `code.py`, `config.py`, `web_logic.py`, `time_sync.py`
+   - `code.py`, `config.py`, `logic/web_logic.py`, `logic/time_sync.py`
    - `hardware/`, `logic/`, `lib/`
    - `ref/lights.json`
    - `secrets.py` only if you are replacing it intentionally
@@ -76,7 +76,7 @@ If you want a repeatable command instead of manual selection, use a folder sync 
 ```powershell
 $source = 'C:\hTown\HobbitTown'
 $dest = 'E:\'
-robocopy $source $dest code.py config.py web_logic.py time_sync.py secrets.py /E
+robocopy $source $dest code.py config.py secrets.py /E
 robocopy $source $dest ref\lights.json /E
 robocopy $source $dest hardware logic lib /E
 ```
@@ -91,7 +91,7 @@ Notes:
 
 A GUI tool such as FreeFileSync can save a profile that:
 
-- Copies `code.py`, `config.py`, `web_logic.py`, `time_sync.py`, `ref/lights.json`, `secrets.py`
+- Copies `code.py`, `config.py`, `ref/lights.json`, `secrets.py`
 - Copies `hardware/`, `logic/`, and `lib/`
 - Excludes `docs/`, `.git/`, `.github/`, `README.md`, and other non-runtime paths
 - Optionally shows you a preview before syncing
@@ -113,8 +113,8 @@ However, if you are not sure which files changed, copying the full runtime set i
 
 - [ ] `code.py`
 - [ ] `config.py`
-- [ ] `web_logic.py`
-- [ ] `time_sync.py`
+- [ ] `logic/web_logic.py`
+- [ ] `logic/time_sync.py`
 - [ ] `hardware/`
 - [ ] `logic/`
 - [ ] `lib/`

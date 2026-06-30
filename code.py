@@ -15,7 +15,7 @@ from hardware import lighting_sky, lighting_ground, lighting_stream
 from hardware import lighting_manager
 from hardware import motion, audio, atmosphere
 from logic.full_run_scene import full_run
-import web_logic
+from logic import web_logic
 
 
 # ============================================================================
